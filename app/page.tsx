@@ -1,7 +1,5 @@
-import { ReactNode } from 'react';
-
-const HomeComponent = ({ children }: { children?: ReactNode }) => {
-  return <>{children}</>;
+const HomeComponent = () => {
+  return <div>Hello</div>;
 };
 
 export default HomeComponent;
