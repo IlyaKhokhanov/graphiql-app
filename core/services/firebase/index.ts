@@ -22,10 +22,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const logInWithEmailAndPassword = async (email: string, password: string) => {
-  await signInWithEmailAndPassword(auth, email, password);
-};
-
 const registerWithEmailAndPassword = async (email: string, password: string) => {
   const res = await createUserWithEmailAndPassword(auth, email, password);
   const user = res.user;
@@ -36,13 +32,13 @@ const registerWithEmailAndPassword = async (email: string, password: string) => 
   });
 };
 
+const logInWithEmailAndPassword = async (email: string, password: string) => {
+  await signInWithEmailAndPassword(auth, email, password);
+};
+
 const sendPasswordReset = async (email: string) => {
-  try {
-    await sendPasswordResetEmail(auth, email);
-    alert('Password reset link sent!');
-  } catch (err) {
-    return err;
-  }
+  await sendPasswordResetEmail(auth, email);
+  alert('Password reset link sent!');
 };
 
 const logout = async () => {

@@ -1,5 +1,3 @@
-import { IFormErrors } from './types';
-import { ValidationError } from 'yup';
 import * as yup from 'yup';
 
 const Regex = {
@@ -37,20 +35,6 @@ export const schema = yup.object().shape({
     }),
 });
 
-export function writeErrors(error: ValidationError): IFormErrors {
-  const errors: IFormErrors = {};
-  error.inner.forEach((err) => {
-    if (err.path && !(err.path in errors)) {
-      switch (err.path) {
-        case 'email':
-          errors.email = { message: err.message };
-          break;
-        case 'password':
-          errors.password = { message: err.message };
-          break;
-        default:
-      }
-    }
-  });
-  return errors;
-}
+export const schemaReset = yup.object().shape({
+  email: yup.string().matches(Regex.email, 'Invalid email').required('Email is a required field'),
+});

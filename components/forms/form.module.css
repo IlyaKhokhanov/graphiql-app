@@ -17,6 +17,10 @@
   flex-direction: column;
 }
 
+.form a {
+  color: #0cb4f1;
+}
+
 .input {
   padding: 8px 8px;
   margin-bottom: 20px;

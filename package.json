@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts --fix",
     "format:fix": "prettier --write .",
     "pp": "npm run format:fix && npm run lint:fix && npm run test",

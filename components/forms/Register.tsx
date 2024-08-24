@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -34,10 +35,7 @@ export const Register = () => {
       reset();
       router.replace('/');
     } catch (err) {
-      if (err instanceof Error) {
-        console.log(err.message);
-        setError(true);
-      }
+      if (err instanceof Error) setError(true);
     }
   };
 
