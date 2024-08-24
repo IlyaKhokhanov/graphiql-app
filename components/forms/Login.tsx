@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, registerWithEmailAndPassword } from '@/core/services/firebase';
+import { auth, logInWithEmailAndPassword } from '@/core/services/firebase';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -13,7 +13,7 @@ import { FormError } from './fromError';
 import { IFormData } from './types';
 import styles from './form.module.css';
 
-export const Register = () => {
+export const Login = () => {
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -30,7 +30,7 @@ export const Register = () => {
 
   const onSubmit = async (data: IFormData) => {
     try {
-      await registerWithEmailAndPassword(data.email, data.password);
+      await logInWithEmailAndPassword(data.email, data.password);
       reset();
       router.replace('/');
     } catch (err) {
@@ -48,7 +48,7 @@ export const Register = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>Registration form</h1>
+      <h1 className={styles.header}>Login form</h1>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <input
           className={styles.input}
@@ -71,13 +71,17 @@ export const Register = () => {
         <FormError error={errors.password} />
 
         <Button type="submit" disabled={!isValid}>
-          Register
+          Login
         </Button>
 
-        {error && <FormError error={{ message: 'This email has already been registered' }} />}
+        {error && <FormError error={{ message: 'Invalid email or password' }} />}
+
+        {/* <div style={{ marginTop: error ? 0 : 28 }}>
+          <Link href="/reset">Forgot Password</Link>
+        </div> */}
 
         <div style={{ marginTop: error ? 0 : 28 }}>
-          Already have an account? <Link href="login">Login</Link> now.
+          Don&apos;t have an account? <Link href="/register">Register</Link> now.
         </div>
       </form>
     </div>

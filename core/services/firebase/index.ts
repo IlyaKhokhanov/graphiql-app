@@ -23,11 +23,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (err) {
-    return err;
-  }
+  await signInWithEmailAndPassword(auth, email, password);
 };
 
 const registerWithEmailAndPassword = async (email: string, password: string) => {
