@@ -14,7 +14,7 @@ import { FormError } from './fromError';
 import { IFormDataReset } from './types';
 import styles from './form.module.css';
 
-export const Reset = () => {
+export const ResetForm = () => {
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();

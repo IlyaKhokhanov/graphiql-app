@@ -14,7 +14,7 @@ import { FormError } from './fromError';
 import { IFormData } from './types';
 import styles from './form.module.css';
 
-export const Login = () => {
+export const LoginForm = () => {
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();

@@ -6,7 +6,12 @@
   list-style: none;
 }
 
+html {
+  min-height: 100vh;
+}
+
 body {
+  min-height: 100vh;
   background: #f7f7f7;
   margin: 0;
 }

@@ -1,7 +1,7 @@
-import { Reset } from '@/components/forms/Reset';
+import { ResetForm } from '@/components/forms';
 
 const RegisterPage = () => {
-  return <Reset />;
+  return <ResetForm />;
 };
 
 export default RegisterPage;
