@@ -1,5 +1,5 @@
 import { FieldError, Merge } from 'react-hook-form';
-import styles from './FormError.module.css';
+import styles from './formError.module.css';
 
 interface ErrorProps {
   error: FieldError | Merge<FieldError, object> | undefined;

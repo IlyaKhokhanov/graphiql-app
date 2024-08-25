@@ -1,7 +1,7 @@
-import { ResetForm } from '@/components/forms';
+import { ResetForm } from '@/containers/forms';
 
-const RegisterPage = () => {
+const ResetPage = () => {
   return <ResetForm />;
 };
 
-export default RegisterPage;
+export default ResetPage;

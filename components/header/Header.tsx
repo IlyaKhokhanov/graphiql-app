@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 'use client';
 
 import { auth, logout } from '@/core/services/firebase';
@@ -11,7 +10,13 @@ export const Header = () => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
       {user ? (
-        <button onClick={logout}>log out</button>
+        <button
+          onClick={() => {
+            void logout();
+          }}
+        >
+          log out
+        </button>
       ) : (
         <>
           <Link href="register">register</Link>

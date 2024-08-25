@@ -1,7 +1,7 @@
-import { LoginForm } from '@/components/forms';
+import { LoginForm } from '@/containers/forms';
 
-const RegisterPage = () => {
+const LoginPage = () => {
   return <LoginForm />;
 };
 
-export default RegisterPage;
+export default LoginPage;
