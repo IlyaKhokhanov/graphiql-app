@@ -12,6 +12,38 @@ html {
 
 body {
   min-height: 100vh;
+  color: #343351;
   background: #f7f7f7;
   margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0288d1;
+}
+
+.languages {
+  display: flex;
+  justify-content: center;
+  height: 30px;
+}
+
+.languages a {
+  padding: 4px;
+  margin: 0 4px;
+}
+
+.footer {
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer > div {
+  margin: 0 4px;
 }

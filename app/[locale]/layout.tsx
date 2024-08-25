@@ -1,7 +1,7 @@
 // import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
+import Header from '../../components/structured/header/Header';
+import Footer from '../../components/structured/footer/Footer';
 import '../../styles/globals.css';
 import { i18n } from '@/i18n-config';
 

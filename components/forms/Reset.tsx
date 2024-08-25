@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -47,7 +46,13 @@ export const ResetForm = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Password reset form</h1>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={styles.form}
+        onSubmit={(event) => {
+          event.preventDefault();
+          void handleSubmit(onSubmit)(event);
+        }}
+      >
         <input
           className={styles.input}
           style={{ marginBottom: errors.email ? 0 : 28 }}

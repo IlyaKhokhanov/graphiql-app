@@ -1,5 +1,14 @@
 {
   "common.footer": "RS School React. Курс 2024",
   "page.home.title": "Добро пожаловать в Next.js i18n",
-  "page.home.description": "Сейчас вы видите домашнюю страницу на Русском языке."
+  "page.home.description": "Сейчас вы видите домашнюю страницу на Русском языке.",
+
+  "login.header": "Вход",
+  "login.register": "Зарегистрируйся",
+  "login.now": "сейчас",
+  "login.forgot": "Забыли пароль?",
+  "login.dont": "Нет аккаунта?",
+  "login.error": "Неправильный email или пароль",
+  "login.button": "Войти",
+  "login.placeholder.password": "Пароль"
 }

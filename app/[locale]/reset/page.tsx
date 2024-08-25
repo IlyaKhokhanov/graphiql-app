@@ -1,7 +1,7 @@
 import { ResetForm } from '@/components/forms';
 
-const RegisterPage = () => {
+const Page = () => {
   return <ResetForm />;
 };
 
-export default RegisterPage;
+export default Page;

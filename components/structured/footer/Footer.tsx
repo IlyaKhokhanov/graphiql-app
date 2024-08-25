@@ -1,5 +1,5 @@
 import FooterContent from './FooterContent';
-import { i18n } from '../../i18n-config';
+import { i18n } from '../../../i18n-config';
 
 async function getMessages(locale: string) {
   let localeCorrect = locale;
@@ -7,7 +7,7 @@ async function getMessages(locale: string) {
   if (langIsMissing) {
     localeCorrect = 'en';
   }
-  const result = (await import(`../../lang/${localeCorrect}.json`)) as Record<string, string>;
+  const result = (await import(`../../../lang/${localeCorrect}.json`)) as Record<string, string>;
   return result;
 }
 
