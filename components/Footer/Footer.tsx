@@ -1,17 +1,13 @@
-import FooterContent from "./FooterContent";
-import { i18n } from "../../i18n-config";
-
+import FooterContent from './FooterContent';
+import { i18n } from '../../i18n-config';
 
 async function getMessages(locale: string) {
   let localeCorrect = locale;
-  const langIsMissing = i18n.locales.every(
-    (localeCurrent) =>
-      localeCurrent !== locale,
-  );
+  const langIsMissing = i18n.locales.every((localeCurrent) => localeCurrent !== locale);
   if (langIsMissing) {
     localeCorrect = 'en';
-  };
-  const result = await import(`../../lang/${localeCorrect}.json`) as Record<string, string>;
+  }
+  const result = (await import(`../../lang/${localeCorrect}.json`)) as Record<string, string>;
   return result;
 }
 

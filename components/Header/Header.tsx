@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { i18n } from "../../i18n-config";
-import { useParams } from "next/navigation";
+import Link from 'next/link';
+import { i18n } from '../../i18n-config';
+import { useParams } from 'next/navigation';
 
 export default function Header() {
   const { locales } = i18n;
@@ -11,14 +11,14 @@ export default function Header() {
   return (
     <header>
       <div className="languages">
-        {[...locales].sort().filter((localeCurrent) => localeCurrent !== locale).map((localeCurrent) => (
-          <Link
-            key={localeCurrent}
-            href={`/${localeCurrent}`}
-          >
-            {localeCurrent}
-          </Link>
-        ))}
+        {[...locales]
+          .sort()
+          .filter((localeCurrent) => localeCurrent !== locale)
+          .map((localeCurrent) => (
+            <Link key={localeCurrent} href={`/${localeCurrent}`}>
+              {localeCurrent}
+            </Link>
+          ))}
       </div>
     </header>
   );
