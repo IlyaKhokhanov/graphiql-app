@@ -1,13 +1,27 @@
 import { ReactNode } from 'react';
+import Link from 'next/link';
+
 import '../styles/globals.css';
-import { Header } from '@/components/header/Header';
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en">
       <body className="body">
-        <Header />
-        {children}
+        <header>
+          <nav>
+            <Link href="/">Home</Link>
+            <Link href="/rest/GET/json">REST Client</Link>
+            <Link href="/graphql/query">GraphiQL Client</Link>
+            <Link href="/history">History</Link>
+            <Link href="/auth/signin">Sign In</Link>
+            <Link href="/auth/signup">Sign Up</Link>
+          </nav>
+        </header>
+        <main className="main">{children}</main>
+        <footer>
+          <Link href="#">GitHub</Link>
+          <span>© 2024</span>
+        </footer>
       </body>
     </html>
   );
