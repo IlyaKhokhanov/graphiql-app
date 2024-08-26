@@ -5,8 +5,7 @@ const Regex = {
   lowercase: /[a-z]/,
   uppercase: /[A-Z]/,
   number: /[0-9]/,
-  // eslint-disable-next-line no-useless-escape
-  symbol: /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/\-]/,
+  symbol: /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/,
 };
 
 export const schema = yup.object().shape({
