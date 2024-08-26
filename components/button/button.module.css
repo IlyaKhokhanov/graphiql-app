@@ -9,6 +9,11 @@
   font-size: 18px;
 }
 
+.btn a,
+.addition a {
+  color: black;
+}
+
 .addition {
   background: #fff;
   color: #0cb4f1;

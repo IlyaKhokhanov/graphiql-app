@@ -2,18 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, sendPasswordReset } from '@/core/services/firebase';
+import { auth, registerWithEmailAndPassword } from '@/services/firebase';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schemaReset } from '@/containers/forms/formValidation';
-import { Button } from '@/components/ui/button';
-import { FormError } from './fromError';
-import { IFormDataReset } from './types';
+
+import { Button, ErrorMsg } from '@/components';
+import { schema } from '@/validation';
+import { IFormData } from './types';
+
 import styles from './form.module.css';
 
-export const ResetForm = () => {
+export const RegisterForm = () => {
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -25,12 +26,12 @@ export const ResetForm = () => {
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(schemaReset),
+    resolver: yupResolver(schema),
   });
 
-  const onSubmit = async (data: IFormDataReset) => {
+  const onSubmit = async (data: IFormData) => {
     try {
-      await sendPasswordReset(data.email);
+      await registerWithEmailAndPassword(data.email, data.password);
       reset();
       router.replace('/');
     } catch (err) {
@@ -45,7 +46,7 @@ export const ResetForm = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>Password reset form</h1>
+      <h1 className={styles.header}>Registration form</h1>
       <form
         className={styles.form}
         onSubmit={(event) => {
@@ -61,16 +62,26 @@ export const ResetForm = () => {
           {...register('email')}
         />
 
-        <FormError error={errors.email} />
+        <ErrorMsg error={errors.email} />
+
+        <input
+          className={styles.input}
+          style={{ marginBottom: errors.password ? 0 : 28 }}
+          type="password"
+          placeholder="Password"
+          {...register('password')}
+        />
+
+        <ErrorMsg error={errors.password} />
 
         <Button type="submit" disabled={!isValid}>
-          Send password reset email
+          Register
         </Button>
 
-        {error && <FormError error={{ message: 'This email is not registered' }} />}
+        {error && <ErrorMsg error={{ message: 'This email has already been registered' }} />}
 
         <div style={{ marginTop: error ? 0 : 28 }}>
-          Don&apos;t have an account? <Link href="/register">Register</Link> now.
+          Already have an account? <Link href="/auth/signin">Login</Link> now.
         </div>
       </form>
     </div>

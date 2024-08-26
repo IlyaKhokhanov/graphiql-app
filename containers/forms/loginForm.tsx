@@ -1,19 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, registerWithEmailAndPassword } from '@/core/services/firebase';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from '@/containers/forms/formValidation';
-import { Button } from '@/components/ui/button';
-import { FormError } from './fromError';
-import { IFormData } from './types';
-import styles from './form.module.css';
 
-export const RegisterForm = () => {
+import { auth, logInWithEmailAndPassword } from '@/services/firebase';
+import { schema } from '@/validation';
+import { IFormData } from '../forms/types';
+import { Button, ErrorMsg } from '@/components';
+
+import styles from '../forms/form.module.css';
+
+export const LoginForm = () => {
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -30,7 +31,7 @@ export const RegisterForm = () => {
 
   const onSubmit = async (data: IFormData) => {
     try {
-      await registerWithEmailAndPassword(data.email, data.password);
+      await logInWithEmailAndPassword(data.email, data.password);
       reset();
       router.replace('/');
     } catch (err) {
@@ -45,7 +46,7 @@ export const RegisterForm = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>Registration form</h1>
+      <h1 className={styles.header}>Login form</h1>
       <form
         className={styles.form}
         onSubmit={(event) => {
@@ -61,7 +62,7 @@ export const RegisterForm = () => {
           {...register('email')}
         />
 
-        <FormError error={errors.email} />
+        <ErrorMsg error={errors.email} />
 
         <input
           className={styles.input}
@@ -71,16 +72,20 @@ export const RegisterForm = () => {
           {...register('password')}
         />
 
-        <FormError error={errors.password} />
+        <ErrorMsg error={errors.password} />
 
         <Button type="submit" disabled={!isValid}>
-          Register
+          Login
         </Button>
 
-        {error && <FormError error={{ message: 'This email has already been registered' }} />}
+        {error && <ErrorMsg error={{ message: 'Invalid email or password' }} />}
 
         <div style={{ marginTop: error ? 0 : 28 }}>
-          Already have an account? <Link href="login">Login</Link> now.
+          <Link href="/auth/reset">Forgot Password</Link>
+        </div>
+
+        <div>
+          Don&apos;t have an account? <Link href="/auth/signup">Register</Link> now.
         </div>
       </form>
     </div>

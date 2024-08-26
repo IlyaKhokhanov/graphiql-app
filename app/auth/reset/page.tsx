@@ -1,4 +1,4 @@
-import { ResetForm } from '@/containers/forms';
+import { ResetForm } from '@/containers';
 
 const ResetPage = () => {
   return <ResetForm />;
