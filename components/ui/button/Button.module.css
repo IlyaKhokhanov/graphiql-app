@@ -1,0 +1,26 @@
+.btn,
+.addition {
+  padding: 8px 36px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background: #0cb4f1;
+  color: #fff;
+  font-size: 18px;
+}
+
+.addition {
+  background: #fff;
+  color: #0cb4f1;
+  border: 1px solid #0cb4f1;
+}
+
+.btn:hover,
+.addition:hover {
+  opacity: 0.7;
+}
+
+.btn:disabled,
+.addition:hover {
+  opacity: 0.3;
+}
