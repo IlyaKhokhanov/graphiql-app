@@ -1,12 +1,19 @@
+import { Roboto } from 'next/font/google';
 import { ReactNode } from 'react';
 import Link from 'next/link';
 
-import '../styles/globals.css';
 import { Header } from '@/components';
+
+import '../styles/globals.css';
+
+const roboto = Roboto({
+  weight: ['400', '500', '900'],
+  subsets: ['latin'],
+});
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="en">
+    <html lang="en" className={roboto.className}>
       <body className="body">
         <Header />
         <main className="main">{children}</main>
