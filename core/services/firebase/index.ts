@@ -9,13 +9,13 @@ import {
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAyUkFMCyGOEPgNP6Rssb8NkBy7v27jSk8',
-  authDomain: 'graphiql-app-d001a.firebaseapp.com',
-  projectId: 'graphiql-app-d001a',
-  storageBucket: 'graphiql-app-d001a.appspot.com',
-  messagingSenderId: '478623468570',
-  appId: '1:478623468570:web:45cc40700c76ad634915a3',
-  measurementId: 'G-RL4T001V96',
+  apiKey: process.env.NEXT_PUBLIC_FB_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FB_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FB_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FB_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FB_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FB_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FB_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
