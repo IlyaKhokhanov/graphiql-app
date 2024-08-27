@@ -4,5 +4,6 @@
 }
 
 .logo:hover {
+  opacity: 0.7;
   transform: scale(1.1);
 }

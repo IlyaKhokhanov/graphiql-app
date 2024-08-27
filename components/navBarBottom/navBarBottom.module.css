@@ -7,10 +7,12 @@
 }
 
 .link {
+  opacity: 0.6;
   color: var(--dark);
   text-decoration: none;
 }
 
 .link:hover {
+  opacity: 0.9;
   color: var(--bg-btn);
 }

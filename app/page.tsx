@@ -1,5 +1,7 @@
+import { Welcome } from '@/components';
+
 const HomeComponent = () => {
-  return <>Hello</>;
+  return <Welcome />;
 };
 
 export default HomeComponent;

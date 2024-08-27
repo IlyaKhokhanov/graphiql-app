@@ -32,7 +32,9 @@ dd {
   --bg: #f7f7f7;
   --bg-btn: #0cb4f1;
   --size-def: 10px;
+  --size-s: 1.4rem;
   --size-m: 1.6rem;
+  --size-l: 2.4rem;
 }
 
 html {
@@ -51,6 +53,24 @@ body {
 .wrapper {
   width: 1140px;
   margin: 0 auto;
+}
+
+@media (max-width: 1200px) {
+  .wrapper {
+    width: 960px;
+  }
+}
+
+@media (max-width: 980px) {
+  .wrapper {
+    width: 760px;
+  }
+}
+
+@media (max-width: 800px) {
+  .wrapper {
+    width: 560px;
+  }
 }
 
 .main {
