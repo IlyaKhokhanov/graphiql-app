@@ -1,0 +1,18 @@
+{
+  "links.home": "Home",
+  "links.login": "Login",
+  "links.register": "Register",
+  "links.rest": "REST Client",
+  "links.graphql": "GraphiQL Client",
+  "links.history": "History",
+  "links.logout": "Log out",
+
+  "login.header": "Login form",
+  "login.register": "Register",
+  "login.now": "now",
+  "login.forgot": "Forgot Password",
+  "login.dont": "Don't have an account?",
+  "login.error": "Invalid email or password",
+  "login.button": "Login",
+  "login.placeholder.password": "Password"
+}
