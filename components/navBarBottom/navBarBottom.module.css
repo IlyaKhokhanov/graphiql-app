@@ -1,0 +1,16 @@
+.authors {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: var(--size-m);
+  transition: all 250ms;
+}
+
+.link {
+  color: var(--dark);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--bg-btn);
+}

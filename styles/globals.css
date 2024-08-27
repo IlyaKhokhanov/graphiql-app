@@ -50,3 +50,16 @@ body {
   max-width: 1140px;
   margin: 0 auto;
 }
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--bg-btn);
+  padding: 10px;
+}
+
+.year {
+  font-size: var(--size-m);
+  font-weight: 500;
+}
