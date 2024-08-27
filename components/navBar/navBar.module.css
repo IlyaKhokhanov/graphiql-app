@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.7rem;
+  gap: 2rem;
   font-size: var(--size-m);
   transition: all 250ms;
 }
