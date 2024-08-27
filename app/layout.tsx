@@ -15,9 +15,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en" className={roboto.className}>
       <body className="body">
-        <Header />
-        <main className="main">{children}</main>
-        <footer>
+        <Header className="wrapper" />
+        <main className="main wrapper">{children}</main>
+        <footer className="wrapper">
           <Link href="#">GitHub</Link>
           <span>© 2024</span>
         </footer>

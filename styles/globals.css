@@ -45,3 +45,8 @@ body {
   background: var(--bg);
   margin: 0 5px;
 }
+
+.wrapper {
+  max-width: 1140px;
+  margin: 0 auto;
+}

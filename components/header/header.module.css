@@ -5,6 +5,4 @@
   justify-content: space-evenly;
   gap: 10;
   border-bottom: 1px solid var(--bg-btn);
-  max-width: 1140px;
-  margin: 0 auto;
 }
