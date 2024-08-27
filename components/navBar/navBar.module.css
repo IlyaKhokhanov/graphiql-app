@@ -1,0 +1,23 @@
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+  font-size: var(--size-m);
+  transition: all 250ms;
+}
+
+.link:hover {
+  color: var(--bg-btn);
+}
+
+.menu a {
+  text-decoration: none;
+  color: var(--dark);
+}
+
+.btn,
+.btn a {
+  font-size: var(--size-m);
+  color: var(--bg);
+}

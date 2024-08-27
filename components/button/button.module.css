@@ -1,12 +1,13 @@
 .btn,
 .addition {
-  padding: 8px 36px;
+  padding: 8px 16px;
   border: none;
-  border-radius: 3px;
+  border-radius: 7px;
   cursor: pointer;
-  background: #0cb4f1;
-  color: #fff;
-  font-size: 18px;
+  background: var(--bg-btn);
+  color: var(--bg);
+  font-size: var(--size-m);
+  transition: all 250ms;
 }
 
 .btn a,
@@ -15,17 +16,21 @@
 }
 
 .addition {
-  background: #fff;
-  color: #0cb4f1;
-  border: 1px solid #0cb4f1;
+  background: var(--bg);
+  color: var(--bg-btn);
+  border: 1px solid var(--bg-btn);
 }
 
 .btn:hover,
 .addition:hover {
   opacity: 0.7;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  transform: translateY(-1px);
 }
 
 .btn:disabled,
 .addition:hover {
   opacity: 0.3;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  transform: translateY(-1px);
 }
