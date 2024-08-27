@@ -1,0 +1,18 @@
+{
+  "links.home": "Домой",
+  "links.login": "Вход",
+  "links.register": "Регистрация",
+  "links.rest": "REST клиент",
+  "links.graphql": "GraphiQL клиент",
+  "links.history": "История",
+  "links.logout": "Выход",
+
+  "login.header": "Вход",
+  "login.register": "Зарегистрируйся",
+  "login.now": "сейчас",
+  "login.forgot": "Забыли пароль?",
+  "login.dont": "Нет аккаунта?",
+  "login.error": "Неправильный email или пароль",
+  "login.button": "Войти",
+  "login.placeholder.password": "Пароль"
+}

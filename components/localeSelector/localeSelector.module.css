@@ -1,0 +1,25 @@
+.selector {
+  display: flex;
+  padding: 7px 12px;
+  border-radius: 3px;
+  background: #fff;
+  color: black;
+  border: 1px solid #0cb4f1;
+  font-size: 18px;
+  gap: 8px;
+  position: absolute;
+  right: 10px;
+}
+
+.selector a {
+  color: #1a1a1a;
+}
+
+.enabled:hover {
+  opacity: 0.7;
+}
+
+.disabled {
+  opacity: 0.3;
+  cursor: default;
+}

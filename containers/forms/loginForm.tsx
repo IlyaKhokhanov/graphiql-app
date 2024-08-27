@@ -13,8 +13,10 @@ import { IFormData } from '../forms/types';
 import { Button, ErrorMsg } from '@/components';
 
 import styles from '../forms/form.module.css';
+import { FormattedMessage, IntlProvider } from 'react-intl';
+import { IntlProps } from '../types';
 
-export const LoginForm = () => {
+export const LoginForm = ({ locale, messages }: IntlProps) => {
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -33,7 +35,7 @@ export const LoginForm = () => {
     try {
       await logInWithEmailAndPassword(data.email, data.password);
       reset();
-      router.replace('/');
+      router.replace(`/${locale}`);
     } catch (err) {
       if (err instanceof Error) setError(true);
     }
@@ -41,53 +43,63 @@ export const LoginForm = () => {
 
   useEffect(() => {
     if (loading) return;
-    if (user) router.replace('/');
-  }, [user, loading, router]);
+    if (user) router.replace(`/${locale}`);
+  }, [user, loading, router, locale]);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.header}>Login form</h1>
-      <form
-        className={styles.form}
-        onSubmit={(event) => {
-          const handleSubmitForm = handleSubmit(onSubmit);
-          void handleSubmitForm(event);
-        }}
-      >
-        <input
-          className={styles.input}
-          style={{ marginBottom: errors.email ? 0 : 28 }}
-          type="text"
-          placeholder="Email"
-          {...register('email')}
-        />
+    <IntlProvider locale={locale} messages={messages}>
+      <div className={styles.container}>
+        <h1 className={styles.header}>
+          <FormattedMessage id="login.header" />
+        </h1>
+        <form
+          className={styles.form}
+          onSubmit={(event) => {
+            const handleSubmitForm = handleSubmit(onSubmit);
+            void handleSubmitForm(event);
+          }}
+        >
+          <input
+            className={styles.input}
+            style={{ marginBottom: errors.email ? 0 : 28 }}
+            type="text"
+            placeholder="Email"
+            {...register('email')}
+          />
 
-        <ErrorMsg error={errors.email} />
+          <ErrorMsg error={errors.email} />
 
-        <input
-          className={styles.input}
-          style={{ marginBottom: errors.password ? 0 : 28 }}
-          type="password"
-          placeholder="Password"
-          {...register('password')}
-        />
+          <input
+            className={styles.input}
+            style={{ marginBottom: errors.password ? 0 : 28 }}
+            type="password"
+            placeholder={messages['login.placeholder.password']}
+            {...register('password')}
+          />
 
-        <ErrorMsg error={errors.password} />
+          <ErrorMsg error={errors.password} />
 
-        <Button type="submit" disabled={!isValid}>
-          Login
-        </Button>
+          <Button type="submit" disabled={!isValid}>
+            <FormattedMessage id="login.button" />
+          </Button>
 
-        {error && <ErrorMsg error={{ message: 'Invalid email or password' }} />}
+          {error && <ErrorMsg error={{ message: messages['login.error'] }} />}
 
-        <div style={{ marginTop: error ? 0 : 28 }}>
-          <Link href="/auth/reset">Forgot Password</Link>
-        </div>
+          <div style={{ marginTop: error ? 0 : 28 }}>
+            <Link href={`/${locale}/auth/reset`}>
+              <FormattedMessage id="login.forgot" />
+            </Link>
+          </div>
 
-        <div>
-          Don&apos;t have an account? <Link href="/auth/signup">Register</Link> now.
-        </div>
-      </form>
-    </div>
+          <div>
+            <FormattedMessage id="login.dont" />{' '}
+            <Link href={`/${locale}/auth/signup`}>
+              <FormattedMessage id="login.register" />
+            </Link>{' '}
+            <FormattedMessage id="login.now" />.
+          </div>
+        </form>
+      </div>
+    </IntlProvider>
   );
 };
