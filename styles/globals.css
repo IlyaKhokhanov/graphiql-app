@@ -44,11 +44,17 @@ body {
   min-height: 100vh;
   background: var(--bg);
   margin: 0 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 .wrapper {
-  max-width: 1140px;
+  width: 1140px;
   margin: 0 auto;
+}
+
+.main {
+  flex-grow: 1;
 }
 
 .footer {
