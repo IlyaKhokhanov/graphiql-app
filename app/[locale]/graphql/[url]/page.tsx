@@ -1,14 +1,7 @@
 import { getIntl } from '@/services/intl/intl';
+import { IRouteProps } from './page.props';
 
-type RouteProps = {
-  params: {
-    locale: string;
-    url: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-const GraphiQLClient = async ({ params }: RouteProps) => {
+const GraphiQLClient = async ({ params }: IRouteProps) => {
   const intl = await getIntl(params.locale);
 
   return (

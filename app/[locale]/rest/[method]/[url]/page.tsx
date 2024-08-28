@@ -1,16 +1,7 @@
 import { getIntl } from '@/services/intl/intl';
+import { IRouteProps } from './page.props';
 
-type RouteProps = {
-  params: {
-    locale: string;
-    method: string;
-    url: string;
-    body?: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-const RestClient = async ({ params }: RouteProps) => {
+const RestClient = async ({ params }: IRouteProps) => {
   const intl = await getIntl(params.locale);
 
   return (
