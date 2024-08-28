@@ -7,6 +7,8 @@
   "links.history": "History",
   "links.logout": "Log out",
 
+  "placeholder.password": "Password",
+
   "login.header": "Login form",
   "login.register": "Register",
   "login.now": "now",
@@ -14,5 +16,18 @@
   "login.dont": "Don't have an account?",
   "login.error": "Invalid email or password",
   "login.button": "Login",
-  "login.placeholder.password": "Password"
+
+  "register.header": "Registration form",
+  "register.button": "Register",
+  "register.error": "This email has already been registered",
+  "register.login.question": "Already have an account?",
+  "register.login": "Login",
+  "register.now": "now",
+
+  "reset.header": "Password reset form",
+  "reset.send": "Send password reset email",
+  "reset.dont": "Don't have an account?",
+  "reset.register": "Register",
+  "reset.now": "now",
+  "reset.error": "This email is not registered"
 }

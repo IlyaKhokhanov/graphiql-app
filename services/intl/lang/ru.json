@@ -7,6 +7,8 @@
   "links.history": "История",
   "links.logout": "Выход",
 
+  "placeholder.password": "Пароль",
+
   "login.header": "Вход",
   "login.register": "Зарегистрируйся",
   "login.now": "сейчас",
@@ -14,5 +16,18 @@
   "login.dont": "Нет аккаунта?",
   "login.error": "Неправильный email или пароль",
   "login.button": "Войти",
-  "login.placeholder.password": "Пароль"
+
+  "register.header": "Регистрация",
+  "register.button": "Зарегистрироваться",
+  "register.error": "Этот адрес электронной почты уже зарегистрирован",
+  "register.login.question": "У вас уже есть учетная запись?",
+  "register.login": "Войти",
+  "register.now": "сейчас",
+
+  "reset.header": "Сброс пароля по электронной почте",
+  "reset.send": "Отправить письмо для сброса пароля",
+  "reset.dont": "Нет аккаунта?",
+  "reset.register": "Зарегистрируйся",
+  "reset.now": "сейчас",
+  "reset.error": "Этот адрес электронной почты не зарегистрирован"
 }

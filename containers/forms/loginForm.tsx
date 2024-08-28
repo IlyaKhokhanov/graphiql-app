@@ -7,14 +7,15 @@ import { useForm } from 'react-hook-form';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { FormattedMessage, IntlProvider } from 'react-intl';
+import { IntlProps } from '../types';
+
 import { auth, logInWithEmailAndPassword } from '@/services/firebase';
 import { schema } from '@/validation';
 import { IFormData } from '../forms/types';
 import { Button, ErrorMsg } from '@/components';
 
 import styles from '../forms/form.module.css';
-import { FormattedMessage, IntlProvider } from 'react-intl';
-import { IntlProps } from '../types';
 
 export const LoginForm = ({ locale, messages }: IntlProps) => {
   const [error, setError] = useState(false);
@@ -73,7 +74,7 @@ export const LoginForm = ({ locale, messages }: IntlProps) => {
             className={styles.input}
             style={{ marginBottom: errors.password ? 0 : 28 }}
             type="password"
-            placeholder={messages['login.placeholder.password']}
+            placeholder={messages['placeholder.password']}
             {...register('password')}
           />
 
