@@ -11,12 +11,23 @@
   "authors.ilya": "Илья",
   "authors.sergey": "Сергей",
 
+  "home.header": "Домашняя страница",
+  "home.hello": "Привет",
+
   "placeholder.password": "Пароль",
   "placeholder.requestbody": "Тело запроса",
   "placeholder.graphqlquery": "GraphQL запрос",
 
-  "home.header": "Домашняя страница",
-  "home.hello": "Привет",
+  "yup.email.invalid": "Неправильный email",
+  "yup.email.required": "Email является обязательным полем",
+  "yup.password.required": "Password является обязательным полем",
+  "yup.password.onelowercase": "Одна строчная латинская буква",
+  "yup.password.onecapital": "Одна заглавная латинская буква",
+  "yup.password.onedigit": "Одна цифра",
+  "yup.password.onespecial": "Один специальный символ",
+  "yup.password.minlength": "8 символов или больше",
+  "yup.password.complexity": "сложность пароля",
+  "yup.password.mustcontain": "пароль должен содержать как минимум",
 
   "login.header": "Вход",
   "login.register": "Зарегистрируйся",

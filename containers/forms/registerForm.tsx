@@ -12,7 +12,7 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { IntlProps } from '../types';
 
 import { Button, ErrorMsg } from '@/components';
-import { schema } from '@/validation';
+import { schemaIntl } from '@/validation';
 import { IFormData } from './types';
 
 import styles from './form.module.css';
@@ -29,7 +29,7 @@ export const RegisterForm = ({ locale, messages }: IntlProps) => {
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaIntl({ messages })),
   });
 
   const onSubmit = async (data: IFormData) => {

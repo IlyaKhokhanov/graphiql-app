@@ -29,7 +29,7 @@ export const Footer = ({ locale, messages }: IFooterProps) => {
         </div>
         <span className={styles.center}>© 2024</span>
         <Link href="https://rs.school/" className={styles.right}>
-          <Image className={styles.logo} src={logo as string} alt="logo" width={80} />
+          <Image className={styles.logo} src={logo as string} alt="logo" width={80} height={30} />
         </Link>
       </footer>
     </IntlProvider>

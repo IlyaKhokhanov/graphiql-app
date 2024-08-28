@@ -11,7 +11,7 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { IntlProps } from '../types';
 
 import { auth, logInWithEmailAndPassword } from '@/services/firebase';
-import { schema } from '@/validation';
+import { schemaIntl } from '@/validation';
 import { IFormData } from '../forms/types';
 import { Button, ErrorMsg } from '@/components';
 
@@ -29,7 +29,7 @@ export const LoginForm = ({ locale, messages }: IntlProps) => {
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaIntl({ messages })),
   });
 
   const onSubmit = async (data: IFormData) => {

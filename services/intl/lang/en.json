@@ -11,12 +11,23 @@
   "authors.ilya": "Ilya",
   "authors.sergey": "Sergey",
 
+  "home.header": "Home",
+  "home.hello": "Hello",
+
   "placeholder.password": "Password",
   "placeholder.requestbody": "Request Body",
   "placeholder.graphqlquery": "GraphQL Query",
 
-  "home.header": "Home",
-  "home.hello": "Hello",
+  "yup.email.invalid": "Invalid email",
+  "yup.email.required": "Email is a required field",
+  "yup.password.required": "Password is a required field",
+  "yup.password.onelowercase": "One lowercase letter in latin",
+  "yup.password.onecapital": "One capital letter in latin",
+  "yup.password.onedigit": "One digit",
+  "yup.password.onespecial": "One special character",
+  "yup.password.minlength": "8 character or more",
+  "yup.password.complexity": "password complexity",
+  "yup.password.mustcontain": "password must contain at least",
 
   "login.header": "Login form",
   "login.register": "Register",

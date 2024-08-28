@@ -11,7 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { IntlProps } from '../types';
 
-import { schemaReset } from '@/validation';
+import { schemaResetIntl } from '@/validation';
 import { Button, ErrorMsg } from '@/components';
 import { IFormDataReset } from './types';
 
@@ -29,7 +29,7 @@ export const ResetForm = ({ locale, messages }: IntlProps) => {
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(schemaReset),
+    resolver: yupResolver(schemaResetIntl({ messages })),
   });
 
   const onSubmit = async (data: IFormDataReset) => {
