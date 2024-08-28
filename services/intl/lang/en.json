@@ -12,6 +12,11 @@
   "authors.sergey": "Sergey",
 
   "placeholder.password": "Password",
+  "placeholder.requestbody": "Request Body",
+  "placeholder.graphqlquery": "GraphQL Query",
+
+  "home.header": "Home",
+  "home.hello": "Hello",
 
   "login.header": "Login form",
   "login.register": "Register",
@@ -33,5 +38,18 @@
   "reset.dont": "Don't have an account?",
   "reset.register": "Register",
   "reset.now": "now",
-  "reset.error": "This email is not registered"
+  "reset.error": "This email is not registered",
+
+  "history.header": "History",
+  "history.rest": "GET someUrl",
+  "history.graphql": "GraphQL someUrl",
+
+  "client.rest.head": "REST Client",
+  "client.rest.method": "Method",
+  "client.rest.url": "Url",
+  "client.rest.send": "Send Request",
+
+  "client.graphql.head": "GraphQL Client",
+  "client.graphql.url": "Url",
+  "client.graphql.send": "Send Request"
 }

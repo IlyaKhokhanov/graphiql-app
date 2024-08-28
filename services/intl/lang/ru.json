@@ -12,6 +12,11 @@
   "authors.sergey": "Сергей",
 
   "placeholder.password": "Пароль",
+  "placeholder.requestbody": "Тело запроса",
+  "placeholder.graphqlquery": "GraphQL запрос",
+
+  "home.header": "Домашняя страница",
+  "home.hello": "Привет",
 
   "login.header": "Вход",
   "login.register": "Зарегистрируйся",
@@ -33,5 +38,18 @@
   "reset.dont": "Нет аккаунта?",
   "reset.register": "Зарегистрируйся",
   "reset.now": "сейчас",
-  "reset.error": "Этот адрес электронной почты не зарегистрирован"
+  "reset.error": "Этот адрес электронной почты не зарегистрирован",
+
+  "history.header": "История",
+  "history.rest": "REST запросы",
+  "history.graphql": "GraphQL запросы",
+
+  "client.rest.head": "REST клиент",
+  "client.rest.method": "Метод",
+  "client.rest.url": "Url",
+  "client.rest.send": "Отправить запрос",
+
+  "client.graphql.head": "GraphQL клиент",
+  "client.graphql.url": "Url",
+  "client.graphql.send": "Отправить запрос"
 }

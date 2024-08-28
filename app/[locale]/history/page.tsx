@@ -1,19 +1,11 @@
-import Link from 'next/link';
+import History from '@/containers/history/history';
+import { IntlParams } from '@/containers/types';
+import { getIntlConfig } from '@/services/intl/intl';
 
-const History = () => {
-  return (
-    <>
-      <h1>History</h1>
-      <ul>
-        <li>
-          <Link href="/rest/GET/someUrl">GET someUrl</Link>
-        </li>
-        <li>
-          <Link href="/graphql/someUrl">GraphiQL someUrl</Link>
-        </li>
-      </ul>
-    </>
-  );
+const HistoryPage = async ({ params: { locale } }: IntlParams) => {
+  const { messages } = await getIntlConfig(locale);
+
+  return <History locale={locale} messages={messages} />;
 };
 
-export default History;
+export default HistoryPage;

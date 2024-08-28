@@ -1,11 +1,25 @@
-const GraphiQLClient = ({ params }: { params: { url: string } }) => {
+import { getIntl } from '@/services/intl/intl';
+
+type RouteProps = {
+  params: {
+    locale: string;
+    url: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+const GraphiQLClient = async ({ params }: RouteProps) => {
+  const intl = await getIntl(params.locale);
+
   return (
     <>
-      <h1>GraphiQL Client</h1>
-      <p>URL: {params.url}</p>
+      <h1>{intl.formatMessage({ id: 'client.graphql.head' })}</h1>
+      <p>
+        {intl.formatMessage({ id: 'client.graphql.url' })}: {params.url}
+      </p>
       <form>
-        <textarea placeholder="GraphQL Query" />
-        <button type="submit">Send Request</button>
+        <textarea placeholder={intl.messages['placeholder.graphqlquery'] as string} />
+        <button type="submit">{intl.formatMessage({ id: 'client.graphql.send' })}</button>
       </form>
     </>
   );
