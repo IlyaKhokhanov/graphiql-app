@@ -1,10 +1,10 @@
 import { Roboto } from 'next/font/google';
 import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 
 import { getIntlConfig } from '@/services/intl/intl';
 import { Header } from '@/components';
+import { Footer } from '@/components/footer/footer';
 
 import '@/styles/globals.css';
 
@@ -30,10 +30,7 @@ const RootLayout = async ({ params, children }: LayoutProps) => {
       <body className="body">
         <Header locale={locale} messages={messages} />
         <main className="main">{children}</main>
-        <footer>
-          <Link href="#">GitHub</Link>
-          <span>© 2024</span>
-        </footer>
+        <Footer locale={locale} messages={messages} />
       </body>
     </html>
   );

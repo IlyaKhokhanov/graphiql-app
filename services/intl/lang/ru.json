@@ -7,6 +7,10 @@
   "links.history": "История",
   "links.logout": "Выход",
 
+  "authors.andrey": "Андрей",
+  "authors.ilya": "Илья",
+  "authors.sergey": "Сергей",
+
   "placeholder.password": "Пароль",
 
   "login.header": "Вход",
