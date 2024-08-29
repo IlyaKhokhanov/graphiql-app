@@ -1,4 +1,7 @@
 {
+  "notfound.head": "404 - Страница не найдена",
+  "notfound.goback": "Домой",
+
   "links.home": "Домой",
   "links.login": "Вход",
   "links.register": "Регистрация",

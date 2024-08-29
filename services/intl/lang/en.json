@@ -1,4 +1,7 @@
 {
+  "notfound.head": "404 - Page Not Found",
+  "notfound.goback": "Go back to home",
+
   "links.home": "Home",
   "links.login": "Login",
   "links.register": "Register",

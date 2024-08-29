@@ -1,4 +1,3 @@
-import { Roboto } from 'next/font/google';
 import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
 
@@ -13,11 +12,6 @@ type LayoutProps = {
   children: ReactNode;
 };
 
-const roboto = Roboto({
-  weight: ['400', '500', '900'],
-  subsets: ['latin'],
-});
-
 const RootLayout = async ({ params, children }: LayoutProps) => {
   const localeCurrent = params.locale;
   const { locale, messages } = await getIntlConfig(localeCurrent);
@@ -26,13 +20,11 @@ const RootLayout = async ({ params, children }: LayoutProps) => {
   }
 
   return (
-    <html lang={locale} className={roboto.className}>
-      <body className="body">
-        <Header locale={locale} messages={messages} />
-        <main className="main">{children}</main>
-        <Footer locale={locale} messages={messages} />
-      </body>
-    </html>
+    <>
+      <Header locale={locale} messages={messages} />
+      <main className="main">{children}</main>
+      <Footer locale={locale} messages={messages} />
+    </>
   );
 };
 

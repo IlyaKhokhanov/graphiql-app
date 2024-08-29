@@ -46,7 +46,6 @@
 .logo {
   cursor: pointer;
   transition: all 500ms;
-  width: 30%;
 }
 
 .logo:hover {
