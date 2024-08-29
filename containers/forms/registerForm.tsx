@@ -36,7 +36,7 @@ export const RegisterForm = ({ locale, messages }: IntlProps) => {
     try {
       await registerWithEmailAndPassword(data.email, data.password);
       reset();
-      router.replace('/');
+      router.replace(`/${locale}`);
     } catch (err) {
       if (err instanceof Error) setError(true);
     }
