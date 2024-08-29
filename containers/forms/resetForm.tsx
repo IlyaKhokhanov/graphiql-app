@@ -8,13 +8,16 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { schemaReset } from '@/validation';
+import { FormattedMessage, IntlProvider } from 'react-intl';
+import { IntlProps } from '../types';
+
+import { schemaResetIntl } from '@/validation';
 import { Button, ErrorMsg } from '@/components';
 import { IFormDataReset } from './types';
 
 import styles from './form.module.css';
 
-export const ResetForm = () => {
+export const ResetForm = ({ locale, messages }: IntlProps) => {
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -26,7 +29,7 @@ export const ResetForm = () => {
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(schemaReset),
+    resolver: yupResolver(schemaResetIntl({ messages })),
   });
 
   const onSubmit = async (data: IFormDataReset) => {
@@ -45,35 +48,43 @@ export const ResetForm = () => {
   }, [user, loading, router]);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.header}>Password reset form</h1>
-      <form
-        className={styles.form}
-        onSubmit={(event) => {
-          const handleSubmitForm = handleSubmit(onSubmit);
-          void handleSubmitForm(event);
-        }}
-      >
-        <input
-          className={styles.input}
-          style={{ marginBottom: errors.email ? 0 : 28 }}
-          type="text"
-          placeholder="Email"
-          {...register('email')}
-        />
+    <IntlProvider locale={locale} messages={messages}>
+      <div className={styles.container}>
+        <h1 className={styles.header}>
+          <FormattedMessage id="reset.header" />
+        </h1>
+        <form
+          className={styles.form}
+          onSubmit={(event) => {
+            const handleSubmitForm = handleSubmit(onSubmit);
+            void handleSubmitForm(event);
+          }}
+        >
+          <input
+            className={styles.input}
+            style={{ marginBottom: errors.email ? 0 : 28 }}
+            type="text"
+            placeholder="Email"
+            {...register('email')}
+          />
 
-        <ErrorMsg error={errors.email} />
+          <ErrorMsg error={errors.email} />
 
-        <Button type="submit" disabled={!isValid}>
-          Send password reset email
-        </Button>
+          <Button type="submit" disabled={!isValid}>
+            <FormattedMessage id="reset.send" />
+          </Button>
 
-        {error && <ErrorMsg error={{ message: 'This email is not registered' }} />}
+          {error && <ErrorMsg error={{ message: messages['reset.error'] }} />}
 
-        <div style={{ marginTop: error ? 0 : 28 }}>
-          Don&apos;t have an account? <Link href="/auth/signup">Register</Link> now.
-        </div>
-      </form>
-    </div>
+          <div style={{ marginTop: error ? 0 : 28 }}>
+            <FormattedMessage id="reset.dont" />{' '}
+            <Link href={`/${locale}/auth/signup`}>
+              <FormattedMessage id="reset.register" />
+            </Link>{' '}
+            <FormattedMessage id="reset.now" />.
+          </div>
+        </form>
+      </div>
+    </IntlProvider>
   );
 };

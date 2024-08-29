@@ -1,1 +1,1 @@
-export { schema, schemaReset } from './formValidation';
+export { schemaResetIntl, schemaIntl } from './formValidation';

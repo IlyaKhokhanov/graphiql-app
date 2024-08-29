@@ -1,4 +1,5 @@
-import 'server-only';
+'use server';
+
 import { createIntl } from '@formatjs/intl';
 
 import { i18n, Locale } from '@/i18n-config';

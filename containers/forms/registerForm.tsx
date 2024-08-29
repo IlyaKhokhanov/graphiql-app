@@ -8,13 +8,16 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { FormattedMessage, IntlProvider } from 'react-intl';
+import { IntlProps } from '../types';
+
 import { Button, ErrorMsg } from '@/components';
-import { schema } from '@/validation';
+import { schemaIntl } from '@/validation';
 import { IFormData } from './types';
 
 import styles from './form.module.css';
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ locale, messages }: IntlProps) => {
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -26,14 +29,14 @@ export const RegisterForm = () => {
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaIntl({ messages })),
   });
 
   const onSubmit = async (data: IFormData) => {
     try {
       await registerWithEmailAndPassword(data.email, data.password);
       reset();
-      router.replace('/');
+      router.replace(`/${locale}`);
     } catch (err) {
       if (err instanceof Error) setError(true);
     }
@@ -45,45 +48,53 @@ export const RegisterForm = () => {
   }, [user, loading, router]);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.header}>Registration form</h1>
-      <form
-        className={styles.form}
-        onSubmit={(event) => {
-          const handleSubmitForm = handleSubmit(onSubmit);
-          void handleSubmitForm(event);
-        }}
-      >
-        <input
-          className={styles.input}
-          style={{ marginBottom: errors.email ? 0 : 28 }}
-          type="text"
-          placeholder="Email"
-          {...register('email')}
-        />
+    <IntlProvider locale={locale} messages={messages}>
+      <div className={styles.container}>
+        <h1 className={styles.header}>
+          <FormattedMessage id="register.header" />
+        </h1>
+        <form
+          className={styles.form}
+          onSubmit={(event) => {
+            const handleSubmitForm = handleSubmit(onSubmit);
+            void handleSubmitForm(event);
+          }}
+        >
+          <input
+            className={styles.input}
+            style={{ marginBottom: errors.email ? 0 : 28 }}
+            type="text"
+            placeholder="Email"
+            {...register('email')}
+          />
 
-        <ErrorMsg error={errors.email} />
+          <ErrorMsg error={errors.email} />
 
-        <input
-          className={styles.input}
-          style={{ marginBottom: errors.password ? 0 : 28 }}
-          type="password"
-          placeholder="Password"
-          {...register('password')}
-        />
+          <input
+            className={styles.input}
+            style={{ marginBottom: errors.password ? 0 : 28 }}
+            type="password"
+            placeholder={messages['placeholder.password']}
+            {...register('password')}
+          />
 
-        <ErrorMsg error={errors.password} />
+          <ErrorMsg error={errors.password} />
 
-        <Button type="submit" disabled={!isValid}>
-          Register
-        </Button>
+          <Button type="submit" disabled={!isValid}>
+            <FormattedMessage id="register.button" />
+          </Button>
 
-        {error && <ErrorMsg error={{ message: 'This email has already been registered' }} />}
+          {error && <ErrorMsg error={{ message: messages['register.error'] }} />}
 
-        <div style={{ marginTop: error ? 0 : 28 }}>
-          Already have an account? <Link href="/auth/signin">Login</Link> now.
-        </div>
-      </form>
-    </div>
+          <div style={{ marginTop: error ? 0 : 28 }}>
+            <FormattedMessage id="register.login.question" />{' '}
+            <Link href={`/${locale}/auth/signin`}>
+              <FormattedMessage id="register.login" />
+            </Link>{' '}
+            <FormattedMessage id="register.now" />.
+          </div>
+        </form>
+      </div>
+    </IntlProvider>
   );
 };
