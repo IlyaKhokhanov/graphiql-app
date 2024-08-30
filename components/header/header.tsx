@@ -39,6 +39,9 @@ export const Header = ({ locale, messages }: IHeaderProps) => {
           </>
         ) : (
           <>
+            <Link href={`/${locale}/rest/GET`}>
+              <FormattedMessage id="links.rest" />
+            </Link>
             <Button>
               <Link href={`/${locale}/auth/signin`}>
                 <FormattedMessage id="links.login" />
