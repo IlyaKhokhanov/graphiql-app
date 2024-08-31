@@ -1,10 +1,18 @@
 .header {
+  position: relative;
   padding: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 25px;
   border-bottom: 1px solid #0cb4f1;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
 }
 
 .header a {
@@ -22,4 +30,7 @@ a.active {
 
 .button a:hover {
   color: #000;
+}
+
+.logo {
 }
