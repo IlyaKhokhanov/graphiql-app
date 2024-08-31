@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 'use client';
 
 import { FocusEvent, FormEvent, useEffect, useState } from 'react';
@@ -6,17 +7,19 @@ import { useRouter } from 'next/navigation';
 import { inputInterface, response, restClientProps } from './restClient.props';
 import { Button } from '@/components';
 import { base64url_decode, base64url_encode, uid } from '@/utils';
-import { fetcher } from '@/services/rest';
+import { fetcher, FetchError } from '@/services/rest';
 
 import styles from './restClient.module.css';
 
-export const RestClient = ({ method, url, options }: restClientProps) => {
+export const RestClient = ({ method, url, options, locale, messages }: restClientProps) => {
   const [workUrl, setWorkUrl] = useState('');
   const [workMethod, setWorkMethod] = useState('');
   const [paramInputs, setParamInputs] = useState<inputInterface[]>([]);
   const [headerInputs, setHeaderInputs] = useState<inputInterface[]>([]);
   const [response, setResponse] = useState<response>({ status: null, body: '' });
   const [body, setBody] = useState('');
+
+  const [isFetched, setIsFetched] = useState(false);
 
   const router = useRouter();
 
@@ -62,33 +65,6 @@ export const RestClient = ({ method, url, options }: restClientProps) => {
     return { urlReq: workUrl + `?${parmsArr.join('&')}`, optionsReq: optionsRequest };
   };
 
-  // const fetcher = async (url: string, method: string) => {
-  //   const parmsArr: string[] = [];
-  //   paramInputs.forEach((el) => {
-  //     if (el.key && el.value) parmsArr.push(`${el.key}=${el.value}`);
-  //   });
-  //   const myHeaders = new Headers();
-  //   headerInputs.forEach((el) => {
-  //     if (el.key && el.value) myHeaders.append(el.key, el.value);
-  //   });
-  //   const options: RequestInit = {
-  //     method: method,
-  //     headers: myHeaders,
-  //   };
-  //   if (body) options.body = body;
-
-  //   router.push(
-  //     `/${method}/${base64url_encode(url + `?${parmsArr.join('&')}`)}/${base64url_encode(JSON.stringify(options))}`
-  //   );
-
-  //   const resp = await fetch(url + `?${parmsArr.join('&')}`, options);
-  //   if (resp.status === 500) {
-  //     return resp.text();
-  //   }
-  //   setResponse((prev) => ({ ...prev, status: resp.status }));
-  //   return resp.json();
-  // };
-
   useEffect(() => {
     setHeaderInputs([]);
     setParamInputs([]);
@@ -108,7 +84,9 @@ export const RestClient = ({ method, url, options }: restClientProps) => {
 
     if (options) {
       const optionsAtob = base64url_decode(options);
-      const objectOptions: RequestInit = JSON.parse(optionsAtob);
+      const objectOptions = JSON.parse(optionsAtob) as unknown as {
+        headers?: Record<string, string>;
+      };
 
       Object.entries(objectOptions).headers?.forEach((el: string[]) => {
         const [key, value] = el;
@@ -120,43 +98,33 @@ export const RestClient = ({ method, url, options }: restClientProps) => {
       });
     }
 
-    const { urlReq, optionsReq } = requestBuilder();
-
-    fetcher(urlReq, optionsReq)
-      .then((res) => {
-        if (typeof res !== 'string') {
-          setResponse((prev) => ({ ...prev, body: JSON.stringify(res) }));
-        }
-      })
-      .catch((e: Error) => {
-        if (e instanceof Error) {
-          setResponse((prev) => ({ ...prev, body: e.message }));
-        }
-      });
+    setIsFetched(true);
   }, []);
 
   useEffect(() => {
-    const { urlReq, optionsReq } = requestBuilder();
+    if (isFetched) {
+      const { urlReq, optionsReq } = requestBuilder();
 
-    fetcher(urlReq, optionsReq)
-      .then((res) => {
-        if (typeof res !== 'string') {
-          setResponse((prev) => ({ ...prev, body: JSON.stringify(res) }));
-        }
-      })
-      .catch((e: Error) => {
-        if (e instanceof Error) {
-          setResponse((prev) => ({ ...prev, body: e.message }));
-        }
-      });
-  }, [workUrl]);
+      fetcher(urlReq, optionsReq)
+        .then(({ body, status }) => {
+          if (typeof body !== 'string') {
+            setResponse({ status, body: JSON.stringify(body) });
+          }
+        })
+        .catch((e) => {
+          if (e instanceof FetchError) {
+            setResponse({ status: e.getStatus(), body: e.message });
+          }
+        });
+    }
+  }, [isFetched]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { urlReq, optionsReq } = requestBuilder();
     router.push(
-      `/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`
+      `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`
     );
   };
 

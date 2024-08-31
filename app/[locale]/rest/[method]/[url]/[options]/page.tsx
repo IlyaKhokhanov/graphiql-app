@@ -1,11 +1,22 @@
 import { RestClient } from '@/containers';
+import { getIntl } from '@/services/intl/intl';
 
-const RestClientPage = ({
+const RestClientPage = async ({
   params,
 }: {
-  params: { method: string; url: string; options: string; body?: string };
+  params: { method: string; url: string; options: string; locale: string };
 }) => {
-  return <RestClient method={params.method} url={params.url} options={params.options} />;
+  const { messages } = await getIntl(params.locale);
+
+  return (
+    <RestClient
+      method={params.method}
+      url={params.url}
+      options={params.options}
+      locale={params.locale}
+      messages={messages}
+    />
+  );
 };
 
 export default RestClientPage;
