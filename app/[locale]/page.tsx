@@ -1,4 +1,4 @@
-import Home from '@/containers/home/home';
+import { Home } from '@/containers';
 import { IntlParams } from '@/containers/types';
 import { getIntlConfig } from '@/services/intl/intl';
 

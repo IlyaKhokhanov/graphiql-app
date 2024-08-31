@@ -15,4 +15,11 @@ body {
   color: #343351;
   background: #f7f7f7;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex-grow: 1;
+  position: relative;
 }

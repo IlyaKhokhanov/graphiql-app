@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { IntlProvider } from 'react-intl';
 
 import git from '@/public/github-icon.svg';
-import logo from '@/public/rs_school_js.svg';
+import logo from '@/public/rsschool.svg';
 import { IFooterProps } from './footer.props';
 import styles from './footer.module.css';
 
