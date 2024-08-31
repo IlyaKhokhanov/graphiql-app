@@ -33,4 +33,9 @@ a.active {
 }
 
 .logo {
+  transition: all 500ms;
+}
+
+.logo:hover {
+  transform: scale(1.1);
 }
