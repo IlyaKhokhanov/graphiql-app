@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 'use client';
 
 import { FocusEvent, FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import ReactJson from 'react-json-view';
 
 import { inputInterface, response, restClientProps } from './restClient.props';
 import { Button } from '@/components';
@@ -16,8 +18,11 @@ export const RestClient = ({ method, url, options, locale, messages }: restClien
   const [workMethod, setWorkMethod] = useState('');
   const [paramInputs, setParamInputs] = useState<inputInterface[]>([]);
   const [headerInputs, setHeaderInputs] = useState<inputInterface[]>([]);
-  const [response, setResponse] = useState<response>({ status: null, body: '' });
-  const [body, setBody] = useState('');
+  const [response, setResponse] = useState<response>({
+    status: null,
+    body: { message: 'There is no body' } as unknown as JSON,
+  });
+  const [body, setBody] = useState<string>('');
 
   const [isFetched, setIsFetched] = useState(false);
 
@@ -98,22 +103,22 @@ export const RestClient = ({ method, url, options, locale, messages }: restClien
       });
     }
 
-    setIsFetched(true);
+    if (workUrl) setIsFetched(true);
   }, []);
 
   useEffect(() => {
-    if (isFetched) {
+    if (isFetched && workUrl) {
       const { urlReq, optionsReq } = requestBuilder();
 
       fetcher(urlReq, optionsReq)
         .then(({ body, status }) => {
           if (typeof body !== 'string') {
-            setResponse({ status, body: JSON.stringify(body) });
+            setResponse({ status, body: body as JSON });
           }
         })
         .catch((e) => {
           if (e instanceof FetchError) {
-            setResponse({ status: e.getStatus(), body: e.message });
+            setResponse({ status: e.getStatus(), body: e.message as unknown as JSON });
           }
         });
     }
@@ -122,10 +127,12 @@ export const RestClient = ({ method, url, options, locale, messages }: restClien
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { urlReq, optionsReq } = requestBuilder();
-    router.push(
-      `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`
-    );
+    if (workUrl) {
+      const { urlReq, optionsReq } = requestBuilder();
+      router.push(
+        `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`
+      );
+    }
   };
 
   return (
@@ -241,7 +248,17 @@ export const RestClient = ({ method, url, options, locale, messages }: restClien
 
       <div className={styles.line}>
         <h3>Body:</h3>
-        <div>{response?.body || 'There is no body'}</div>
+        <div>
+          {isFetched && workUrl ? (
+            <ReactJson
+              src={response.body}
+              style={{ maxHeight: 300, overflowY: 'scroll' }}
+              theme="monokai"
+            />
+          ) : (
+            'There is no body'
+          )}
+        </div>
       </div>
     </div>
   );

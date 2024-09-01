@@ -16,5 +16,5 @@ export interface inputInterface {
 
 export interface response {
   status: number | null;
-  body: string;
+  body: JSON;
 }
