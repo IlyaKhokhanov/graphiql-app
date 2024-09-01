@@ -1,9 +1,6 @@
-import { MessageFormatElement } from 'react-intl';
-
 export interface restClientProps {
   locale: string;
   method: string;
-  messages: Record<string, MessageFormatElement[]> | Record<string, string>;
   url?: string;
   options?: string;
 }

@@ -4,16 +4,21 @@
 
 import { FocusEvent, FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import ReactJson from 'react-json-view';
+import JsonView from '@uiw/react-json-view';
+import { monokaiTheme } from '@uiw/react-json-view/monokai';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import { inputInterface, response, restClientProps } from './restClient.props';
 import { Button } from '@/components';
 import { base64url_decode, base64url_encode, uid } from '@/utils';
 import { fetcher, FetchError } from '@/services/rest';
+import { getMessages } from '@/services/intl/wordbook';
 
 import styles from './restClient.module.css';
 
-export const RestClient = ({ method, url, options, locale, messages }: restClientProps) => {
+export const RestClient = ({ method, url, options, locale }: restClientProps) => {
+  const messages = getMessages(locale);
+
   const [workUrl, setWorkUrl] = useState('');
   const [workMethod, setWorkMethod] = useState('');
   const [paramInputs, setParamInputs] = useState<inputInterface[]>([]);
@@ -103,7 +108,7 @@ export const RestClient = ({ method, url, options, locale, messages }: restClien
       });
     }
 
-    if (workUrl) setIsFetched(true);
+    if (url) setIsFetched(true);
   }, []);
 
   useEffect(() => {
@@ -136,130 +141,147 @@ export const RestClient = ({ method, url, options, locale, messages }: restClien
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.header}>REST Client</h1>
-      <form className={styles.form} onSubmit={(e) => onSubmit(e)}>
-        <div className={styles.line}>
-          <select
-            className={styles.input}
-            name="method"
-            id="method"
-            defaultValue={workMethod}
-            onChange={(e) => setWorkMethod(e.target.value)}
-          >
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT">PUT</option>
-            <option value="DELETE">DELETE</option>
-          </select>
-          <input
-            className={styles.input}
-            id="url"
-            type="text"
-            defaultValue={workUrl}
-            placeholder="Endpoint URL"
-            onBlur={(e) => setWorkUrl(e.target.value)}
-          />
-          <Button type="submit">Send</Button>
-        </div>
-
-        <div className={styles.line}>
-          <h3>Params:</h3>
-          <Button type="button" onClick={addParam}>
-            Add Param
-          </Button>
-        </div>
-        {paramInputs.map((el) => (
-          <div className={styles.line} key={el.id}>
-            <input
+    <IntlProvider locale={locale} messages={messages}>
+      <div className={styles.container}>
+        <h1 className={styles.header}>
+          <FormattedMessage id="rest.header" />
+        </h1>
+        <form className={styles.form} onSubmit={(e) => onSubmit(e)}>
+          <div className={styles.line}>
+            <select
               className={styles.input}
-              type="text"
-              placeholder="Param key"
-              defaultValue={el.key}
-              onBlur={(e) => changeParam(e, el.id, 'key')}
-            />
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="Param value"
-              defaultValue={el.value}
-              onBlur={(e) => changeParam(e, el.id, 'value')}
-            />
-            <Button
-              style={{ background: '#cf352e' }}
-              type="button"
-              onClick={() => deleteParam(el.id)}
+              name="method"
+              id="method"
+              defaultValue={workMethod}
+              onChange={(e) => setWorkMethod(e.target.value)}
             >
-              Delete
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+            <input
+              className={styles.input}
+              id="url"
+              type="text"
+              defaultValue={workUrl}
+              placeholder={messages['rest.placeholder.url']}
+              onBlur={(e) => setWorkUrl(e.target.value)}
+            />
+            <Button type="submit">
+              <FormattedMessage id="rest.button.send" />
             </Button>
           </div>
-        ))}
 
-        <div className={styles.line}>
-          <h3>Headers:</h3>
-          <Button type="button" onClick={addHeader}>
-            Add Header
-          </Button>
-        </div>
-        {headerInputs.map((el) => (
-          <div className={styles.line} key={el.id}>
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="Header key"
-              defaultValue={el.key}
-              onBlur={(e) => changeHeader(e, el.id, 'key')}
-            />
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="Header value"
-              defaultValue={el.value}
-              onBlur={(e) => changeHeader(e, el.id, 'value')}
-            />
-            <Button
-              style={{ background: '#cf352e' }}
-              type="button"
-              onClick={() => deleteHeader(el.id)}
-            >
-              Delete
+          <div className={styles.line}>
+            <h3>
+              <FormattedMessage id="rest.param.header" />
+            </h3>
+            <Button type="button" onClick={addParam}>
+              <FormattedMessage id="rest.param.button" />
             </Button>
           </div>
-        ))}
+          {paramInputs.map((el) => (
+            <div className={styles.line} key={el.id}>
+              <input
+                className={styles.input}
+                type="text"
+                placeholder={messages['rest.param.placeholder.key']}
+                defaultValue={el.key}
+                onBlur={(e) => changeParam(e, el.id, 'key')}
+              />
+              <input
+                className={styles.input}
+                type="text"
+                placeholder={messages['rest.param.placeholder.value']}
+                defaultValue={el.value}
+                onBlur={(e) => changeParam(e, el.id, 'value')}
+              />
+              <Button
+                style={{ background: '#cf352e' }}
+                type="button"
+                onClick={() => deleteParam(el.id)}
+              >
+                <FormattedMessage id="rest.button.delete" />
+              </Button>
+            </div>
+          ))}
+
+          <div className={styles.line}>
+            <h3>
+              <FormattedMessage id="rest.header.header" />
+            </h3>
+            <Button type="button" onClick={addHeader}>
+              <FormattedMessage id="rest.header.button" />
+            </Button>
+          </div>
+          {headerInputs.map((el) => (
+            <div className={styles.line} key={el.id}>
+              <input
+                className={styles.input}
+                type="text"
+                placeholder={messages['rest.header.placeholder.key']}
+                defaultValue={el.key}
+                onBlur={(e) => changeHeader(e, el.id, 'key')}
+              />
+              <input
+                className={styles.input}
+                type="text"
+                placeholder={messages['rest.header.placeholder.value']}
+                defaultValue={el.value}
+                onBlur={(e) => changeHeader(e, el.id, 'value')}
+              />
+              <Button
+                style={{ background: '#cf352e' }}
+                type="button"
+                onClick={() => deleteHeader(el.id)}
+              >
+                <FormattedMessage id="rest.button.delete" />
+              </Button>
+            </div>
+          ))}
+
+          <div className={styles.line}>
+            <h3>
+              <FormattedMessage id="rest.body.header" />
+            </h3>
+            <input
+              className={styles.input}
+              type="text"
+              id="body"
+              placeholder={messages['rest.body.placeholder']}
+              defaultValue={body}
+              onBlur={(e) => setBody(e.target.value)}
+            />
+          </div>
+        </form>
+        <h2>
+          <FormattedMessage id="rest.response.header" />
+        </h2>
 
         <div className={styles.line}>
-          <h3>Body:</h3>
-          <input
-            className={styles.input}
-            type="text"
-            id="body"
-            placeholder="Body"
-            defaultValue={body}
-            onBlur={(e) => setBody(e.target.value)}
-          />
+          <h3>
+            <FormattedMessage id="rest.response.status.header" />
+          </h3>
+          <div>{response?.status || <FormattedMessage id="rest.response.status.text" />}</div>
         </div>
-      </form>
-      <h2>Response</h2>
 
-      <div className={styles.line}>
-        <h3>Status:</h3>
-        <div>{response?.status || 'There is no status'}</div>
-      </div>
-
-      <div className={styles.line}>
-        <h3>Body:</h3>
-        <div>
-          {isFetched && workUrl ? (
-            <ReactJson
-              src={response.body}
-              style={{ maxHeight: 300, overflowY: 'scroll' }}
-              theme="monokai"
-            />
-          ) : (
-            'There is no body'
-          )}
+        <div className={styles.line}>
+          <h3>
+            <FormattedMessage id="rest.response.body.header" />
+          </h3>
+          <div>
+            {isFetched && workUrl ? (
+              <JsonView
+                value={response.body}
+                style={{ ...monokaiTheme, maxHeight: 300, overflowY: 'scroll' }}
+              />
+            ) : (
+              <FormattedMessage id="rest.response.body.text" />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </IntlProvider>
   );
 };
