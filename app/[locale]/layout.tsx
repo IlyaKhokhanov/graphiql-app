@@ -12,18 +12,18 @@ type LayoutProps = {
   children: ReactNode;
 };
 
-const RootLayout = async ({ params, children }: LayoutProps) => {
+const RootLayout = ({ params, children }: LayoutProps) => {
   const localeCurrent = params.locale;
-  const { locale, messages } = await getIntlConfig(localeCurrent);
+  const { locale } = getIntlConfig(localeCurrent);
   if (localeCurrent !== locale) {
     redirect(`/${locale}`);
   }
 
   return (
     <>
-      <Header locale={locale} messages={messages} />
+      <Header locale={locale} />
       <main className="main">{children}</main>
-      <Footer locale={locale} messages={messages} />
+      <Footer locale={locale} />
     </>
   );
 };

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FormattedMessage, IntlProvider } from 'react-intl';
+import { getMessages } from '@/services/intl/wordbook';
 
 import { auth } from '@/services/firebase';
 import { IHomeProps } from './home.props';
@@ -41,7 +42,8 @@ const ViewActive = ({ name }: { name: string }) => (
   </h1>
 );
 
-export const Home = ({ locale, messages }: IHomeProps) => {
+export const Home = ({ locale }: IHomeProps) => {
+  const messages = getMessages(locale);
   const [user] = useAuthState(auth);
 
   const content = user ? (

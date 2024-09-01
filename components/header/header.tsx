@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IntlProvider } from 'react-intl';
 import { FormattedMessage } from 'react-intl';
-import { usePathname, useRouter } from 'next/navigation';
+import { getMessages } from '@/services/intl/wordbook';
 
 import { auth, logout } from '@/services/firebase';
 import { Button, LocaleSelector } from '@/components';
@@ -15,7 +16,8 @@ import logo from './rest.svg';
 
 import styles from './header.module.css';
 
-export const Header = ({ locale, messages }: IHeaderProps) => {
+export const Header = ({ locale }: IHeaderProps) => {
+  const messages = getMessages(locale);
   const [user] = useAuthState(auth);
 
   const pathname = usePathname();
@@ -29,7 +31,7 @@ export const Header = ({ locale, messages }: IHeaderProps) => {
     <IntlProvider locale={locale} messages={messages}>
       <header className={styles.header}>
         <Link className={styles.logo} href={`/${locale}`}>
-          <Image src={logo as string} alt="logo" width={80}></Image>
+          <Image src={logo as string} alt="logo" width={80} height={80}></Image>
         </Link>
         <div className={styles.menu}>
           {user ? (
@@ -67,6 +69,7 @@ export const Header = ({ locale, messages }: IHeaderProps) => {
             <>
               <Button
                 className={styles.button}
+                data-testid="header-login"
                 onClick={() => onHandleClick(`/${locale}/auth/signin`)}
               >
                 <FormattedMessage id="links.login" />
