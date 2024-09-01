@@ -4,12 +4,14 @@ import Link from 'next/link';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IntlProvider } from 'react-intl';
 import { FormattedMessage } from 'react-intl';
+import { getMessages } from '@/services/intl/wordbook';
 
 import { auth, logout } from '@/services/firebase';
 import { Button, LocaleSelector } from '@/components';
 import { IHeaderProps } from './header.props';
 
-export const Header = ({ locale, messages }: IHeaderProps) => {
+export const Header = ({ locale }: IHeaderProps) => {
+  const messages = getMessages(locale);
   const [user] = useAuthState(auth);
 
   return (

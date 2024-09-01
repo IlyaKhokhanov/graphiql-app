@@ -10,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { IntlProps } from '../types';
+import { getMessages } from '@/services/intl/wordbook';
 
 import { schemaResetIntl } from '@/validation';
 import { Button, ErrorMsg } from '@/components';
@@ -17,7 +18,8 @@ import { IFormDataReset } from './types';
 
 import styles from './form.module.css';
 
-export const ResetForm = ({ locale, messages }: IntlProps) => {
+export const ResetForm = ({ locale }: IntlProps) => {
+  const messages = getMessages(locale);
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -70,7 +72,7 @@ export const ResetForm = ({ locale, messages }: IntlProps) => {
 
           <ErrorMsg error={errors.email} />
 
-          <Button type="submit" disabled={!isValid}>
+          <Button type="submit" disabled={!isValid} data-testid="reset-submit">
             <FormattedMessage id="reset.send" />
           </Button>
 

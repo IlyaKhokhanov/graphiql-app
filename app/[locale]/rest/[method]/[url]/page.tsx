@@ -1,8 +1,8 @@
 import { getIntl } from '@/services/intl/intl';
 import { IRouteProps } from './page.props';
 
-const RestClient = async ({ params }: IRouteProps) => {
-  const intl = await getIntl(params.locale);
+const RestClient = ({ params }: IRouteProps) => {
+  const intl = getIntl(params.locale);
 
   return (
     <>

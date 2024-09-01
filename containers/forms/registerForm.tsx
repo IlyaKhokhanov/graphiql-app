@@ -10,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { IntlProps } from '../types';
+import { getMessages } from '@/services/intl/wordbook';
 
 import { Button, ErrorMsg } from '@/components';
 import { schemaIntl } from '@/validation';
@@ -17,7 +18,8 @@ import { IFormData } from './types';
 
 import styles from './form.module.css';
 
-export const RegisterForm = ({ locale, messages }: IntlProps) => {
+export const RegisterForm = ({ locale }: IntlProps) => {
+  const messages = getMessages(locale);
   const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
@@ -80,7 +82,7 @@ export const RegisterForm = ({ locale, messages }: IntlProps) => {
 
           <ErrorMsg error={errors.password} />
 
-          <Button type="submit" disabled={!isValid}>
+          <Button type="submit" disabled={!isValid} data-testid="register-submit">
             <FormattedMessage id="register.button" />
           </Button>
 

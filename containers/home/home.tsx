@@ -2,8 +2,10 @@
 
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { IntlProps } from '../types';
+import { getMessages } from '@/services/intl/wordbook';
 
-export const Home = ({ locale, messages }: IntlProps) => {
+export const Home = ({ locale }: IntlProps) => {
+  const messages = getMessages(locale);
   return (
     <IntlProvider locale={locale} messages={messages}>
       <h1>
