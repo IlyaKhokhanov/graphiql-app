@@ -72,8 +72,8 @@ describe('i18n', () => {
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
-    expect(await screen.findByText(/Login/i)).toBeInTheDocument();
-    expect(await screen.findByText(/Home/i)).toBeInTheDocument();
+    expect(await screen.findByTestId('header-login')).toBeInTheDocument();
+    expect(await screen.findByText(/Welcome to REST/i)).toBeInTheDocument();
   });
   it('Main page in locale ru', async () => {
     await mockRouter.push('/ru');
@@ -86,8 +86,8 @@ describe('i18n', () => {
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
-    expect(await screen.findByText(/Вход/i)).toBeInTheDocument();
-    expect(await screen.findByText(/Домашняя страница/i)).toBeInTheDocument();
+    expect(await screen.findByTestId('header-login')).toBeInTheDocument();
+    expect(await screen.findByText(/Добро пожаловать в REST/i)).toBeInTheDocument();
   });
   it('Main page correct wrong locale', async () => {
     await mockRouter.push('/de');
@@ -104,8 +104,8 @@ describe('i18n', () => {
 
     expect(mockRouter.asPath).toEqual('/en');
 
-    expect(await screen.findByText(/Login/i)).toBeInTheDocument();
-    expect(await screen.findByText(/Home/i)).toBeInTheDocument();
+    expect(await screen.findByTestId('header-login')).toBeInTheDocument();
+    expect(await screen.findByText(/Welcome to REST/i)).toBeInTheDocument();
 
     await userEvent.setup().click(screen.getByText('ru'));
     expect(mockRouter.asPath).toEqual('/ru');

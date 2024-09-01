@@ -59,7 +59,7 @@ vi.mock('next/navigation', async () => {
   };
 });
 
-describe('Forms Login', () => {
+describe('Form Login', () => {
   it('page in locale en', async () => {
     await mockRouter.push('/en');
     const LayoutProps = {

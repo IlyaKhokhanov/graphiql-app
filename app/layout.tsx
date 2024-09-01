@@ -15,9 +15,7 @@ const roboto = Roboto({
 const RootLayout = ({ children }: LayoutProps) => {
   return (
     <html lang="en" className={roboto.className}>
-      <body className="body">
-        <main className="main">{children}</main>
-      </body>
+      <body className="body">{children}</body>
     </html>
   );
 };

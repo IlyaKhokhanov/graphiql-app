@@ -67,14 +67,14 @@ describe('App', () => {
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { container: nextApp });
 
-    expect(screen.queryByText(/Login/i)).toBeInTheDocument();
+    expect(screen.queryByTestId('header-login')).toBeInTheDocument();
   });
   it('renders the page Main', () => {
     const nextApp = document.createElement('div');
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { container: nextApp });
 
-    expect(screen.queryByText(/Home/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Welcome to REST/i)).toBeInTheDocument();
   });
   it('renders the Footer', () => {
     const nextApp = document.createElement('div');

@@ -1,0 +1,41 @@
+.header {
+  position: relative;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  border-bottom: 1px solid #0cb4f1;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.header a {
+  text-decoration: none;
+  color: #000;
+}
+
+.header a:hover {
+  color: #0cb4f1;
+}
+
+a.active {
+  color: #0cb4f1;
+}
+
+.button a:hover {
+  color: #000;
+}
+
+.logo {
+  transition: all 500ms;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}

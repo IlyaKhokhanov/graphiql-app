@@ -1,4 +1,4 @@
-import Home from '@/containers/home/home';
+import { Home } from '@/containers';
 import { IntlParams } from '@/containers/types';
 
 const HomePage = ({ params: { locale } }: IntlParams) => {

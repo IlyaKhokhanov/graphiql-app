@@ -66,4 +66,14 @@ export const en = {
   'client.graphql.head': 'GraphQL Client',
   'client.graphql.url': 'Url',
   'client.graphql.send': 'Send Request',
+
+  'home.title': 'Welcome to REST/GraphiQL Client',
+  'home.text.top':
+    'Streamline your API testing and development with our versatile REST/GraphiQL Client. Whether you are working with RESTful APIs or exploring GraphQL endpoints, our tool provides an intuitive and powerful interface to make your work more efficient.',
+  'home.text.middle':
+    'Easily send requests, view responses, and manage your API calls all in one place. With built-in history tracking and query management, you can focus on what matters most—building and optimizing your APIs.',
+  'home.text.bottom':
+    'Get started by exploring our features and enjoy a smoother, more productive API development experience.',
+  'home.register': 'Register',
+  'home.login': 'Login',
 };
