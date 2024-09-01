@@ -77,6 +77,7 @@ export const ru = {
   'home.register': 'Зарегистрируйся',
   'home.login': 'Вход',
   'rest.header': 'REST Клиент',
+  'rest.request.header': 'Запрос',
   'rest.placeholder.url': 'URL конечной точки',
   'rest.button.send': 'Отправить',
   'rest.button.delete': 'Удалить',
