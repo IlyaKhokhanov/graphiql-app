@@ -3,9 +3,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { IntlProvider } from 'react-intl';
+import { getMessages } from '@/services/intl/wordbook';
 
 import git from '@/public/github-icon.svg';
-import logo from '@/public/rs_school_js.svg';
+import logo from '@/public/rsschool.svg';
 import { IFooterProps } from './footer.props';
 import styles from './footer.module.css';
 
@@ -18,7 +19,8 @@ const AuthorLink = ({ href, name }: { href: string; name: string }) => {
   );
 };
 
-export const Footer = ({ locale, messages }: IFooterProps) => {
+export const Footer = ({ locale }: IFooterProps) => {
+  const messages = getMessages(locale);
   return (
     <IntlProvider locale={locale} messages={messages}>
       <footer className={styles.footer}>
