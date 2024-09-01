@@ -67,6 +67,7 @@ export const RegisterForm = ({ locale }: IntlProps) => {
             style={{ marginBottom: errors.email ? 0 : 28 }}
             type="text"
             placeholder="Email"
+            data-testid="input-email"
             {...register('email')}
           />
 
@@ -77,12 +78,13 @@ export const RegisterForm = ({ locale }: IntlProps) => {
             style={{ marginBottom: errors.password ? 0 : 28 }}
             type="password"
             placeholder={messages['placeholder.password']}
+            data-testid="input-password"
             {...register('password')}
           />
 
           <ErrorMsg error={errors.password} />
 
-          <Button type="submit" disabled={!isValid} data-testid="register-submit">
+          <Button type="submit" disabled={!isValid} data-testid="button-submit">
             <FormattedMessage id="register.button" />
           </Button>
 

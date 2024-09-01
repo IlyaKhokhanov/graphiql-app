@@ -60,7 +60,7 @@ vi.mock('next/navigation', async () => {
 });
 
 describe('Forms Login', () => {
-  it('page in the locale en', async () => {
+  it('page in locale en', async () => {
     await mockRouter.push('/en');
     const LayoutProps = {
       params: { locale: 'en' },
@@ -77,7 +77,7 @@ describe('Forms Login', () => {
     const inputPassword = await screen.findByTestId('input-password');
     expect(inputPassword).toBeInTheDocument();
 
-    const submitButton = await screen.findByTestId('login-submit');
+    const submitButton = await screen.findByTestId('button-submit');
     expect(submitButton).toBeInTheDocument();
   });
   it('email check error en', async () => {
@@ -140,7 +140,7 @@ describe('Forms Login', () => {
     await userEvent.type(inputPassword, 'Symbols8!');
     expect(screen.queryByText(/password complexity/i)).not.toBeInTheDocument();
   });
-  it('email check error en', async () => {
+  it('button submit click', async () => {
     await mockRouter.push('/en');
     const LayoutProps = {
       params: { locale: 'en' },
@@ -151,7 +151,7 @@ describe('Forms Login', () => {
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
-    const submitButton = await screen.findByTestId('login-submit');
+    const submitButton = await screen.findByTestId('button-submit');
     expect(submitButton).toBeInTheDocument();
 
     const inputEmail = await screen.findByTestId('input-email');
@@ -165,6 +165,5 @@ describe('Forms Login', () => {
     expect(inputPassword).toHaveValue('Test1@test.com');
 
     await userEvent.setup().click(submitButton);
-    // screen.debug();
   });
 });

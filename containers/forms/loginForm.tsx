@@ -84,7 +84,7 @@ export const LoginForm = ({ locale }: IntlProps) => {
 
           <ErrorMsg error={errors.password} />
 
-          <Button type="submit" disabled={!isValid} data-testid="login-submit">
+          <Button type="submit" disabled={!isValid} data-testid="button-submit">
             <FormattedMessage id="login.button" />
           </Button>
 

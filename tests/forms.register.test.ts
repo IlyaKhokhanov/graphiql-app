@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, vi, expect } from 'vitest';
 import mockRouter from 'next-router-mock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
+import userEvent from '@testing-library/user-event';
 
 vi.mock('firebase/app', async () => {
   const actual = await vi.importActual('firebase/app');
@@ -58,8 +59,8 @@ vi.mock('next/navigation', async () => {
   };
 });
 
-describe('Forms', () => {
-  it('Register page in the locale en', async () => {
+describe('Form Register', () => {
+  it('page in locale en', async () => {
     await mockRouter.push('/en');
     const LayoutProps = {
       params: { locale: 'en' },
@@ -70,6 +71,99 @@ describe('Forms', () => {
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
-    expect(await screen.findByTestId('register-submit')).toBeInTheDocument();
+    const inputEmail = await screen.findByTestId('input-email');
+    expect(inputEmail).toBeInTheDocument();
+
+    const inputPassword = await screen.findByTestId('input-password');
+    expect(inputPassword).toBeInTheDocument();
+
+    const submitButton = await screen.findByTestId('button-submit');
+    expect(submitButton).toBeInTheDocument();
+  });
+  it('email check error en', async () => {
+    await mockRouter.push('/en');
+    const LayoutProps = {
+      params: { locale: 'en' },
+      children: SignUp({ params: { locale: 'en' } }),
+    };
+
+    const nextApp = document.createElement('div');
+    document.body.appendChild(nextApp);
+    render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
+
+    const inputEmail = await screen.findByTestId('input-email');
+    await userEvent.type(inputEmail, 'test@test');
+    expect(await screen.findByText(/Invalid email/i)).toBeInTheDocument();
+  });
+  it('email check no error en', async () => {
+    await mockRouter.push('/en');
+    const LayoutProps = {
+      params: { locale: 'en' },
+      children: SignUp({ params: { locale: 'en' } }),
+    };
+
+    const nextApp = document.createElement('div');
+    document.body.appendChild(nextApp);
+    render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
+
+    const inputEmail = await screen.findByTestId('input-email');
+    await userEvent.type(inputEmail, 'test@test.test');
+    expect(screen.queryByText(/Invalid email/i)).not.toBeInTheDocument();
+  });
+  it('password check error en', async () => {
+    await mockRouter.push('/en');
+    const LayoutProps = {
+      params: { locale: 'en' },
+      children: SignUp({ params: { locale: 'en' } }),
+    };
+
+    const nextApp = document.createElement('div');
+    document.body.appendChild(nextApp);
+    render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
+
+    const inputPassword = await screen.findByTestId('input-password');
+    await userEvent.type(inputPassword, 'Symb.7');
+    expect(await screen.findByText(/password complexity/i)).toBeInTheDocument();
+  });
+  it('password check no error en', async () => {
+    await mockRouter.push('/en');
+    const LayoutProps = {
+      params: { locale: 'en' },
+      children: SignUp({ params: { locale: 'en' } }),
+    };
+
+    const nextApp = document.createElement('div');
+    document.body.appendChild(nextApp);
+    render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
+
+    const inputPassword = await screen.findByTestId('input-password');
+    await userEvent.type(inputPassword, 'Symbols8!');
+    expect(screen.queryByText(/password complexity/i)).not.toBeInTheDocument();
+  });
+  it('button submit click', async () => {
+    await mockRouter.push('/en');
+    const LayoutProps = {
+      params: { locale: 'en' },
+      children: SignUp({ params: { locale: 'en' } }),
+    };
+
+    const nextApp = document.createElement('div');
+    document.body.appendChild(nextApp);
+    render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
+
+    const submitButton = await screen.findByTestId('button-submit');
+    expect(submitButton).toBeInTheDocument();
+
+    const inputEmail = await screen.findByTestId('input-email');
+    expect(inputEmail).toBeInTheDocument();
+    await userEvent.type(inputEmail, 'test@test.com');
+    expect(inputEmail).toHaveValue('test@test.com');
+
+    const inputPassword = await screen.findByTestId('input-password');
+    expect(inputPassword).toBeInTheDocument();
+    await userEvent.type(inputPassword, 'Test1@test.com');
+    expect(inputPassword).toHaveValue('Test1@test.com');
+
+    await userEvent.setup().click(submitButton);
   });
 });

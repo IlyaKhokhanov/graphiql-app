@@ -67,12 +67,13 @@ export const ResetForm = ({ locale }: IntlProps) => {
             style={{ marginBottom: errors.email ? 0 : 28 }}
             type="text"
             placeholder="Email"
+            data-testid="input-email"
             {...register('email')}
           />
 
           <ErrorMsg error={errors.email} />
 
-          <Button type="submit" disabled={!isValid} data-testid="reset-submit">
+          <Button type="submit" disabled={!isValid} data-testid="button-submit">
             <FormattedMessage id="reset.send" />
           </Button>
 
