@@ -6,16 +6,19 @@ import { useRouter } from 'next/navigation';
 import JsonView from '@uiw/react-json-view';
 import { monokaiTheme } from '@uiw/react-json-view/monokai';
 import { FormattedMessage, IntlProvider } from 'react-intl';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { inputInterface, response, restClientProps } from './restClient.props';
 import { Button } from '@/components';
-import { base64url_decode, base64url_encode, uid } from '@/utils';
+import { addToLS, base64url_decode, base64url_encode, uid } from '@/utils';
 import { fetcher, FetchError } from '@/services/rest';
 import { getMessages } from '@/services/intl/wordbook';
+import { auth } from '@/services/firebase';
 
 import styles from './restClient.module.css';
 
 export const RestClient = ({ method, url, options, locale }: restClientProps) => {
+  const [user] = useAuthState(auth);
   const messages = getMessages(locale);
 
   const [workUrl, setWorkUrl] = useState('');
@@ -24,7 +27,7 @@ export const RestClient = ({ method, url, options, locale }: restClientProps) =>
   const [headerInputs, setHeaderInputs] = useState<inputInterface[]>([]);
   const [response, setResponse] = useState<response>({
     status: null,
-    body: { message: messages['rest.response.body.text'] } as unknown as JSON,
+    body: {} as unknown as JSON,
   });
   const [body, setBody] = useState<string>('');
 
@@ -138,6 +141,13 @@ export const RestClient = ({ method, url, options, locale }: restClientProps) =>
       const { urlReq, optionsReq } = requestBuilder();
       router.push(
         `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`
+      );
+
+      addToLS(
+        user!.uid,
+        base64url_encode(urlReq),
+        base64url_encode(JSON.stringify(optionsReq)),
+        'rest'
       );
     }
   };
@@ -280,18 +290,24 @@ export const RestClient = ({ method, url, options, locale }: restClientProps) =>
               <h3 style={{ alignSelf: 'flex-start' }}>
                 <FormattedMessage id="rest.response.body.header" />
               </h3>
-              {isFetched && workUrl ? (
-                <JsonView
-                  value={response.body}
-                  style={{
-                    ...monokaiTheme,
-                    flexGrow: 1,
-                    overflowY: 'scroll',
-                  }}
-                />
-              ) : (
-                <FormattedMessage id="rest.response.body.text" />
-              )}
+              <div
+                style={{
+                  maxHeight: '60vh',
+                  flexGrow: 1,
+                  overflowY: 'scroll',
+                }}
+              >
+                {isFetched && workUrl ? (
+                  <JsonView
+                    value={response.body}
+                    style={{
+                      ...monokaiTheme,
+                    }}
+                  />
+                ) : (
+                  <FormattedMessage id="rest.response.body.text" />
+                )}
+              </div>
             </div>
           </div>
         </div>
