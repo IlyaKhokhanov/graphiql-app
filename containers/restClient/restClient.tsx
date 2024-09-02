@@ -27,7 +27,7 @@ export const RestClient = ({ method, url, options, locale }: restClientProps) =>
   const [headerInputs, setHeaderInputs] = useState<inputInterface[]>([]);
   const [response, setResponse] = useState<response>({
     status: null,
-    body: {} as unknown as JSON,
+    body: {} as JSON,
   });
   const [body, setBody] = useState<string>('');
 
@@ -99,7 +99,7 @@ export const RestClient = ({ method, url, options, locale }: restClientProps) =>
 
     if (options) {
       const optionsAtob = base64url_decode(options);
-      const objectOptions = JSON.parse(optionsAtob) as unknown as {
+      const objectOptions = JSON.parse(optionsAtob) as {
         headers?: Record<string, string>;
       };
 
