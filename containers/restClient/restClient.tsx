@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { FocusEvent, FormEvent, useEffect, useState } from 'react';
@@ -62,15 +61,18 @@ export const RestClient = ({ method, url, options, locale }: restClientProps) =>
     paramInputs.forEach((el) => {
       if (el.key && el.value) parmsArr.push(`${el.key}=${el.value}`);
     });
-    const myHeaders = new Headers();
+    const myHeaders: { [key: string]: string } = {};
     headerInputs.forEach((el) => {
-      if (el.key && el.value) myHeaders.append(el.key, el.value);
+      if (el.key && el.value) {
+        myHeaders[el.key] = el.value;
+      }
     });
+    if (body) myHeaders.body = body;
+
     const optionsRequest: RequestInit = {
       method: workMethod,
       headers: myHeaders,
     };
-    if (body) optionsRequest.body = body;
 
     return { urlReq: workUrl + `?${parmsArr.join('&')}`, optionsReq: optionsRequest };
   };
@@ -98,12 +100,12 @@ export const RestClient = ({ method, url, options, locale }: restClientProps) =>
         headers?: Record<string, string>;
       };
 
-      Object.entries(objectOptions).headers?.forEach((el: string[]) => {
+      Object.entries(objectOptions.headers as unknown as string[]).forEach((el: string[]) => {
         const [key, value] = el;
         if (key === 'body') {
           setBody(value);
         } else {
-          setHeaderInputs((prev) => [...prev, { id: uid(), key: key, value: value }]);
+          setHeaderInputs((prev) => [...prev, { id: uid(), key, value }]);
         }
       });
     }
