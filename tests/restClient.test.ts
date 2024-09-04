@@ -1,9 +1,10 @@
 import RootLayout from '@/app/[locale]/layout';
-import HomePage from '@/app/[locale]/page';
 import { render, screen } from '@testing-library/react';
 import { describe, it, vi, expect } from 'vitest';
 import mockRouter from 'next-router-mock';
+
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
+import RestClientPage from '@/app/[locale]/rest/[method]/page';
 
 const User = {
   email: 'dddd3@gmail.com',
@@ -63,18 +64,38 @@ vi.mock('next/navigation', async () => {
   };
 });
 
-describe('User', () => {
-  it('Main page with User login en', async () => {
+vi.mock('@/redux/hooks', async () => {
+  const actual = await vi.importActual('@/redux/hooks');
+  return {
+    ...actual,
+    useAppDispatch: vi.fn(() => vi.fn()),
+    useAppSelector: vi.fn(() => ({
+      workUrl: '',
+      workMethod: '',
+      body: '',
+      isFetched: false,
+      paramInputs: [],
+      headerInputs: [],
+      response: {
+        status: null,
+        body: {} as JSON,
+      },
+    })),
+  };
+});
+
+describe('Rest Client', () => {
+  it('Rest Client with User login en', async () => {
     await mockRouter.push('/en');
     const LayoutProps = {
       params: { locale: 'en' },
-      children: HomePage({ params: { locale: 'en' } }),
+      children: RestClientPage({ params: { locale: 'en', method: 'GET' } }),
     };
 
     const nextApp = document.createElement('div');
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
-    expect(await screen.findByText(/Log out/i)).toBeInTheDocument();
+    expect(screen.queryAllByText(/REST Client/i)).toHaveLength(2);
   });
 });
