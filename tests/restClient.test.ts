@@ -2,6 +2,7 @@ import RootLayout from '@/app/[locale]/layout';
 import { render, screen } from '@testing-library/react';
 import { describe, it, vi, expect } from 'vitest';
 import mockRouter from 'next-router-mock';
+
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import RestClientPage from '@/app/[locale]/rest/[method]/page';
 
@@ -60,6 +61,26 @@ vi.mock('next/navigation', async () => {
       get: vi.fn(),
     })),
     usePathname: vi.fn(),
+  };
+});
+
+vi.mock('@/redux/hooks', async () => {
+  const actual = await vi.importActual('@/redux/hooks');
+  return {
+    ...actual,
+    useAppDispatch: vi.fn(() => vi.fn()),
+    useAppSelector: vi.fn(() => ({
+      workUrl: '',
+      workMethod: '',
+      body: '',
+      isFetched: false,
+      paramInputs: [],
+      headerInputs: [],
+      response: {
+        status: null,
+        body: {} as JSON,
+      },
+    })),
   };
 });
 
