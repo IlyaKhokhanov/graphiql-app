@@ -2,6 +2,7 @@ import { Roboto } from 'next/font/google';
 import { ReactNode } from 'react';
 
 import '@/styles/globals.css';
+import { ProviderComponent } from '@/components';
 
 type LayoutProps = {
   children: ReactNode;
@@ -15,7 +16,9 @@ const roboto = Roboto({
 const RootLayout = ({ children }: LayoutProps) => {
   return (
     <html lang="en" className={roboto.className}>
-      <body className="body">{children}</body>
+      <body className="body">
+        <ProviderComponent>{children}</ProviderComponent>
+      </body>
     </html>
   );
 };

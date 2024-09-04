@@ -1,0 +1,26 @@
+.block {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.blockHeader {
+  align-self: center;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (width < 800px) {
+  .block {
+    width: 100%;
+  }
+}
