@@ -1,7 +1,7 @@
 import { RestClient } from '@/containers';
 
-const RestClientPage = ({ params }: { params: { method: string; locale: string } }) => {
-  return <RestClient method={params.method} locale={params.locale} />;
-};
+const RestClientPage = ({ params }: { params: { method: string; locale: string } }) => (
+  <RestClient {...params} />
+);
 
 export default RestClientPage;

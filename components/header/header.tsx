@@ -67,9 +67,6 @@ export const Header = ({ locale }: IHeaderProps) => {
             </>
           ) : (
             <>
-              <Link href={`/${locale}/rest/GET`}>
-                <FormattedMessage id="links.rest" />
-              </Link>
               <Button
                 className={styles.button}
                 data-testid="header-login"

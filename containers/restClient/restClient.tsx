@@ -8,7 +8,7 @@ import { monokaiTheme } from '@uiw/react-json-view/monokai';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { inputInterface, response, restClientProps } from './restClient.props';
+import { RestClientInput, RestClientResponse, RestClientProps } from './restClient.props';
 import { Button } from '@/components';
 import { addToLS, base64url_decode, base64url_encode, uid } from '@/utils';
 import { fetcher, FetchError } from '@/services/rest';
@@ -17,15 +17,15 @@ import { auth } from '@/services/firebase';
 
 import styles from './restClient.module.css';
 
-export const RestClient = ({ method, url, options, locale }: restClientProps) => {
-  const [user] = useAuthState(auth);
+export const RestClient = ({ method, url, options, locale }: RestClientProps) => {
+  const [user, loading] = useAuthState(auth);
   const messages = getMessages(locale);
 
   const [workUrl, setWorkUrl] = useState('');
   const [workMethod, setWorkMethod] = useState('');
-  const [paramInputs, setParamInputs] = useState<inputInterface[]>([]);
-  const [headerInputs, setHeaderInputs] = useState<inputInterface[]>([]);
-  const [response, setResponse] = useState<response>({
+  const [paramInputs, setParamInputs] = useState<RestClientInput[]>([]);
+  const [headerInputs, setHeaderInputs] = useState<RestClientInput[]>([]);
+  const [response, setResponse] = useState<RestClientResponse>({
     status: null,
     body: {} as JSON,
   });
@@ -64,7 +64,7 @@ export const RestClient = ({ method, url, options, locale }: restClientProps) =>
     paramInputs.forEach((el) => {
       if (el.key && el.value) parmsArr.push(`${el.key}=${el.value}`);
     });
-    const myHeaders: { [key: string]: string } = {};
+    const myHeaders: Record<string, string> = {};
     headerInputs.forEach((el) => {
       if (el.key && el.value) {
         myHeaders[el.key] = el.value;
@@ -72,13 +72,19 @@ export const RestClient = ({ method, url, options, locale }: restClientProps) =>
     });
     if (body) myHeaders.body = body;
 
-    const optionsRequest: RequestInit = {
+    const optionsReq: RequestInit = {
       method: workMethod,
       headers: myHeaders,
     };
+    const urlReq = workUrl + (parmsArr.length ? `?${parmsArr.join('&')}` : '');
 
-    return { urlReq: workUrl + `?${parmsArr.join('&')}`, optionsReq: optionsRequest };
+    return { urlReq, optionsReq };
   };
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) router.replace('/');
+  }, [user, loading, router]);
 
   useEffect(() => {
     setHeaderInputs([]);

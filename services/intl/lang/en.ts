@@ -77,7 +77,7 @@ export const en = {
   'home.register': 'Register',
   'home.login': 'Login',
   'rest.header': 'REST Client',
-  "rest.request.header": 'Request',
+  'rest.request.header': 'Request',
   'rest.placeholder.url': 'Endpoint URL',
   'rest.button.send': 'Send',
   'rest.button.delete': 'Delete',
