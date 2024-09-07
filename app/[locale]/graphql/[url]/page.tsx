@@ -1,7 +1,8 @@
 import { getIntl } from '@/services/intl/intl';
 import { IRouteProps } from './page.props';
+import { GraphiQLClient } from '@/containers';
 
-const GraphiQLClient = ({ params }: IRouteProps) => {
+const GraphiQLClientPage = ({ params }: IRouteProps) => {
   const intl = getIntl(params.locale);
 
   return (
@@ -10,12 +11,13 @@ const GraphiQLClient = ({ params }: IRouteProps) => {
       <p>
         {intl.formatMessage({ id: 'client.graphql.url' })}: {params.url}
       </p>
-      <form>
+      {/* <form>
         <textarea placeholder={intl.messages['placeholder.graphqlquery'] as string} />
         <button type="submit">{intl.formatMessage({ id: 'client.graphql.send' })}</button>
-      </form>
+      </form> */}
+      <GraphiQLClient />
     </>
   );
 };
 
-export default GraphiQLClient;
+export default GraphiQLClientPage;

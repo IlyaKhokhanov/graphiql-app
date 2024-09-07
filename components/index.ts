@@ -5,3 +5,8 @@ export { LocaleSelector } from './localeSelector/localeSelector';
 export { RestResponse } from './rest/restResponse/restResponse';
 export { ProviderComponent } from './providerComponent/provider';
 export { RestRequest } from './rest/restRequest/restRequest';
+export { QueryEditor } from './queryEditor/queryEditor';
+export { VariablesEditor } from './variablesEditor/variablesEditor';
+export { GraphQlResponse } from './graphQlResponse/graphQlResponse';
+export { GraphQlDocumentation } from './graphQlDocumentation/graphQlDocumentation';
+export { HeadersEditor } from './headersEditor/headersEditor';
