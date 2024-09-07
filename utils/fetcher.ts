@@ -1,16 +1,6 @@
-export interface FetchParams {
-  url: string;
-  options: RequestInit;
-};
+'use server';
 
-export interface FetchResponse {
-  isError: boolean;
-  isRESTError: boolean;
-  body?: JSON;
-  typeBody?: string;
-  status: number;
-  message: string;
-};
+import { FetchParams, FetchResponse } from './fetcher.props';
 
 export const fetcher = async ({ url, options }: FetchParams): Promise<FetchResponse> => {
   const result: FetchResponse = {
@@ -19,7 +9,7 @@ export const fetcher = async ({ url, options }: FetchParams): Promise<FetchRespo
     status: 0,
     message: '',
   };
-  
+
   const resp = await fetch(url, options).catch((error: Error) => {
     result.isError = true;
     result.isRESTError = false;
@@ -29,11 +19,11 @@ export const fetcher = async ({ url, options }: FetchParams): Promise<FetchRespo
   if (!resp) {
     result.isError = true;
     return result;
-  };
-  
+  }
+
   if (result.isError) {
     return result;
-  };
+  }
 
   result.status = resp.status;
   result.message = resp.statusText;

@@ -86,17 +86,21 @@ export const RestRequest = ({
                 type="text"
                 placeholder={messages['rest.param.placeholder.key']}
                 defaultValue={el.key}
-                onBlur={(e) => dispatch(changeParam({ e, id: el.id, field: 'key' }))}
+                onBlur={(e) =>
+                  dispatch(changeParam({ val: e.target.value, id: el.id, field: 'key' }))
+                }
               />
               <input
                 className={styles.input}
                 type="text"
                 placeholder={messages['rest.param.placeholder.value']}
                 defaultValue={el.value}
-                onBlur={(e) => dispatch(changeParam({ e, id: el.id, field: 'value' }))}
+                onBlur={(e) =>
+                  dispatch(changeParam({ val: e.target.value, id: el.id, field: 'value' }))
+                }
               />
               <Button
-                style={{ background: '#cf352e' }}
+                style={{ background: '#cf352e', padding: '8px 12px' }}
                 type="button"
                 onClick={() => dispatch(deleteParam(el.id))}
               >
@@ -123,14 +127,18 @@ export const RestRequest = ({
                 type="text"
                 placeholder={messages['rest.header.placeholder.key']}
                 defaultValue={el.key}
-                onBlur={(e) => dispatch(changeHeader({ e, id: el.id, field: 'key' }))}
+                onBlur={(e) =>
+                  dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'key' }))
+                }
               />
               <input
                 className={styles.input}
                 type="text"
                 placeholder={messages['rest.header.placeholder.value']}
                 defaultValue={el.value}
-                onBlur={(e) => dispatch(changeHeader({ e, id: el.id, field: 'value' }))}
+                onBlur={(e) =>
+                  dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'value' }))
+                }
               />
               <Button
                 style={{ background: '#cf352e' }}

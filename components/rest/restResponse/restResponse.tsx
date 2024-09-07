@@ -8,11 +8,12 @@ import { getMessages } from '@/services/intl/wordbook';
 import { useAppSelector } from '@/redux/hooks';
 
 import styles from './restResponse.module.css';
+import { Loader } from '@/components';
 
 export const RestResponse = ({ locale }: { locale: string }) => {
   const messages = getMessages(locale);
 
-  const { response, workUrl, isFetched } = useAppSelector((state) => state.restClient);
+  const { response, isFetched } = useAppSelector((state) => state.restClient);
 
   return (
     <IntlProvider locale={locale} messages={messages}>
@@ -39,9 +40,13 @@ export const RestResponse = ({ locale }: { locale: string }) => {
               overflowY: 'scroll',
             }}
           >
-            {isFetched && workUrl ? (
+            {response.body && response.status ? (
               <JsonView
                 value={response.body}
+                displayObjectSize={false}
+                displayDataTypes={false}
+                enableClipboard={false}
+                shortenTextAfterLength={0}
                 style={{
                   ...monokaiTheme,
                 }}
@@ -51,6 +56,7 @@ export const RestResponse = ({ locale }: { locale: string }) => {
             )}
           </div>
         </div>
+        {!isFetched || <Loader />}
       </div>
     </IntlProvider>
   );

@@ -80,7 +80,7 @@ export const en = {
   'rest.request.header': 'Request',
   'rest.placeholder.url': 'Endpoint URL',
   'rest.button.send': 'Send',
-  'rest.button.delete': 'Delete',
+  'rest.button.delete': 'X',
   'rest.param.header': 'Params:',
   'rest.param.button': 'Add Param',
   'rest.param.placeholder.key': 'Param key',

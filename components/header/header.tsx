@@ -31,7 +31,7 @@ export const Header = ({ locale }: IHeaderProps) => {
     <IntlProvider locale={locale} messages={messages}>
       <header className={styles.header}>
         <Link className={styles.logo} href={`/${locale}`}>
-          <Image src={logo as string} alt="logo" width={80} height={80}></Image>
+          <Image src={logo as string} alt="logo" width={80} height={80} priority />
         </Link>
         <div className={styles.menu}>
           {user ? (
