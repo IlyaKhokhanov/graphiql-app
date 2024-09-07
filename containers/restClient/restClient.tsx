@@ -110,14 +110,19 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
     }
   }, [isFetched]);
 
+  useEffect(() => {
+    if (workUrl) {
+      const { urlReq, optionsReq } = requestBuilder();
+      const newRoute = `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`;
+      window.history.replaceState({}, '', newRoute);
+    }
+  }, [workMethod, workUrl, paramInputs, headerInputs, body]);
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (workUrl) {
       const { urlReq, optionsReq } = requestBuilder();
-      // router.push(
-      //   `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`
-      // );
 
       addToLS(
         user!.uid,
