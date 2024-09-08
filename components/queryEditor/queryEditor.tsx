@@ -1,3 +1,5 @@
+'use client';
+
 import { QueryEditorProps } from './queryEditor.props';
 
 import styles from './queryEditor.module.css';

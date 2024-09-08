@@ -1,3 +1,5 @@
+'use client';
+
 import { VariablesEditorProps } from './variablesEditor.props';
 
 import styles from './variablesEditor.module.css';

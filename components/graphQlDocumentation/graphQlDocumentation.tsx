@@ -1,44 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-
 'use client';
 
-import { gql } from '@apollo/client';
-import { useState, useEffect } from 'react';
+import JsonView from '@uiw/react-json-view';
 
 import { GraphQlDocumentationProps } from './graphQlDocumentation.props';
 
 import styles from './graphQlDocumentation.module.css';
 
-export const GraphQlDocumentation = ({ client, sdlEndpoint }: GraphQlDocumentationProps) => {
-  const [schema, setSchema] = useState(null);
-
-  useEffect(() => {
-    if (client && sdlEndpoint) {
-      client
-        .query({
-          query: gql`
-            {
-              __schema {
-                types {
-                  name
-                }
-              }
-            }
-          `,
-        })
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        .then((result) => setSchema(result.data.__schema))
-        .catch((error) => console.error(error));
-    }
-  }, [client, sdlEndpoint]);
-
+export const GraphQlDocumentation = ({ schema, errorMessage }: GraphQlDocumentationProps) => {
   return (
     <div className={styles.documentation}>
-      <h3>GraphQl documentation</h3>
+      <h3>GraphQL Documentation</h3>
+      {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       {schema ? (
-        <pre>{JSON.stringify(schema, null, 2)}</pre>
+        <JsonView value={schema} displayDataTypes={false} />
       ) : (
-        <p className={styles.empty}>Empty</p>
+        <p className={styles.empty}>No documentation available.</p>
       )}
     </div>
   );

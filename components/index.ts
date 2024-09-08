@@ -10,3 +10,4 @@ export { VariablesEditor } from './variablesEditor/variablesEditor';
 export { GraphQlResponse } from './graphQlResponse/graphQlResponse';
 export { GraphQlDocumentation } from './graphQlDocumentation/graphQlDocumentation';
 export { HeadersEditor } from './headersEditor/headersEditor';
+export type { SchemaType } from './graphQlDocumentation/graphQlDocumentation.props';
