@@ -1,7 +1,8 @@
 'use client';
 
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import { DocumentNode, OperationVariables, gql } from '@apollo/client';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 
 import {
   QueryEditor,
@@ -18,21 +19,34 @@ import { graphQlSchema } from './graphQlSchema';
 import { getIntl } from '@/services/intl/intl';
 
 import { QraphiQLClientProps } from './graphiQLClient.props';
+import {
+  setBody,
+  setEndpoint,
+  setErrorMessage,
+  setQuery,
+  setSchema,
+  setSdlEndpoint,
+  setStatusCode,
+  setVariables,
+} from '@/redux/slices/graphQlSlice';
 
 import styles from './graphiQLClient.module.css';
 
 export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
   const intl = getIntl(params.locale);
 
-  const [endpoint, setEndpoint] = useState<string>('');
-  const [sdlEndpoint, setSdlEndpoint] = useState<string>('');
-  const [headers, setHeaders] = useState<Array<Record<string, string>>>([]);
-  const [query, setQuery] = useState<DocumentNode | string>('');
-  const [variables, setVariables] = useState<string>('');
-  const [body, setBody] = useState<Record<string, string>>({});
-  const [schema, setSchema] = useState<SchemaType | null>(null);
-  const [statusCode, setStatusCode] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const dispatch = useAppDispatch();
+  const {
+    body,
+    endpoint,
+    errorMessage,
+    headers,
+    query,
+    schema,
+    sdlEndpoint,
+    statusCode,
+    variables,
+  } = useAppSelector((state) => state.graphQlSlice);
 
   const handleFetch = useCallback(async () => {
     const apolloClient = createApolloClient(endpoint);
@@ -58,15 +72,15 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
         },
       });
 
-      setBody(result.data as Record<string, string>);
-      setStatusCode('' + 200);
+      dispatch(setBody(result.data as Record<string, string>));
+      dispatch(setStatusCode('' + 200));
     } catch (error) {
-      setStatusCode('' + 400);
+      dispatch(setStatusCode('' + 400));
       if (error instanceof Error) {
-        setBody({ message: error.message });
+        dispatch(setBody({ message: error.message }));
       }
     }
-  }, [endpoint, query, variables, headers]);
+  }, [endpoint, query, variables, headers, dispatch]);
 
   const fetchSchema = useCallback(async () => {
     if (sdlEndpoint) {
@@ -76,22 +90,22 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
           query: gql(graphQlSchema),
         });
 
-        setSchema(result.data.__schema);
+        dispatch(setSchema(result.data.__schema));
       } catch (err) {
         if (err instanceof Error) {
           setErrorMessage(err.message);
         }
       }
     }
-  }, [sdlEndpoint, endpoint]);
+  }, [sdlEndpoint, endpoint, dispatch]);
 
   useEffect(() => {
     void fetchSchema();
   }, [sdlEndpoint, fetchSchema]);
 
   const changeEndpoint = (e: ChangeEvent<HTMLInputElement>) => {
-    setEndpoint(e.target.value);
-    setSdlEndpoint(`${e.target.value}?sdl`);
+    dispatch(setEndpoint(e.target.value));
+    dispatch(setSdlEndpoint(`${e.target.value}?sdl`));
   };
 
   return (
@@ -114,7 +128,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
               onChange={(e) => setSdlEndpoint(e.target.value)}
             />
 
-            <HeadersEditor headers={headers} setHeaders={setHeaders} />
+            <HeadersEditor headers={headers} />
             <QueryEditor query={query} setQuery={setQuery} />
             <VariablesEditor variables={variables} setVariables={setVariables} />
             <Button onClick={() => void handleFetch()}>Send query</Button>
