@@ -111,7 +111,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
         </section>
 
         <section className={styles.response}>
-          <GraphQlResponse body={body} statusCode={statusCode ? statusCode : 'Empty'} />
+          <GraphQlResponse body={body} statusCode={statusCode ? statusCode : ''} />
         </section>
       </section>
     </>

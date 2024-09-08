@@ -10,6 +10,10 @@ export const HeadersEditor = ({ headers, setHeaders }: HeadersEditorProps) => {
     setHeaders([...headers, { key: '', value: '' }]);
   };
 
+  const deleteHeader = (index: number) => {
+    setHeaders([...headers.filter((_, idx) => idx !== index)]);
+  };
+
   const updateHeaders = ({ index, key, value }: { index: number; key: string; value: string }) => {
     const newHeaders = headers.map((header, i) =>
       i === index ? { ...header, key, value } : header
@@ -34,6 +38,9 @@ export const HeadersEditor = ({ headers, setHeaders }: HeadersEditorProps) => {
             value={header.value}
             onChange={(e) => updateHeaders({ index, key: e.target.value, value: header.value })}
           />
+          <Button style={{ background: '#cf352e' }} onClick={() => deleteHeader(index)}>
+            Delete
+          </Button>
         </div>
       ))}
     </div>

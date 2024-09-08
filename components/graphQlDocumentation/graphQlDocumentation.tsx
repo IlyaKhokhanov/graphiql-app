@@ -9,12 +9,19 @@ import styles from './graphQlDocumentation.module.css';
 export const GraphQlDocumentation = ({ schema, errorMessage }: GraphQlDocumentationProps) => {
   return (
     <>
-      <h3>GraphQL Documentation</h3>
+      {schema && <h3 className={styles.title}>Documentation</h3>}
       {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-      {schema ? (
-        <JsonView value={schema} displayDataTypes={false} />
-      ) : (
-        <p>No documentation available.</p>
+      {schema && (
+        <JsonView
+          value={schema}
+          displayDataTypes={false}
+          style={{
+            marginTop: 25,
+            background: '#FCDD76',
+            padding: 15,
+            borderRadius: 10,
+          }}
+        />
       )}
     </>
   );
