@@ -1,7 +1,7 @@
 'use client';
 
 import { HeadersEditorProps } from './headersEditor.props';
-import { Button } from '@/components';
+import { Button, Input } from '@/components';
 
 import styles from './headersEditor.module.css';
 
@@ -22,13 +22,13 @@ export const HeadersEditor = ({ headers, setHeaders }: HeadersEditorProps) => {
       <Button onClick={addHeader}>Add header</Button>
       {headers.map((header, index) => (
         <div key={index} className={styles.headers}>
-          <input
+          <Input
             type="text"
             placeholder="Key"
             value={header.key}
             onChange={(e) => updateHeaders({ index, key: e.target.value, value: header.value })}
           />
-          <input
+          <Input
             type="text"
             placeholder="Value"
             value={header.value}

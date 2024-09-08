@@ -9,7 +9,7 @@ import styles from './graphQlResponse.module.css';
 
 export const GraphQlResponse = ({ body, statusCode }: GraphQlResponseProps) => {
   return (
-    <div className={styles.graphQlResponse}>
+    <>
       <h3 className={styles.title}>GraphQl Response</h3>
       <div className={styles.status}>Status Code: {statusCode}</div>
       <JsonView
@@ -18,6 +18,6 @@ export const GraphQlResponse = ({ body, statusCode }: GraphQlResponseProps) => {
           ...monokaiTheme,
         }}
       />
-    </div>
+    </>
   );
 };

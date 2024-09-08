@@ -10,4 +10,7 @@ export { VariablesEditor } from './variablesEditor/variablesEditor';
 export { GraphQlResponse } from './graphQlResponse/graphQlResponse';
 export { GraphQlDocumentation } from './graphQlDocumentation/graphQlDocumentation';
 export { HeadersEditor } from './headersEditor/headersEditor';
+export { Input } from './input/input';
+export { Textarea } from './textarea/textarea';
+
 export type { SchemaType } from './graphQlDocumentation/graphQlDocumentation.props';

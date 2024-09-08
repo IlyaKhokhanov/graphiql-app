@@ -1,0 +1,36 @@
+.title {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.graphql {
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+}
+
+.tools {
+  width: 50%;
+}
+
+.response {
+  width: 50%;
+}
+
+.request {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* .input {
+  flex-grow: 1;
+  padding: 8px 8px;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  background: #e9e9e9;
+} */

@@ -11,11 +11,19 @@ import {
   Button,
   HeadersEditor,
   SchemaType,
+  Input,
 } from '@/components';
 import { createApolloClient } from '@/services';
 import { graphQlSchema } from './graphQlSchema';
+import { getIntl } from '@/services/intl/intl';
 
-export const GraphiQLClient = () => {
+import { QraphiQLClientProps } from './graphiQLClient.props';
+
+import styles from './graphiQLClient.module.css';
+
+export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
+  const intl = getIntl(params.locale);
+
   const [endpoint, setEndpoint] = useState<string>('');
   const [sdlEndpoint, setSdlEndpoint] = useState<string>('');
   const [headers, setHeaders] = useState<Array<Record<string, string>>>([]);
@@ -74,20 +82,38 @@ export const GraphiQLClient = () => {
 
   return (
     <>
-      <div>
-        <label>Endpoint URL: </label>
-        <input type="text" value={endpoint} onChange={changeEndpoint} />
-      </div>
-      <div>
-        <label>SDL URL: </label>
-        <input type="text" value={sdlEndpoint} onChange={(e) => setSdlEndpoint(e.target.value)} />
-      </div>
-      <HeadersEditor headers={headers} setHeaders={setHeaders} />
-      <QueryEditor query={query} setQuery={setQuery} />
-      <VariablesEditor variables={variables} setVariables={setVariables} />
-      <Button onClick={() => void handleFetch()}>Send query</Button>
-      <GraphQlResponse body={body} statusCode={statusCode ? statusCode : 'Empty'} />
-      <GraphQlDocumentation errorMessage={errorMessage} schema={schema} />
+      <h1 className={styles.title}>{intl.formatMessage({ id: 'client.graphql.head' })}</h1>
+      <section className={styles.graphql}>
+        <section className={styles.tools}>
+          <div className={styles.request}>
+            <Input
+              type="text"
+              value={endpoint}
+              onChange={changeEndpoint}
+              placeholder="Endpoint URL"
+            />
+
+            <Input
+              type="text"
+              value={sdlEndpoint}
+              placeholder="SDL URL"
+              onChange={(e) => setSdlEndpoint(e.target.value)}
+            />
+
+            <HeadersEditor headers={headers} setHeaders={setHeaders} />
+            <QueryEditor query={query} setQuery={setQuery} />
+            <VariablesEditor variables={variables} setVariables={setVariables} />
+            <Button onClick={() => void handleFetch()}>Send query</Button>
+            <section className={styles.documentation}>
+              <GraphQlDocumentation errorMessage={errorMessage} schema={schema} />
+            </section>
+          </div>
+        </section>
+
+        <section className={styles.response}>
+          <GraphQlResponse body={body} statusCode={statusCode ? statusCode : 'Empty'} />
+        </section>
+      </section>
     </>
   );
 };
