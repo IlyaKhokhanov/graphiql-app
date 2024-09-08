@@ -9,7 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { RestClientProps } from './restClient.props';
 import { RestRequest, RestResponse } from '@/components';
 import { addToLS, base64url_decode, base64url_encode, uid } from '@/utils';
-// import { fetcher, FetchError } from '@/services/rest';
+
 import { getMessages } from '@/services/intl/wordbook';
 import { auth } from '@/services/firebase';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
@@ -22,7 +22,6 @@ import {
   setWorkUrl,
   startPage,
 } from '@/redux/slices/restClientSlice';
-// import Image from 'next/image';
 
 import styles from './restClient.module.css';
 import { fetcher } from '@/utils/fetcher';

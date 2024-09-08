@@ -1,6 +1,6 @@
 'use server';
 
-import { FetchParams, FetchResponse } from './fetcher.props';
+import { FetchParams, FetchResponse } from './fetcher.types';
 
 export const fetcher = async ({ url, options }: FetchParams): Promise<FetchResponse> => {
   const result: FetchResponse = {
