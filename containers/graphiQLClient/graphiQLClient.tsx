@@ -36,12 +36,26 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
 
   const handleFetch = useCallback(async () => {
     const apolloClient = createApolloClient(endpoint);
+
+    const headersObject = headers.reduce(
+      (acc, header) => {
+        if (header.key && header.value) {
+          acc[header.key] = header.value;
+        }
+        return acc;
+      },
+      {} as Record<string, string>
+    );
+
     try {
       const result = await apolloClient.query({
         query: gql`
           ${query as DocumentNode}
         `,
         variables: JSON.parse(variables || '{}') as OperationVariables,
+        context: {
+          headers: headersObject,
+        },
       });
 
       setBody(result.data as Record<string, string>);
@@ -52,7 +66,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
         setBody({ message: error.message });
       }
     }
-  }, [endpoint, query, variables]);
+  }, [endpoint, query, variables, headers]);
 
   const fetchSchema = useCallback(async () => {
     if (sdlEndpoint) {
