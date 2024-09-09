@@ -4,7 +4,7 @@ import { describe, it, vi, expect } from 'vitest';
 import mockRouter from 'next-router-mock';
 
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import RestClientPage from '@/app/[locale]/rest/[method]/page';
+import RestClientPage from '@/app/[locale]/[method]/page';
 
 const User = {
   email: 'dddd3@gmail.com',

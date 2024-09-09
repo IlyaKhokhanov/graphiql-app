@@ -40,8 +40,8 @@ export const Header = ({ locale }: IHeaderProps) => {
                 <FormattedMessage id="links.home" />
               </Link>
               <Link
-                className={pathname === `/${locale}/rest/GET/json` ? styles.active : ''}
-                href={`/${locale}/rest/GET`}
+                className={pathname === `/${locale}/GET/json` ? styles.active : ''}
+                href={`/${locale}/GET`}
               >
                 <FormattedMessage id="links.rest" />
               </Link>

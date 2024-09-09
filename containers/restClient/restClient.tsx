@@ -112,7 +112,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   useEffect(() => {
     if (workUrl) {
       const { urlReq, optionsReq } = requestBuilder();
-      const newRoute = `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`;
+      const newRoute = `/${locale}/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`;
       window.history.replaceState({}, '', newRoute);
     }
   }, [workMethod, workUrl, paramInputs, headerInputs, body]);
@@ -125,8 +125,8 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
 
       addToLS(
         user!.uid,
-        base64url_encode(urlReq),
-        base64url_encode(JSON.stringify(optionsReq)),
+        `/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`,
+        'options',
         'rest'
       );
       dispatch(setIsFetched(true));
