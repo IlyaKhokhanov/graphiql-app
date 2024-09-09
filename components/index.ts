@@ -5,7 +5,7 @@ export { Loader } from './loader/loader';
 export { LocaleSelector } from './localeSelector/localeSelector';
 export { Response } from './response/response';
 export { ProviderComponent } from './providerComponent/provider';
-export { RestRequest } from './rest/restRequest/restRequest';
+export { RestRequest } from './restRequest/restRequest';
 export { QueryEditor } from './graphQl/queryEditor/queryEditor';
 export { VariablesEditor } from './graphQl/variablesEditor/variablesEditor';
 export { GraphQlResponse } from './graphQl/graphQlResponse/graphQlResponse';
