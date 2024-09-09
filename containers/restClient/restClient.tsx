@@ -7,8 +7,9 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { RestClientProps } from './restClient.props';
-import { RestRequest, RestResponse } from '@/components';
+import { RestRequest, Response } from '@/components';
 import { addToLS, base64url_decode, base64url_encode, uid } from '@/utils';
+import { fetcher } from '@/utils/fetcher';
 
 import { getMessages } from '@/services/intl/wordbook';
 import { auth } from '@/services/firebase';
@@ -24,13 +25,11 @@ import {
 } from '@/redux/slices/restClientSlice';
 
 import styles from './restClient.module.css';
-import { fetcher } from '@/utils/fetcher';
 
 export const RestClient = ({ method, url, options, locale }: RestClientProps) => {
   const dispatch = useAppDispatch();
-  const { workUrl, workMethod, body, paramInputs, headerInputs, isFetched } = useAppSelector(
-    (state) => state.restClient
-  );
+  const { workUrl, workMethod, body, paramInputs, headerInputs, isFetched, response } =
+    useAppSelector((state) => state.restClient);
 
   const [user, loading] = useAuthState(auth);
   const messages = getMessages(locale);
@@ -141,7 +140,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
         </h1>
         <div className={styles.wrapper}>
           <RestRequest locale={locale} onSubmit={onSubmit} />
-          <RestResponse locale={locale} />
+          <Response locale={locale} response={response} isFetched={isFetched} />
         </div>
       </div>
     </IntlProvider>

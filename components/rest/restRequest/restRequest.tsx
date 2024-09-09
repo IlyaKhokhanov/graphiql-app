@@ -38,9 +38,6 @@ export const RestRequest = ({
   return (
     <IntlProvider locale={locale} messages={messages}>
       <div className={styles.block}>
-        <h2 className={styles.blockHeader}>
-          <FormattedMessage id="rest.request.header" />
-        </h2>
         <form className={styles.form} onSubmit={(e) => onSubmit(e)}>
           <div className={styles.line}>
             <select

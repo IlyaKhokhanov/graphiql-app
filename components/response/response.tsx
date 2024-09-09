@@ -4,24 +4,18 @@ import JsonView from '@uiw/react-json-view';
 import { monokaiTheme } from '@uiw/react-json-view/monokai';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 
+import { ResponseProps } from './response.props';
 import { getMessages } from '@/services/intl/wordbook';
-import { useAppSelector } from '@/redux/hooks';
-
-import styles from './restResponse.module.css';
 import { Loader } from '@/components';
 
-export const RestResponse = ({ locale }: { locale: string }) => {
-  const messages = getMessages(locale);
+import styles from './response.module.css';
 
-  const { response, isFetched } = useAppSelector((state) => state.restClient);
+export const Response = ({ locale, response, isFetched }: ResponseProps) => {
+  const messages = getMessages(locale);
 
   return (
     <IntlProvider locale={locale} messages={messages}>
       <div className={styles.block}>
-        <h2 className={styles.blockHeader}>
-          <FormattedMessage id="rest.response.header" />
-        </h2>
-
         <div className={styles.line}>
           <h3>
             <FormattedMessage id="rest.response.status.header" />
