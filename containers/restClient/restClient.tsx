@@ -9,7 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { RestClientProps } from './restClient.props';
 import { RestRequest, RestResponse } from '@/components';
 import { addToLS, base64url_decode, base64url_encode, uid } from '@/utils';
-import { fetcher, FetchError } from '@/services/rest';
+
 import { getMessages } from '@/services/intl/wordbook';
 import { auth } from '@/services/firebase';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
@@ -24,6 +24,7 @@ import {
 } from '@/redux/slices/restClientSlice';
 
 import styles from './restClient.module.css';
+import { fetcher } from '@/utils/fetcher';
 
 export const RestClient = ({ method, url, options, locale }: RestClientProps) => {
   const dispatch = useAppDispatch();
@@ -94,35 +95,33 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
       });
     }
 
-    if (url) dispatch(setIsFetched(true));
+    // if (url) dispatch(setIsFetched(true));
   }, []);
 
   useEffect(() => {
-    if (isFetched && workUrl) {
+    if (isFetched) {
       const { urlReq, optionsReq } = requestBuilder();
 
-      fetcher(urlReq, optionsReq)
-        .then(({ body, status }) => {
-          if (typeof body !== 'string') {
-            dispatch(setResponse({ status, body: body as JSON }));
-          }
-        })
-        .catch((e) => {
-          if (e instanceof FetchError) {
-            dispatch(setResponse({ status: e.getStatus(), body: e.message as unknown as JSON }));
-          }
-        });
+      void fetcher({ url: urlReq, options: optionsReq }).then(({ body, status }) => {
+        dispatch(setResponse({ status, body: body as JSON }));
+        dispatch(setIsFetched(false));
+      });
     }
   }, [isFetched]);
+
+  useEffect(() => {
+    if (workUrl) {
+      const { urlReq, optionsReq } = requestBuilder();
+      const newRoute = `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`;
+      window.history.replaceState({}, '', newRoute);
+    }
+  }, [workMethod, workUrl, paramInputs, headerInputs, body]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (workUrl) {
       const { urlReq, optionsReq } = requestBuilder();
-      router.push(
-        `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`
-      );
 
       addToLS(
         user!.uid,
@@ -130,6 +129,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
         base64url_encode(JSON.stringify(optionsReq)),
         'rest'
       );
+      dispatch(setIsFetched(true));
     }
   };
 

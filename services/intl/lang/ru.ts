@@ -80,7 +80,7 @@ export const ru = {
   'rest.request.header': 'Запрос',
   'rest.placeholder.url': 'URL конечной точки',
   'rest.button.send': 'Отправить',
-  'rest.button.delete': 'Удалить',
+  'rest.button.delete': 'X',
   'rest.param.header': 'Параметры:',
   'rest.param.button': 'Добавить параметр',
   'rest.param.placeholder.key': 'Ключ параметра',

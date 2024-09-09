@@ -1,4 +1,4 @@
-import { FocusEvent } from 'react';
+// import { FocusEvent } from 'react';
 
 export interface RestClientSliceProps {
   workUrl: string;
@@ -37,7 +37,7 @@ export interface ActionInput {
 }
 
 export interface ActionInputHandler {
-  payload: { e: FocusEvent<HTMLInputElement, Element>; id: string; field: string };
+  payload: { val: string; id: string; field: string };
   type: string;
 }
 
