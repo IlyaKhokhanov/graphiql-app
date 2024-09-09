@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { InitialStateType } from './graphQlSlice.props';
-import { SchemaType } from '@/components';
+import { HeaderType, SchemaType } from '@/components';
 
 const initialState: InitialStateType = {
   endpoint: '',
@@ -51,23 +51,25 @@ const GraphClientSlice = createSlice({
       state.errorMessage = action.payload;
     },
 
-    addHeader: (state, action: PayloadAction<Record<string, string>>) => {
+    addHeader: (state, action: PayloadAction<HeaderType>) => {
       state.headers.push(action.payload);
     },
 
-    deleteHeader: (state, action: PayloadAction<number>) => {
-      state.headers = state.headers.filter((_, idx) => idx !== action.payload);
+    deleteHeader: (state, action: PayloadAction<string>) => {
+      state.headers = state.headers.filter((header) => header.id !== action.payload);
     },
 
-    updateHeaderKey: (state, action: PayloadAction<{ index: number; key: string }>) => {
-      const { index, key } = action.payload;
-      state.headers = state.headers.map((header, i) => (i === index ? { ...header, key } : header));
+    updateHeaderKey: (state, action: PayloadAction<{ id: string; key: string }>) => {
+      const { id, key } = action.payload;
+      state.headers = state.headers.map((header) =>
+        header.id === id ? { ...header, key } : header
+      );
     },
 
-    updateHeaderValue: (state, action: PayloadAction<{ index: number; value: string }>) => {
-      const { index, value } = action.payload;
-      state.headers = state.headers.map((header, i) =>
-        i === index ? { ...header, value } : header
+    updateHeaderValue: (state, action: PayloadAction<{ id: string; value: string }>) => {
+      const { id, value } = action.payload;
+      state.headers = state.headers.map((header) =>
+        header.id === id ? { ...header, value } : header
       );
     },
   },

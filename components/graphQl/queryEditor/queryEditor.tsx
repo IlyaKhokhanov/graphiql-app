@@ -1,19 +1,26 @@
 'use client';
 
-import { QueryEditorProps } from './queryEditor.props';
+import { ChangeEvent, useState } from 'react';
+
 import { Textarea } from '@/components';
 
 import styles from './queryEditor.module.css';
 
-export const QueryEditor = ({ query, setQuery }: QueryEditorProps) => {
+export const QueryEditor = () => {
+  const [query, setQuery] = useState<string>('');
+
+  const changeQuery = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setQuery(e.target.value);
+  };
+
   return (
     <div className={styles.query}>
       <Textarea
         className={styles.textarea}
         name="query"
         id="query"
-        value={query as string}
-        onChange={(e) => setQuery(e.target.value)}
+        value={query}
+        onChange={changeQuery}
         placeholder="GraphQl query"
       />
     </div>

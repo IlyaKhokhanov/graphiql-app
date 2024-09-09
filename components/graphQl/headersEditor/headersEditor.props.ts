@@ -1,3 +1,9 @@
+export type HeaderType = {
+  id: string;
+  key: string;
+  value: string;
+};
+
 export type HeadersEditorProps = {
-  headers: Array<Record<string, string>>;
+  initialHeaders?: HeaderType[];
 };

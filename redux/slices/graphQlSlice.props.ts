@@ -1,10 +1,10 @@
-import { SchemaType } from '@/components';
+import { HeaderType, SchemaType } from '@/components';
 import { DocumentNode } from '@apollo/client';
 
 export type InitialStateType = {
   endpoint: string;
   sdlEndpoint: string;
-  headers: Array<Record<string, string>>;
+  headers: HeaderType[];
   query: DocumentNode | string;
   variables: string;
   body: Record<string, string>;

@@ -1,39 +1,52 @@
 'use client';
 
+import { useState } from 'react';
+
+import { v4 as uuidv4 } from 'uuid';
 import { Button, Input } from '@/components';
-import {
-  addHeader,
-  deleteHeader,
-  updateHeaderKey,
-  updateHeaderValue,
-} from '@/redux/slices/graphQlSlice';
-import { useAppDispatch } from '@/redux/hooks';
+import { HeaderType } from './headersEditor.props';
 
 import styles from './headersEditor.module.css';
 
-export const HeadersEditor = ({ headers }: { headers: Array<Record<string, string>> }) => {
-  const dispatch = useAppDispatch();
+export const HeadersEditor = () => {
+  const [headers, setHeaders] = useState<HeaderType[]>([]);
+
+  const addHeader = () => {
+    setHeaders([...headers, { id: uuidv4(), key: '', value: '' }]);
+  };
+
+  const deleteHeader = (id: string) => {
+    setHeaders(headers.filter((header) => header.id !== id));
+  };
+
+  const updateHeaderKey = (id: string, key: string) => {
+    setHeaders(headers.map((header) => (header.id === id ? { ...header, key } : header)));
+  };
+
+  const updateHeaderValue = (id: string, value: string) => {
+    setHeaders(headers.map((header) => (header.id === id ? { ...header, value } : header)));
+  };
 
   return (
     <div className={styles.wrapper}>
-      <Button onClick={() => dispatch(addHeader({ key: '', value: '' }))}>Add header</Button>
-      {headers.map((header, index) => (
-        <div key={index} className={styles.headers}>
+      <Button onClick={addHeader}>Add header</Button>
+      {headers.map((header: HeaderType) => (
+        <div key={header.id} className={styles.headers}>
           <Input
             type="text"
             placeholder="Key"
-            value={header.key}
-            onChange={(e) => dispatch(updateHeaderKey({ index, key: e.target.value }))}
+            defaultValue={header.key}
+            onBlur={(e) => updateHeaderKey(header.id, e.target.value)}
           />
           <Input
             type="text"
             placeholder="Value"
-            value={header.value}
-            onChange={(e) => dispatch(updateHeaderValue({ index, value: e.target.value }))}
+            defaultValue={header.value}
+            onBlur={(e) => updateHeaderValue(header.id, e.target.value)}
           />
           <Button
             style={{ background: '#cf352e', padding: '8px 12px' }}
-            onClick={() => dispatch(deleteHeader(index))}
+            onClick={() => deleteHeader(header.id)}
           >
             X
           </Button>

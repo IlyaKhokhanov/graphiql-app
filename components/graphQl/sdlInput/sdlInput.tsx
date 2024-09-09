@@ -1,17 +1,15 @@
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { setSdlEndpoint } from '@/redux/slices/graphQlSlice';
-import { ChangeEvent } from 'react';
+'use client';
+
+import { ChangeEvent, useState } from 'react';
+
 import { Input } from '../../input/input';
 
 export const SdlInput = () => {
-  const dispatch = useAppDispatch();
-  const sdlEndpoint = useAppSelector((state) => state.graphQlSlice.sdlEndpoint);
+  const [value, setValue] = useState<string>('');
 
   const changeSdlEndpoint = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSdlEndpoint(e.target.value));
+    setValue(e.target.value);
   };
 
-  return (
-    <Input type="text" value={sdlEndpoint} placeholder="SDL URL" onChange={changeSdlEndpoint} />
-  );
+  return <Input type="text" value={value} placeholder="SDL URL" onChange={changeSdlEndpoint} />;
 };

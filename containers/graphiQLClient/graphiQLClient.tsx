@@ -1,6 +1,5 @@
 'use client';
 
-import { useCallback } from 'react';
 import { DocumentNode, OperationVariables, gql } from '@apollo/client';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 
@@ -18,16 +17,8 @@ import {
 import { createApolloClient } from '@/services';
 import { graphQlSchema } from './graphQlSchema';
 import { getIntl } from '@/services/intl/intl';
-
 import { QraphiQLClientProps } from './graphiQLClient.props';
-import {
-  setBody,
-  setErrorMessage,
-  setQuery,
-  setSchema,
-  setStatusCode,
-  setVariables,
-} from '@/redux/slices/graphQlSlice';
+import { setBody, setErrorMessage, setSchema, setStatusCode } from '@/redux/slices/graphQlSlice';
 
 import styles from './graphiQLClient.module.css';
 
@@ -47,7 +38,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
     variables,
   } = useAppSelector((state) => state.graphQlSlice);
 
-  const handleFetch = useCallback(async () => {
+  const handleFetch = async () => {
     const apolloClient = createApolloClient(endpoint);
 
     const headersObject = headers.reduce(
@@ -79,9 +70,9 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
         dispatch(setBody({ message: error.message }));
       }
     }
-  }, [endpoint, query, variables, headers, dispatch]);
+  };
 
-  const fetchSchema = useCallback(async () => {
+  const fetchSchema = async () => {
     if (sdlEndpoint) {
       const apolloClient = createApolloClient(endpoint);
       try {
@@ -96,7 +87,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
         }
       }
     }
-  }, [sdlEndpoint, endpoint, dispatch]);
+  };
 
   return (
     <>
@@ -106,9 +97,9 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
           <div className={styles.request}>
             <EndpointInput />
             <SdlInput />
-            <HeadersEditor headers={headers} />
-            <QueryEditor query={query} setQuery={setQuery} />
-            <VariablesEditor variables={variables} setVariables={setVariables} />
+            <HeadersEditor />
+            <QueryEditor />
+            <VariablesEditor />
             <Button onClick={() => void handleFetch()}>Send query</Button>
             <Button onClick={() => void fetchSchema()}>Get schema</Button>
             <section className={styles.documentation}>
