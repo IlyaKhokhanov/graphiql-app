@@ -18,6 +18,7 @@ import {
   addHeader,
   addParam,
   setBody,
+  setContentType,
   setIsFetched,
   setResponse,
   setWorkUrl,
@@ -28,7 +29,7 @@ import styles from './restClient.module.css';
 
 export const RestClient = ({ method, url, options, locale }: RestClientProps) => {
   const dispatch = useAppDispatch();
-  const { workUrl, workMethod, body, paramInputs, headerInputs, isFetched, response } =
+  const { workUrl, workMethod, body, paramInputs, headerInputs, isFetched, response, contentType } =
     useAppSelector((state) => state.restClient);
 
   const [user, loading] = useAuthState(auth);
@@ -47,7 +48,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
         myHeaders[el.key] = el.value;
       }
     });
-    if (body) myHeaders.body = body;
+    if (body) myHeaders.body = JSON.stringify(body);
 
     const optionsReq: RequestInit = {
       method: workMethod,
@@ -65,6 +66,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
 
   useEffect(() => {
     dispatch(startPage(method));
+    dispatch(setContentType('text/plain'));
     if (url) {
       const urlAtob = base64url_decode(url);
       const [urlString, params] = urlAtob.split('?');
@@ -79,7 +81,9 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
     }
 
     if (options) {
-      const optionsAtob = base64url_decode(options);
+      const [urlOptions, urlContentType] = options.split('?Content-Type=');
+      dispatch(setContentType(urlContentType || 'text/plain'));
+      const optionsAtob = base64url_decode(urlOptions);
       const objectOptions = JSON.parse(optionsAtob) as {
         headers?: Record<string, string>;
       };
@@ -111,7 +115,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   useEffect(() => {
     if (workUrl) {
       const { urlReq, optionsReq } = requestBuilder();
-      const newRoute = `/${locale}/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`;
+      const newRoute = `/${locale}/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}?Content-Type=${contentType}`;
       window.history.replaceState({}, '', newRoute);
     }
   }, [workMethod, workUrl, paramInputs, headerInputs, body]);
@@ -124,7 +128,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
 
       addToLS(
         user!.uid,
-        `/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`,
+        `/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}?Content-Type=${contentType}`,
         'options',
         'rest'
       );

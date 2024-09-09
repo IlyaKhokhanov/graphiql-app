@@ -1,13 +1,12 @@
-// import { FocusEvent } from 'react';
-
 export interface RestClientSliceProps {
   workUrl: string;
   workMethod: string;
   paramInputs: RestClientInput[];
   headerInputs: RestClientInput[];
-  body: string;
+  body: string | JSON;
   response: RestClientResponse;
   isFetched: boolean;
+  contentType: string;
 }
 
 export interface RestClientInput {
@@ -28,6 +27,11 @@ export interface ActionString {
 
 export interface ActionBoolean {
   payload: boolean;
+  type: string;
+}
+
+export interface ActionBody {
+  payload: string | JSON;
   type: string;
 }
 

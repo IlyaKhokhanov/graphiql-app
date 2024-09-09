@@ -7,6 +7,7 @@ import {
   ActionInput,
   ActionInputHandler,
   ActionResponse,
+  ActionBody,
 } from './restClientSlice.props';
 
 const initialState: RestClientSliceProps = {
@@ -20,6 +21,7 @@ const initialState: RestClientSliceProps = {
     status: null,
     body: {} as JSON,
   },
+  contentType: '',
 };
 
 const RestClientSlice = createSlice({
@@ -37,7 +39,7 @@ const RestClientSlice = createSlice({
     setWorkMethod(state, action: ActionString) {
       state.workMethod = action.payload;
     },
-    setBody(state, action: ActionString) {
+    setBody(state, action: ActionBody) {
       state.body = action.payload;
     },
     setIsFetched(state, action: ActionBoolean) {
@@ -79,6 +81,9 @@ const RestClientSlice = createSlice({
       const { status, body } = action.payload;
       state.response = { status, body };
     },
+    setContentType(state, action: ActionString) {
+      state.contentType = action.payload;
+    },
   },
 });
 
@@ -95,6 +100,7 @@ export const {
   deleteParam,
   changeParam,
   setResponse,
+  setContentType,
 } = RestClientSlice.actions;
 
 export default RestClientSlice.reducer;
