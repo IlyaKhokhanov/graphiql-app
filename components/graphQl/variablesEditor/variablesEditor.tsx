@@ -1,9 +1,9 @@
 'use client';
 
 import { VariablesEditorProps } from './variablesEditor.props';
+import { Textarea } from '@/components';
 
 import styles from './variablesEditor.module.css';
-import { Textarea } from '../textarea/textarea';
 
 export const VariablesEditor = ({ variables, setVariables }: VariablesEditorProps) => {
   return (

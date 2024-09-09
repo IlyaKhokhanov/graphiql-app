@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { DocumentNode, OperationVariables, gql } from '@apollo/client';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 
@@ -12,7 +12,8 @@ import {
   Button,
   HeadersEditor,
   SchemaType,
-  Input,
+  EndpointInput,
+  SdlInput,
 } from '@/components';
 import { createApolloClient } from '@/services';
 import { graphQlSchema } from './graphQlSchema';
@@ -21,11 +22,9 @@ import { getIntl } from '@/services/intl/intl';
 import { QraphiQLClientProps } from './graphiQLClient.props';
 import {
   setBody,
-  setEndpoint,
   setErrorMessage,
   setQuery,
   setSchema,
-  setSdlEndpoint,
   setStatusCode,
   setVariables,
 } from '@/redux/slices/graphQlSlice';
@@ -99,39 +98,19 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
     }
   }, [sdlEndpoint, endpoint, dispatch]);
 
-  useEffect(() => {
-    void fetchSchema();
-  }, [sdlEndpoint, fetchSchema]);
-
-  const changeEndpoint = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setEndpoint(e.target.value));
-    dispatch(setSdlEndpoint(`${e.target.value}?sdl`));
-  };
-
   return (
     <>
       <h1 className={styles.title}>{intl.formatMessage({ id: 'client.graphql.head' })}</h1>
       <section className={styles.graphql}>
         <section className={styles.tools}>
           <div className={styles.request}>
-            <Input
-              type="text"
-              value={endpoint}
-              onChange={changeEndpoint}
-              placeholder="Endpoint URL"
-            />
-
-            <Input
-              type="text"
-              value={sdlEndpoint}
-              placeholder="SDL URL"
-              onChange={(e) => setSdlEndpoint(e.target.value)}
-            />
-
+            <EndpointInput />
+            <SdlInput />
             <HeadersEditor headers={headers} />
             <QueryEditor query={query} setQuery={setQuery} />
             <VariablesEditor variables={variables} setVariables={setVariables} />
             <Button onClick={() => void handleFetch()}>Send query</Button>
+            <Button onClick={() => void fetchSchema()}>Get schema</Button>
             <section className={styles.documentation}>
               <GraphQlDocumentation errorMessage={errorMessage} schema={schema} />
             </section>
