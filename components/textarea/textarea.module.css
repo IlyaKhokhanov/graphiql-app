@@ -1,0 +1,15 @@
+.textarea {
+  flex-grow: 1;
+  padding: 8px 8px;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  background: #e9e9e9;
+  resize: none;
+  width: 100%;
+}
+
+.textarea::placeholder {
+  text-align: center;
+}
