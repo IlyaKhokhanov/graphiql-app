@@ -1,4 +1,4 @@
-import History from '@/containers/history/history';
+import { History } from '@/containers';
 import { IntlParams } from '@/containers/types';
 
 const HistoryPage = ({ params: { locale } }: IntlParams) => {

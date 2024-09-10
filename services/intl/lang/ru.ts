@@ -55,8 +55,10 @@ export const ru = {
   'reset.error': 'Этот адрес электронной почты не зарегистрирован',
 
   'history.header': 'История запросов',
-  'history.rest': 'REST запросы',
-  'history.graphql': 'GraphQL запросы',
+  'history.rest.header': 'История Rest Клиента',
+  'history.graph.header': 'История GraphQL Клиента',
+  'history.rest': 'Перейти на Rest Клиента',
+  'history.graphql': 'Перейти на GraphQL Клиента',
 
   'client.rest.head': 'REST клиент',
   'client.rest.method': 'Метод',

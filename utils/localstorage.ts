@@ -16,8 +16,11 @@ export const addToLS = (id: string, url: string, options: string, client: 'rest'
   const stringLS = localStorage.getItem(id);
   if (stringLS) {
     const valueLS = JSON.parse(stringLS) as userLS;
-    valueLS[client].push({ id: Date.now(), url, options });
-    localStorage.setItem(id, JSON.stringify(valueLS));
+    const isValueInLS = valueLS[client].find((el) => el.url === url);
+    if (!isValueInLS) {
+      valueLS[client].push({ id: Date.now(), url, options });
+      localStorage.setItem(id, JSON.stringify(valueLS));
+    }
   } else {
     const userObj: userLS = {
       rest: [],
