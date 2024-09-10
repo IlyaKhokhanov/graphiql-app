@@ -1,7 +1,6 @@
 'use client';
 
 import { DocumentNode, OperationVariables, gql } from '@apollo/client';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 
 import {
   QueryEditor,
@@ -19,6 +18,7 @@ import { graphQlSchema } from './graphQlSchema';
 import { getIntl } from '@/services/intl/intl';
 import { QraphiQLClientProps } from './graphiQLClient.props';
 import { setBody, setErrorMessage, setSchema, setStatusCode } from '@/redux/slices/graphQlSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 
 import styles from './graphiQLClient.module.css';
 
@@ -95,17 +95,21 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
       <section className={styles.graphql}>
         <section className={styles.tools}>
           <div className={styles.request}>
-            <EndpointInput />
-            <SdlInput />
-            <HeadersEditor />
-            <QueryEditor />
-            <VariablesEditor />
-            <Button onClick={() => void handleFetch()}>Send query</Button>
-            <Button onClick={() => void fetchSchema()}>Get schema</Button>
-            <section className={styles.documentation}>
-              <GraphQlDocumentation errorMessage={errorMessage} schema={schema} />
-            </section>
+            <EndpointInput endpoint={endpoint} sdlEndpoint={sdlEndpoint} />
+            <SdlInput sdlEndpoint={sdlEndpoint} />
+            <HeadersEditor headers={headers} />
+            <QueryEditor query={query} />
+            <VariablesEditor variables={variables} />
+            <Button type="button" onClick={() => void handleFetch()}>
+              Send query
+            </Button>
+            <Button type="button" onClick={() => void fetchSchema()}>
+              Get schema
+            </Button>
           </div>
+          <section className={styles.documentation}>
+            <GraphQlDocumentation errorMessage={errorMessage} schema={schema} />
+          </section>
         </section>
 
         <section className={styles.response}>

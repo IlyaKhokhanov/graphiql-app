@@ -1,16 +1,18 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 
 import { Textarea } from '@/components';
+import { useAppDispatch } from '@/redux/hooks';
+import { setVariables } from '@/redux/slices/graphQlSlice';
 
 import styles from './variablesEditor.module.css';
 
-export const VariablesEditor = () => {
-  const [variables, setVariables] = useState<string>('');
+export const VariablesEditor = ({ variables }: { variables: string }) => {
+  const dispatch = useAppDispatch();
 
   const changeVariables = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setVariables(e.target.value);
+    dispatch(setVariables(e.target.value));
   };
 
   return (

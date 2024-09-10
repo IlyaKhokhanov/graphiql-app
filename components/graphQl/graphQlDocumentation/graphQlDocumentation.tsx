@@ -15,6 +15,9 @@ export const GraphQlDocumentation = ({ schema, errorMessage }: GraphQlDocumentat
         <JsonView
           value={schema}
           displayDataTypes={false}
+          displayObjectSize={false}
+          enableClipboard={false}
+          shortenTextAfterLength={0}
           style={{
             marginTop: 25,
             background: '#FCDD76',

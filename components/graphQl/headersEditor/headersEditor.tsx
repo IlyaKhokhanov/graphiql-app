@@ -1,52 +1,60 @@
 'use client';
 
-import { useState } from 'react';
-
-import { v4 as uuidv4 } from 'uuid';
 import { Button, Input } from '@/components';
 import { HeaderType } from './headersEditor.props';
+import { useAppDispatch } from '@/redux/hooks';
+import {
+  addHeader,
+  deleteHeader,
+  updateHeaderKey,
+  updateHeaderValue,
+} from '@/redux/slices/graphQlSlice';
+import { uid } from '@/utils';
 
 import styles from './headersEditor.module.css';
 
-export const HeadersEditor = () => {
-  const [headers, setHeaders] = useState<HeaderType[]>([]);
+export const HeadersEditor = ({ headers }: { headers: HeaderType[] }) => {
+  const dispatch = useAppDispatch();
 
-  const addHeader = () => {
-    setHeaders([...headers, { id: uuidv4(), key: '', value: '' }]);
+  const handleAddHeader = () => {
+    dispatch(addHeader({ id: uid(), key: '', value: '' }));
   };
 
-  const deleteHeader = (id: string) => {
-    setHeaders(headers.filter((header) => header.id !== id));
+  const handleDeleteHeader = (id: string) => {
+    dispatch(deleteHeader(id));
   };
 
-  const updateHeaderKey = (id: string, key: string) => {
-    setHeaders(headers.map((header) => (header.id === id ? { ...header, key } : header)));
+  const handleUpdateHeaderKey = (id: string, key: string) => {
+    dispatch(updateHeaderKey({ id, key }));
   };
 
-  const updateHeaderValue = (id: string, value: string) => {
-    setHeaders(headers.map((header) => (header.id === id ? { ...header, value } : header)));
+  const handleUpdateHeaderValue = (id: string, value: string) => {
+    dispatch(updateHeaderValue({ id, value }));
   };
 
   return (
     <div className={styles.wrapper}>
-      <Button onClick={addHeader}>Add header</Button>
+      <Button type="button" onClick={handleAddHeader}>
+        Add header
+      </Button>
       {headers.map((header: HeaderType) => (
         <div key={header.id} className={styles.headers}>
           <Input
             type="text"
             placeholder="Key"
             defaultValue={header.key}
-            onBlur={(e) => updateHeaderKey(header.id, e.target.value)}
+            onBlur={(e) => handleUpdateHeaderKey(header.id, e.target.value)}
           />
           <Input
             type="text"
             placeholder="Value"
             defaultValue={header.value}
-            onBlur={(e) => updateHeaderValue(header.id, e.target.value)}
+            onBlur={(e) => handleUpdateHeaderValue(header.id, e.target.value)}
           />
           <Button
+            type="button"
             style={{ background: '#cf352e', padding: '8px 12px' }}
-            onClick={() => deleteHeader(header.id)}
+            onClick={() => handleDeleteHeader(header.id)}
           >
             X
           </Button>
