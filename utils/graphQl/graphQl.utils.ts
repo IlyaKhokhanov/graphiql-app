@@ -1,19 +1,22 @@
 import { DocumentNode, gql, OperationVariables } from '@apollo/client';
 
 import { SchemaType } from '@/components';
-import { createApolloClient } from '@/services';
+import { createApolloClient, createApolloClientSchema, CustomApolloError } from '@/services';
 import { graphQlSchema } from './graphQlSchema';
 import { ApolloFetchParam, ApolloGetSchemaParam } from './graphQl.types';
 
 export const handleFetch = async ({
-  endpoint,
+  endpoint: uri,
   headers,
   query,
   variables,
   callbackSetBody,
   callbackSetStatus,
 }: ApolloFetchParam) => {
-  const apolloClient = createApolloClient(endpoint);
+  const onErrorCallback = ({ message, status }: CustomApolloError) => {
+    callbackSetStatus(status);
+    callbackSetBody({ message });
+  };
 
   const headersObject = headers.reduce(
     (acc, header) => {
@@ -25,23 +28,21 @@ export const handleFetch = async ({
     {} as Record<string, string>
   );
 
+  const apolloClient = createApolloClient({ uri, onErrorCallback, headersObject });
+
   try {
     const result = await apolloClient.query({
       query: gql`
         ${query as DocumentNode}
       `,
       variables: JSON.parse(variables || '{}') as OperationVariables,
-      context: {
-        headers: headersObject,
-      },
     });
 
     callbackSetBody(result.data as Record<string, string>);
     callbackSetStatus(200);
   } catch (error) {
-    callbackSetStatus(400);
     if (error instanceof Error) {
-      callbackSetBody({ message: error.message });
+      console.error(error.message);
     }
   }
 };
@@ -53,7 +54,7 @@ export const fetchSchema = async ({
   callbackSetErrorMessage,
 }: ApolloGetSchemaParam) => {
   if (sdlEndpoint) {
-    const apolloClient = createApolloClient(endpoint);
+    const apolloClient = createApolloClientSchema(endpoint);
     try {
       const result = await apolloClient.query<{ __schema: SchemaType }>({
         query: gql(graphQlSchema),
