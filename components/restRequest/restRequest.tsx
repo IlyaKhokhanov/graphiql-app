@@ -32,8 +32,8 @@ export const RestRequest = ({
 }) => {
   const messages = getMessages(locale);
 
-  const [headersVisible, setHeadersVisible] = useState(true);
-  const [paramsVisible, setParamsVisible] = useState(true);
+  const [headersVisible, setHeadersVisible] = useState(false);
+  const [paramsVisible, setParamsVisible] = useState(false);
 
   const dispatch = useAppDispatch();
   const { workUrl, workMethod, body, paramInputs, headerInputs, contentType } = useAppSelector(
@@ -65,7 +65,7 @@ export const RestRequest = ({
               placeholder={messages['rest.placeholder.url']}
               onBlur={(e) => dispatch(setWorkUrl(e.target.value))}
             />
-            <Button type="submit">
+            <Button type="submit" disabled={!workUrl}>
               <FormattedMessage id="rest.button.send" />
             </Button>
           </div>
@@ -74,15 +74,13 @@ export const RestRequest = ({
             <h3>
               <FormattedMessage id="rest.param.header" />
             </h3>
-            {paramsVisible ? (
-              <div className={styles.arrow} onClick={() => setParamsVisible(false)}>
-                &#9660;
-              </div>
-            ) : (
-              <div className={styles.arrow} onClick={() => setParamsVisible(true)}>
-                &#9650;
-              </div>
-            )}
+            <div
+              className={styles.arrow}
+              style={{ transform: paramsVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
+              onClick={() => setParamsVisible((prev) => !prev)}
+            >
+              &#9660;
+            </div>
           </div>
           {paramsVisible && (
             <>
@@ -132,15 +130,14 @@ export const RestRequest = ({
             <h3>
               <FormattedMessage id="rest.header.header" />
             </h3>
-            {headersVisible ? (
-              <div className={styles.arrow} onClick={() => setHeadersVisible(false)}>
-                &#9660;
-              </div>
-            ) : (
-              <div className={styles.arrow} onClick={() => setHeadersVisible(true)}>
-                &#9650;
-              </div>
-            )}
+
+            <div
+              className={styles.arrow}
+              style={{ transform: headersVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
+              onClick={() => setHeadersVisible((prev) => !prev)}
+            >
+              &#9660;
+            </div>
           </div>
           {headersVisible && (
             <>

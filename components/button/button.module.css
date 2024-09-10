@@ -7,6 +7,7 @@
   background: #0cb4f1;
   color: #fff;
   font-size: 18px;
+  transition: all 0.2s;
 }
 
 .btn a,
@@ -26,6 +27,7 @@
 }
 
 .btn:disabled,
-.addition:hover {
+.addition:disabled {
   opacity: 0.3;
+  cursor: default;
 }

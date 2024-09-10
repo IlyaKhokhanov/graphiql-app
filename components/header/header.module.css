@@ -1,11 +1,17 @@
 .header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
   padding: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 25px;
   border-bottom: 1px solid #0cb4f1;
+  background: #fff;
+  transition: all 0.2s;
 }
 
 .menu {
@@ -18,6 +24,7 @@
 .header a {
   text-decoration: none;
   color: #000;
+  transition: all 0.2s;
 }
 
 .header a:hover {
@@ -33,7 +40,7 @@ a.active {
 }
 
 .logo {
-  transition: all 500ms;
+  transition: transform 0.5s;
 }
 
 .logo:hover {

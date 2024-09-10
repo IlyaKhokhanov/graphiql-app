@@ -38,9 +38,22 @@
 }
 
 .arrow {
+  position: relative;
   font-size: 30px;
   color: #0cb4f1;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.arrow:hover:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+  opacity: 0.3;
+  content: '';
 }
 
 @media (width < 800px) {
