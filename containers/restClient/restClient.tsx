@@ -38,23 +38,28 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   const router = useRouter();
 
   const requestBuilder = (): { urlReq: string; optionsReq: RequestInit } => {
-    const parmsArr: string[] = [];
-    paramInputs.forEach((el) => {
-      if (el.key && el.value) parmsArr.push(`${el.key}=${el.value}`);
-    });
-    const myHeaders: Record<string, string> = {};
+    const headersArr: string[] = [];
     headerInputs.forEach((el) => {
+      if (el.key && el.value) headersArr.push(`${el.key}=${el.value}`);
+    });
+
+    const myParams: Record<string, string> = {};
+    paramInputs.forEach((el) => {
       if (el.key && el.value) {
-        myHeaders[el.key] = el.value;
+        myParams[el.key] = el.value;
       }
     });
-    if (body) myHeaders.body = JSON.stringify(body);
+    myParams.contentType = contentType;
+    if (body) {
+      if (contentType === 'text/plain') myParams.body = body as string;
+      else myParams.body = JSON.stringify(body);
+    }
 
     const optionsReq: RequestInit = {
       method: workMethod,
-      headers: myHeaders,
+      headers: myParams,
     };
-    const urlReq = workUrl + (parmsArr.length ? `?${parmsArr.join('&')}` : '');
+    const urlReq = workUrl + (headersArr.length ? `?${headersArr.join('&')}` : '');
 
     return { urlReq, optionsReq };
   };
@@ -67,23 +72,22 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   useEffect(() => {
     dispatch(startPage(method));
     dispatch(setContentType('text/plain'));
+
     if (url) {
       const urlAtob = base64url_decode(url);
-      const [urlString, params] = urlAtob.split('?');
-      if (params) {
-        const optionArr = params.split('&');
+      const [urlString, headers] = urlAtob.split('?');
+      if (headers) {
+        const optionArr = headers.split('&');
         optionArr?.forEach((el) => {
           const [key, value] = el.split('=');
-          dispatch(addParam({ id: uid(), key: key, value: value }));
+          dispatch(addHeader({ id: uid(), key: key, value: value }));
         });
       }
       dispatch(setWorkUrl(urlString));
     }
 
     if (options) {
-      const [urlOptions, urlContentType] = options.split('?Content-Type=');
-      dispatch(setContentType(urlContentType || 'text/plain'));
-      const optionsAtob = base64url_decode(urlOptions);
+      const optionsAtob = base64url_decode(options);
       const objectOptions = JSON.parse(optionsAtob) as {
         headers?: Record<string, string>;
       };
@@ -92,8 +96,10 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
         const [key, value] = el;
         if (key === 'body') {
           dispatch(setBody(value));
+        } else if (key === 'contentType') {
+          dispatch(setContentType(value));
         } else {
-          dispatch(addHeader({ id: uid(), key, value }));
+          dispatch(addParam({ id: uid(), key, value }));
         }
       });
     }
@@ -113,12 +119,12 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   }, [isFetched]);
 
   useEffect(() => {
-    if (workUrl) {
-      const { urlReq, optionsReq } = requestBuilder();
-      const newRoute = `/${locale}/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}?Content-Type=${contentType}`;
-      window.history.replaceState({}, '', newRoute);
-    }
-  }, [workMethod, workUrl, paramInputs, headerInputs, body]);
+    // if (workUrl) {
+    const { urlReq, optionsReq } = requestBuilder();
+    const newRoute = `/${locale}/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}?Content-Type=${contentType}`;
+    window.history.replaceState({}, '', newRoute);
+    // }
+  }, [workMethod, workUrl, paramInputs, headerInputs, body, contentType]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

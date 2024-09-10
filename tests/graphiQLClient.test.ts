@@ -76,6 +76,7 @@ vi.mock('@/redux/hooks', async () => {
       isFetched: false,
       paramInputs: [],
       headerInputs: [],
+      headers: [{ id: 'string', key: 'string', value: 'string' }],
       response: {
         status: null,
         body: {} as JSON,

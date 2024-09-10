@@ -37,6 +37,18 @@
   background: #e9e9e9;
 }
 
+.body {
+  flex-grow: 1;
+  padding: 8px 8px;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  background: #e9e9e9;
+  min-width: 35vw;
+  min-height: 20vh;
+}
+
 .arrow {
   position: relative;
   font-size: 30px;
