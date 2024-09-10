@@ -1,0 +1,23 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.link {
+  width: 90%;
+  color: #0cb4f1;
+  transition: color 0.2s;
+  overflow-wrap: break-word;
+}
+
+.link:hover {
+  opacity: 0.7;
+}

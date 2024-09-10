@@ -4,6 +4,17 @@ export const uid = (): string => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
+export const getTime = (time: number): string => {
+  const date = new Date(time);
+  return (
+    String(date.getHours()).padStart(2, '0') +
+    ':' +
+    String(date.getMinutes()).padStart(2, '0') +
+    ':' +
+    String(date.getSeconds()).padStart(2, '0')
+  );
+};
+
 export const base64url_encode = (input: string) => {
   return btoa(input).replaceAll('+', '-').replaceAll('/', '.').replaceAll('=', '_');
 };
