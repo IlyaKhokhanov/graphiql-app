@@ -15,10 +15,12 @@ import { IHeaderProps } from './header.props';
 import logo from './rest.svg';
 
 import styles from './header.module.css';
+import { useEffect, useState } from 'react';
 
 export const Header = ({ locale }: IHeaderProps) => {
   const messages = getMessages(locale);
   const [user] = useAuthState(auth);
+  const [scroll, setScroll] = useState(0);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -27,11 +29,26 @@ export const Header = ({ locale }: IHeaderProps) => {
     router.push(path);
   };
 
+  const handleScroll = () => {
+    setScroll(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <IntlProvider locale={locale} messages={messages}>
-      <header className={styles.header}>
+      <header
+        className={styles.header}
+        style={{
+          borderColor: scroll > 0 ? '#0CB4A1' : '#0cb4f1',
+          background: scroll > 0 ? '#e9e9e9' : '#fdfdfd',
+        }}
+      >
         <Link className={styles.logo} href={`/${locale}`}>
-          <Image src={logo as string} alt="logo" width={80} height={80} priority />
+          <Image src={logo as string} alt="logo" width={55} height={55} priority />
         </Link>
         <div className={styles.menu}>
           {user ? (
@@ -40,8 +57,8 @@ export const Header = ({ locale }: IHeaderProps) => {
                 <FormattedMessage id="links.home" />
               </Link>
               <Link
-                className={pathname === `/${locale}/rest/GET/json` ? styles.active : ''}
-                href={`/${locale}/rest/GET`}
+                className={pathname === `/${locale}/GET/json` ? styles.active : ''}
+                href={`/${locale}/GET`}
               >
                 <FormattedMessage id="links.rest" />
               </Link>

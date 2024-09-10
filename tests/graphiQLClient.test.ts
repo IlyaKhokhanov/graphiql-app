@@ -4,7 +4,7 @@ import { describe, it, vi, expect } from 'vitest';
 import mockRouter from 'next-router-mock';
 
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import RestClientPage from '@/app/[locale]/[method]/page';
+import GraphiQLClientPage from '@/app/[locale]/graphql/[url]/page';
 
 const User = {
   email: 'dddd3@gmail.com',
@@ -70,33 +70,35 @@ vi.mock('@/redux/hooks', async () => {
     ...actual,
     useAppDispatch: vi.fn(() => vi.fn()),
     useAppSelector: vi.fn(() => ({
-      workUrl: 'url',
-      workMethod: 'GET',
+      workUrl: '',
+      workMethod: '',
       body: '',
       isFetched: false,
-      paramInputs: [{ id: '12', key: 'key', value: 'value' }],
-      headerInputs: [{ id: '12', key: 'key', value: 'value' }],
+      paramInputs: [],
+      headerInputs: [],
       response: {
         status: null,
         body: {} as JSON,
       },
-      contentType: 'text/plain',
     })),
   };
 });
 
-describe('Rest Client', () => {
-  it('Rest Client with User login en', async () => {
+describe('GraphQL Client', () => {
+  it('GraphQL Client with User login en', async () => {
     await mockRouter.push('/en');
     const LayoutProps = {
       params: { locale: 'en' },
-      children: RestClientPage({ params: { locale: 'en', method: 'GET' } }),
+      children: GraphiQLClientPage({
+        params: { locale: 'en', url: 'fv' },
+        searchParams: { key: 'value' },
+      }),
     };
 
     const nextApp = document.createElement('div');
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
-    expect(screen.queryAllByText(/REST Client/i)).toHaveLength(2);
+    expect(screen.queryAllByText(/GraphQL Client/i)).toHaveLength(1);
   });
 });

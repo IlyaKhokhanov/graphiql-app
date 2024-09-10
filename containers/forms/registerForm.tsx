@@ -49,6 +49,14 @@ export const RegisterForm = ({ locale }: IntlProps) => {
     if (user) router.replace('/');
   }, [user, loading, router]);
 
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(false);
+      }, 5000);
+    }
+  }, [error]);
+
   return (
     <IntlProvider locale={locale} messages={messages}>
       <div className={styles.container}>

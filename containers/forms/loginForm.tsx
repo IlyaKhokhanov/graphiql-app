@@ -49,6 +49,14 @@ export const LoginForm = ({ locale }: IntlProps) => {
     if (user) router.replace(`/${locale}`);
   }, [user, loading, router, locale]);
 
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(false);
+      }, 5000);
+    }
+  }, [error]);
+
   return (
     <IntlProvider locale={locale} messages={messages}>
       <div className={styles.container}>

@@ -7,8 +7,9 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { RestClientProps } from './restClient.props';
-import { RestRequest, RestResponse } from '@/components';
+import { RestRequest, Response } from '@/components';
 import { addToLS, base64url_decode, base64url_encode, uid } from '@/utils';
+import { fetcher } from '@/utils/fetcher';
 
 import { getMessages } from '@/services/intl/wordbook';
 import { auth } from '@/services/firebase';
@@ -17,6 +18,7 @@ import {
   addHeader,
   addParam,
   setBody,
+  setContentType,
   setIsFetched,
   setResponse,
   setWorkUrl,
@@ -24,13 +26,11 @@ import {
 } from '@/redux/slices/restClientSlice';
 
 import styles from './restClient.module.css';
-import { fetcher } from '@/utils/fetcher';
 
 export const RestClient = ({ method, url, options, locale }: RestClientProps) => {
   const dispatch = useAppDispatch();
-  const { workUrl, workMethod, body, paramInputs, headerInputs, isFetched } = useAppSelector(
-    (state) => state.restClient
-  );
+  const { workUrl, workMethod, body, paramInputs, headerInputs, isFetched, response, contentType } =
+    useAppSelector((state) => state.restClient);
 
   const [user, loading] = useAuthState(auth);
   const messages = getMessages(locale);
@@ -48,7 +48,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
         myHeaders[el.key] = el.value;
       }
     });
-    if (body) myHeaders.body = body;
+    if (body) myHeaders.body = JSON.stringify(body);
 
     const optionsReq: RequestInit = {
       method: workMethod,
@@ -66,6 +66,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
 
   useEffect(() => {
     dispatch(startPage(method));
+    dispatch(setContentType('text/plain'));
     if (url) {
       const urlAtob = base64url_decode(url);
       const [urlString, params] = urlAtob.split('?');
@@ -80,7 +81,9 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
     }
 
     if (options) {
-      const optionsAtob = base64url_decode(options);
+      const [urlOptions, urlContentType] = options.split('?Content-Type=');
+      dispatch(setContentType(urlContentType || 'text/plain'));
+      const optionsAtob = base64url_decode(urlOptions);
       const objectOptions = JSON.parse(optionsAtob) as {
         headers?: Record<string, string>;
       };
@@ -112,7 +115,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   useEffect(() => {
     if (workUrl) {
       const { urlReq, optionsReq } = requestBuilder();
-      const newRoute = `/${locale}/rest/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}`;
+      const newRoute = `/${locale}/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}?Content-Type=${contentType}`;
       window.history.replaceState({}, '', newRoute);
     }
   }, [workMethod, workUrl, paramInputs, headerInputs, body]);
@@ -125,8 +128,8 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
 
       addToLS(
         user!.uid,
-        base64url_encode(urlReq),
-        base64url_encode(JSON.stringify(optionsReq)),
+        `/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}?Content-Type=${contentType}`,
+        'options',
         'rest'
       );
       dispatch(setIsFetched(true));
@@ -141,7 +144,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
         </h1>
         <div className={styles.wrapper}>
           <RestRequest locale={locale} onSubmit={onSubmit} />
-          <RestResponse locale={locale} />
+          <Response locale={locale} response={response} isFetched={isFetched} />
         </div>
       </div>
     </IntlProvider>
