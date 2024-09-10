@@ -13,6 +13,10 @@ export const GraphQlResponse = ({ body, statusCode }: GraphQlResponseProps) => {
       <h3 className={styles.status}>Status: {statusCode}</h3>
       <JsonView
         value={body}
+        displayObjectSize={false}
+        displayDataTypes={false}
+        enableClipboard={false}
+        shortenTextAfterLength={0}
         style={{
           ...monokaiTheme,
           marginTop: 10,
