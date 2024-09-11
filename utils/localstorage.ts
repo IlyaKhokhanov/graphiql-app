@@ -4,6 +4,17 @@ export const uid = (): string => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
+export const getTime = (time: number): string => {
+  const date = new Date(time);
+  return (
+    String(date.getHours()).padStart(2, '0') +
+    ':' +
+    String(date.getMinutes()).padStart(2, '0') +
+    ':' +
+    String(date.getSeconds()).padStart(2, '0')
+  );
+};
+
 export const base64url_encode = (input: string) => {
   return btoa(input).replaceAll('+', '-').replaceAll('/', '.').replaceAll('=', '_');
 };
@@ -16,8 +27,11 @@ export const addToLS = (id: string, url: string, options: string, client: 'rest'
   const stringLS = localStorage.getItem(id);
   if (stringLS) {
     const valueLS = JSON.parse(stringLS) as userLS;
-    valueLS[client].push({ id: Date.now(), url, options });
-    localStorage.setItem(id, JSON.stringify(valueLS));
+    const isValueInLS = valueLS[client].find((el) => el.url === url);
+    if (!isValueInLS) {
+      valueLS[client].push({ id: Date.now(), url, options });
+      localStorage.setItem(id, JSON.stringify(valueLS));
+    }
   } else {
     const userObj: userLS = {
       rest: [],

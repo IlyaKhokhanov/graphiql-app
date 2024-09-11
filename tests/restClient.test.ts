@@ -85,6 +85,14 @@ vi.mock('@/redux/hooks', async () => {
   };
 });
 
+vi.mock('react', async () => {
+  const actual = await vi.importActual('react');
+  return {
+    ...actual,
+    useState: vi.fn(() => [true, vi.fn()]),
+  };
+});
+
 describe('Rest Client', () => {
   it('Rest Client with User login en', async () => {
     await mockRouter.push('/en');

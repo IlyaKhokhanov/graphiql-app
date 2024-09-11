@@ -55,8 +55,10 @@ export const en = {
   'reset.error': 'This email is not registered',
 
   'history.header': 'Query history',
-  'history.rest': 'GET someUrl',
-  'history.graphql': 'GraphQL someUrl',
+  'history.rest.header': 'Rest Client history',
+  'history.graph.header': 'GraphQL Client history',
+  'history.rest': 'Go to Rest Client',
+  'history.graphql': 'Go to GraphQL Client',
 
   'client.rest.head': 'REST Client',
   'client.rest.method': 'Method',
