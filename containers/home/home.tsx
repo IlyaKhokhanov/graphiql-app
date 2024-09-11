@@ -9,6 +9,7 @@ import { auth } from '@/services/firebase';
 import { IHomeProps } from './home.props';
 
 import styles from './home.module.css';
+import { Loader } from '@/components';
 
 const ViewInActive = ({ locale }: { locale: string }) => (
   <div className={styles.welcome}>
@@ -44,7 +45,9 @@ const ViewActive = ({ name }: { name: string }) => (
 
 export const Home = ({ locale }: IHomeProps) => {
   const messages = getMessages(locale);
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
+
+  if (loading) return <Loader />;
 
   const content = user ? (
     <ViewActive name={user.email as string} />

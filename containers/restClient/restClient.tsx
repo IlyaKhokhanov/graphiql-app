@@ -7,7 +7,7 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { RestClientProps } from './restClient.props';
-import { RestRequest, Response } from '@/components';
+import { RestRequest, Response, Loader } from '@/components';
 import { addToLS, base64url_decode, base64url_encode, uid } from '@/utils';
 import { fetcher } from '@/utils/fetcher';
 
@@ -141,6 +141,8 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
       dispatch(setIsFetched(true));
     }
   };
+
+  if (!user) return <Loader />;
 
   return (
     <IntlProvider locale={locale} messages={messages}>

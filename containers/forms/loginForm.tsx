@@ -14,7 +14,7 @@ import { getMessages } from '@/services/intl/wordbook';
 import { auth, logInWithEmailAndPassword } from '@/services/firebase';
 import { schemaIntl } from '@/validation';
 import { IFormData } from '../forms/types';
-import { Button, ErrorMsg } from '@/components';
+import { Button, ErrorMsg, Loader } from '@/components';
 
 import styles from '../forms/form.module.css';
 
@@ -56,6 +56,8 @@ export const LoginForm = ({ locale }: IntlProps) => {
       }, 5000);
     }
   }, [error]);
+
+  if (loading || user) return <Loader />;
 
   return (
     <IntlProvider locale={locale} messages={messages}>

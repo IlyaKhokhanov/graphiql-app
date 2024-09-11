@@ -13,7 +13,7 @@ import { IntlProps } from '../types';
 import { getMessages } from '@/services/intl/wordbook';
 
 import { schemaResetIntl } from '@/validation';
-import { Button, ErrorMsg } from '@/components';
+import { Button, ErrorMsg, Loader } from '@/components';
 import { IFormDataReset } from './types';
 
 import styles from './form.module.css';
@@ -56,6 +56,8 @@ export const ResetForm = ({ locale }: IntlProps) => {
       }, 5000);
     }
   }, [error]);
+
+  if (loading || user) return <Loader />;
 
   return (
     <IntlProvider locale={locale} messages={messages}>

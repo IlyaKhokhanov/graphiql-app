@@ -5,6 +5,19 @@ import { describe, it, vi, expect } from 'vitest';
 import mockRouter from 'next-router-mock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 
+const User = {
+  email: 'dddd3@gmail.com',
+  uid: 'ursX4ltZmdehTKrFl6zLmO8SwtU2',
+};
+
+vi.mock('firebase/app', async () => {
+  const actual = await vi.importActual('firebase/app');
+  return {
+    ...actual,
+    notFound: vi.fn(),
+  };
+});
+
 vi.mock('firebase/app', async () => {
   const actual = await vi.importActual('firebase/app');
   return {
@@ -39,7 +52,7 @@ vi.mock('react-firebase-hooks/auth', async () => {
   const actual = await vi.importActual('react-firebase-hooks/auth');
   return {
     ...actual,
-    useAuthState: vi.fn(() => [null, false, undefined]),
+    useAuthState: vi.fn(() => [User, true, undefined]),
   };
 });
 
@@ -55,6 +68,7 @@ vi.mock('next/navigation', async () => {
       get: vi.fn(),
     })),
     usePathname: vi.fn(),
+    notFound: vi.fn(),
   };
 });
 

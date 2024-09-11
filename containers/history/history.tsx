@@ -10,7 +10,7 @@ import { getMessages } from '@/services/intl/wordbook';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/services/firebase';
 import { IHistoryValue } from './history.props';
-import { HistoryList } from '@/components';
+import { HistoryList, Loader } from '@/components';
 
 import styles from './history.module.css';
 
@@ -34,6 +34,8 @@ export const History = ({ locale }: IntlProps) => {
       }
     }
   }, [user, loading, router]);
+
+  if (!user) return <Loader />;
 
   return (
     <IntlProvider locale={locale} messages={messages}>
