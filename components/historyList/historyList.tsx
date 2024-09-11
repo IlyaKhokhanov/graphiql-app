@@ -11,8 +11,9 @@ export const HistoryList = ({ list, locale }: HistoryListProps) => {
       {list.map((el) => (
         <li key={el.id} className={styles.item}>
           <span>{getTime(el.id)}</span>
+          <span>{el.title}</span>
           <Link className={styles.link} href={`/${locale}${el.url}`}>
-            {el.url}
+            {el.link}
           </Link>
         </li>
       ))}

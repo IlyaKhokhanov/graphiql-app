@@ -52,9 +52,14 @@ export const History = ({ locale }: IntlProps) => {
             {history.rest.length ? (
               <HistoryList list={history.rest} locale={locale} />
             ) : (
-              <Link className={styles.mainLink} href={`/${locale}/GET`}>
-                <FormattedMessage id="history.rest" />
-              </Link>
+              <>
+                <h3 className={styles.message}>
+                  <FormattedMessage id="history.empty" />
+                </h3>
+                <Link className={styles.mainLink} href={`/${locale}/GET`}>
+                  <FormattedMessage id="history.rest" />
+                </Link>
+              </>
             )}
           </div>
 
@@ -66,9 +71,14 @@ export const History = ({ locale }: IntlProps) => {
             {history.graph.length ? (
               <HistoryList list={history.graph} locale={locale} />
             ) : (
-              <Link className={styles.mainLink} href={`/${locale}/graphql/someUrl`}>
-                <FormattedMessage id="history.graphql" />
-              </Link>
+              <>
+                <h3 className={styles.message}>
+                  <FormattedMessage id="history.empty" />
+                </h3>
+                <Link className={styles.mainLink} href={`/${locale}/graphql/someUrl`}>
+                  <FormattedMessage id="history.graphql" />
+                </Link>
+              </>
             )}
           </div>
         </div>

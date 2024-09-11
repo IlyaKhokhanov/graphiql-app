@@ -55,8 +55,9 @@ export const en = {
   'reset.error': 'This email is not registered',
 
   'history.header': 'Query history',
-  'history.rest.header': 'Rest Client history',
-  'history.graph.header': 'GraphQL Client history',
+  'history.rest.header': 'Rest Client',
+  'history.graph.header': 'GraphQL Client',
+  'history.empty': "You haven't executed any requests yet",
   'history.rest': 'Go to Rest Client',
   'history.graphql': 'Go to GraphQL Client',
 

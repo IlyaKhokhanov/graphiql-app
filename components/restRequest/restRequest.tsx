@@ -47,6 +47,7 @@ export const RestRequest = ({
           <div className={styles.line}>
             <select
               className={styles.input}
+              style={{ maxWidth: 110 }}
               name="method"
               id="method"
               defaultValue={workMethod}
