@@ -37,29 +37,30 @@ export const HeadersEditor = ({ headers }: { headers: HeaderType[] }) => {
       <Button type="button" onClick={handleAddHeader}>
         Add header
       </Button>
-      {headers.map((header: HeaderType) => (
-        <div key={header.id} className={styles.headers}>
-          <Input
-            type="text"
-            placeholder="Key"
-            defaultValue={header.key}
-            onBlur={(e) => handleUpdateHeaderKey(header.id, e.target.value)}
-          />
-          <Input
-            type="text"
-            placeholder="Value"
-            defaultValue={header.value}
-            onBlur={(e) => handleUpdateHeaderValue(header.id, e.target.value)}
-          />
-          <Button
-            type="button"
-            style={{ background: '#cf352e', padding: '8px 12px' }}
-            onClick={() => handleDeleteHeader(header.id)}
-          >
-            X
-          </Button>
-        </div>
-      ))}
+      {Array.isArray(headers) &&
+        headers.map((header: HeaderType) => (
+          <div key={header.id} className={styles.headers}>
+            <Input
+              type="text"
+              placeholder="Key"
+              defaultValue={header.key}
+              onBlur={(e) => handleUpdateHeaderKey(header.id, e.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Value"
+              defaultValue={header.value}
+              onBlur={(e) => handleUpdateHeaderValue(header.id, e.target.value)}
+            />
+            <Button
+              type="button"
+              style={{ background: '#cf352e', padding: '8px 12px' }}
+              onClick={() => handleDeleteHeader(header.id)}
+            >
+              X
+            </Button>
+          </div>
+        ))}
     </div>
   );
 };
