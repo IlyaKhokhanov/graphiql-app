@@ -63,12 +63,67 @@ export const RestRequest = ({
               type="text"
               defaultValue={workUrl}
               placeholder={messages['rest.placeholder.url']}
-              onBlur={(e) => dispatch(setWorkUrl(e.target.value))}
+              onChange={(e) => dispatch(setWorkUrl(e.target.value))}
             />
-            <Button type="submit" disabled={!workUrl}>
+            <Button type="submit" disabled={!workUrl.trim()}>
               <FormattedMessage id="rest.button.send" />
             </Button>
           </div>
+
+          <div className={styles.line}>
+            <h3>
+              <FormattedMessage id="rest.header.header" />
+            </h3>
+
+            <div
+              className={styles.arrow}
+              style={{ transform: headersVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
+              onClick={() => setHeadersVisible((prev) => !prev)}
+            >
+              &#9660;
+            </div>
+          </div>
+          {headersVisible && (
+            <>
+              {headerInputs.map((el) => (
+                <div className={styles.line} key={el.id}>
+                  <input
+                    className={styles.input}
+                    type="text"
+                    placeholder={messages['rest.header.placeholder.key']}
+                    defaultValue={el.key}
+                    onBlur={(e) =>
+                      dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'key' }))
+                    }
+                  />
+                  <input
+                    className={styles.input}
+                    type="text"
+                    placeholder={messages['rest.header.placeholder.value']}
+                    defaultValue={el.value}
+                    onBlur={(e) =>
+                      dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'value' }))
+                    }
+                  />
+                  <Button
+                    style={{ background: '#cf352e', padding: '8px 12px' }}
+                    type="button"
+                    onClick={() => dispatch(deleteHeader(el.id))}
+                  >
+                    <FormattedMessage id="rest.button.delete" />
+                  </Button>
+                </div>
+              ))}
+
+              <Button
+                type="button"
+                onClick={() => dispatch(addHeader({ id: uid(), key: '', value: '' }))}
+                style={{ background: '#0CB4A1', alignSelf: 'flex-start' }}
+              >
+                +
+              </Button>
+            </>
+          )}
 
           <div className={styles.line}>
             <h3>
@@ -120,61 +175,6 @@ export const RestRequest = ({
                   background: '#0CB4A1',
                   alignSelf: 'flex-start',
                 }}
-              >
-                +
-              </Button>
-            </>
-          )}
-
-          <div className={styles.line}>
-            <h3>
-              <FormattedMessage id="rest.header.header" />
-            </h3>
-
-            <div
-              className={styles.arrow}
-              style={{ transform: headersVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
-              onClick={() => setHeadersVisible((prev) => !prev)}
-            >
-              &#9660;
-            </div>
-          </div>
-          {headersVisible && (
-            <>
-              {headerInputs.map((el) => (
-                <div className={styles.line} key={el.id}>
-                  <input
-                    className={styles.input}
-                    type="text"
-                    placeholder={messages['rest.header.placeholder.key']}
-                    defaultValue={el.key}
-                    onBlur={(e) =>
-                      dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'key' }))
-                    }
-                  />
-                  <input
-                    className={styles.input}
-                    type="text"
-                    placeholder={messages['rest.header.placeholder.value']}
-                    defaultValue={el.value}
-                    onBlur={(e) =>
-                      dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'value' }))
-                    }
-                  />
-                  <Button
-                    style={{ background: '#cf352e' }}
-                    type="button"
-                    onClick={() => dispatch(deleteHeader(el.id))}
-                  >
-                    <FormattedMessage id="rest.button.delete" />
-                  </Button>
-                </div>
-              ))}
-
-              <Button
-                type="button"
-                onClick={() => dispatch(addHeader({ id: uid(), key: '', value: '' }))}
-                style={{ background: '#0CB4A1', alignSelf: 'flex-start' }}
               >
                 +
               </Button>

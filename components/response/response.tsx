@@ -43,6 +43,7 @@ export const Response = ({ locale, response, isFetched }: ResponseProps) => {
                 shortenTextAfterLength={0}
                 style={{
                   ...monokaiTheme,
+                  fontSize: '1rem',
                 }}
               />
             ) : (

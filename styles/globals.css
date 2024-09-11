@@ -23,3 +23,8 @@ body {
   flex-grow: 1;
   position: relative;
 }
+
+.jer-editor-container textarea {
+  min-width: 35vw;
+  min-height: 20vh;
+}
