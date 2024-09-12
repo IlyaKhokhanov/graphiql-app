@@ -42,7 +42,7 @@ export const handleFetch = async ({
     callbackSetStatus(200);
   } catch (error) {
     if (error instanceof Error) {
-      console.error(error.message);
+      console.error('Error in GraphQL fetch:', error.message);
     }
   }
 };
