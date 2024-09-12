@@ -8,6 +8,7 @@ import { getMessages } from '@/services/intl/wordbook';
 import git from '@/public/github-icon.svg';
 import logo from '@/public/rsschool.svg';
 import { IFooterProps } from './footer.props';
+
 import styles from './footer.module.css';
 
 const AuthorLink = ({ href, name }: { href: string; name: string }) => {

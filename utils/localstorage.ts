@@ -1,4 +1,4 @@
-import { userLS } from './localstorage.types';
+import { IaddToLS, userLS } from './localstorage.types';
 
 export const uid = (): string => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -23,13 +23,13 @@ export const base64url_decode = (input: string) => {
   return atob(input.replaceAll('-', '+').replaceAll('.', '/').replaceAll('_', '='));
 };
 
-export const addToLS = (id: string, url: string, options: string, client: 'rest' | 'graph') => {
+export const addToLS = ({ id, url, link, title, client }: IaddToLS) => {
   const stringLS = localStorage.getItem(id);
   if (stringLS) {
     const valueLS = JSON.parse(stringLS) as userLS;
     const isValueInLS = valueLS[client].find((el) => el.url === url);
     if (!isValueInLS) {
-      valueLS[client].push({ id: Date.now(), url, options });
+      valueLS[client].push({ id: Date.now(), url, link, title });
       localStorage.setItem(id, JSON.stringify(valueLS));
     }
   } else {
@@ -37,7 +37,7 @@ export const addToLS = (id: string, url: string, options: string, client: 'rest'
       rest: [],
       graph: [],
     };
-    userObj[client].push({ id: Date.now(), url, options });
+    userObj[client].push({ id: Date.now(), url, link, title });
     localStorage.setItem(id, JSON.stringify(userObj));
   }
 };

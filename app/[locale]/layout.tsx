@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import { getIntlConfig } from '@/services/intl/intl';
 import { Header } from '@/components';
@@ -15,9 +15,7 @@ type LayoutProps = {
 const RootLayout = ({ params, children }: LayoutProps) => {
   const localeCurrent = params.locale;
   const { locale } = getIntlConfig(localeCurrent);
-  if (localeCurrent !== locale) {
-    redirect(`/${locale}`);
-  }
+  if (localeCurrent !== locale) notFound();
 
   return (
     <>
