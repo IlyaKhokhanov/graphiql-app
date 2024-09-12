@@ -14,9 +14,6 @@ export const en = {
   'authors.ilya': 'Ilya',
   'authors.sergey': 'Sergey',
 
-  'home.header': 'Home',
-  'home.hello': 'Hello',
-
   'placeholder.password': 'Password',
   'placeholder.requestbody': 'Request Body',
   'placeholder.graphqlquery': 'GraphQL Query',
@@ -56,8 +53,9 @@ export const en = {
   'reset.successful': 'Password reset link sent!',
 
   'history.header': 'Query history',
-  'history.rest.header': 'Rest Client history',
-  'history.graph.header': 'GraphQL Client history',
+  'history.rest.header': 'Rest Client',
+  'history.graph.header': 'GraphQL Client',
+  'history.empty': "You haven't executed any requests yet",
   'history.rest': 'Go to Rest Client',
   'history.graphql': 'Go to GraphQL Client',
 
@@ -70,6 +68,9 @@ export const en = {
   'client.graphql.url': 'Url',
   'client.graphql.send': 'Send Request',
 
+  'home.header': 'Home',
+  'home.hello': 'Hello',
+
   'home.title': 'Welcome to REST/GraphiQL Client',
   'home.text.top':
     'Streamline your API testing and development with our versatile REST/GraphiQL Client. Whether you are working with RESTful APIs or exploring GraphQL endpoints, our tool provides an intuitive and powerful interface to make your work more efficient.',
@@ -79,6 +80,22 @@ export const en = {
     'Get started by exploring our features and enjoy a smoother, more productive API development experience.',
   'home.register': 'Register',
   'home.login': 'Login',
+
+  'developers.ilya.name': 'Ilya Khokhanov',
+  'developers.ilya.github': 'ilyakhokhanov',
+  'developers.ilya.description':
+    'Frontend developer who has been studying Frontend for 2 years and looking for a job by the React developer. In this application implemented Registration, Authentication, Rest Client and History, took an active part in the development of the Home and UI.',
+
+  'developers.sergey.name': 'Sergey Pustovoy',
+  'developers.sergey.github': 'cerbeer',
+  'developers.sergey.description':
+    'Work 1C developer who is developing in different areas of development. In this application implemented internationalization (i18n), took an active part in the development of the Registration, Authentication, Rest Client, GraphQL Client and UI.',
+
+  'developers.andrey.name': 'Andrey Turchin',
+  'developers.andrey.github': 'anturchin',
+  'developers.andrey.description':
+    'Work Fullstack developer who is developing in different areas of development. In this application implemented GraphQL Client, Home page, Header and Footer, took an active part in the development of the Registration, Authentication, Rest Client and UI.',
+
   'rest.header': 'REST Client',
   'rest.request.header': 'Request',
   'rest.placeholder.url': 'Endpoint URL',

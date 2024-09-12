@@ -14,7 +14,7 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { IntlProps } from '../types';
 import { getMessages } from '@/services/intl/wordbook';
 
-import { Button, ErrorMsg } from '@/components';
+import { Button, ErrorMsg, Loader } from '@/components';
 import { schemaIntl } from '@/validation';
 import { IFormData } from './types';
 
@@ -49,6 +49,8 @@ export const RegisterForm = ({ locale }: IntlProps) => {
     if (loading) return;
     if (user) router.replace('/');
   }, [user, loading, router]);
+
+  if (loading || user) return <Loader />;
 
   return (
     <IntlProvider locale={locale} messages={messages}>

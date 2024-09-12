@@ -10,7 +10,7 @@ import { getMessages } from '@/services/intl/wordbook';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/services/firebase';
 import { IHistoryValue } from './history.props';
-import { HistoryList } from '@/components';
+import { HistoryList, Loader } from '@/components';
 
 import styles from './history.module.css';
 
@@ -35,6 +35,8 @@ export const History = ({ locale }: IntlProps) => {
     }
   }, [user, loading, router]);
 
+  if (!user) return <Loader />;
+
   return (
     <IntlProvider locale={locale} messages={messages}>
       <div className={styles.container}>
@@ -50,9 +52,14 @@ export const History = ({ locale }: IntlProps) => {
             {history.rest.length ? (
               <HistoryList list={history.rest} locale={locale} />
             ) : (
-              <Link className={styles.mainLink} href={`/${locale}/GET`}>
-                <FormattedMessage id="history.rest" />
-              </Link>
+              <>
+                <h3 className={styles.message}>
+                  <FormattedMessage id="history.empty" />
+                </h3>
+                <Link className={styles.mainLink} href={`/${locale}/GET`}>
+                  <FormattedMessage id="history.rest" />
+                </Link>
+              </>
             )}
           </div>
 
@@ -64,9 +71,14 @@ export const History = ({ locale }: IntlProps) => {
             {history.graph.length ? (
               <HistoryList list={history.graph} locale={locale} />
             ) : (
-              <Link className={styles.mainLink} href={`/${locale}/graphql/someUrl`}>
-                <FormattedMessage id="history.graphql" />
-              </Link>
+              <>
+                <h3 className={styles.message}>
+                  <FormattedMessage id="history.empty" />
+                </h3>
+                <Link className={styles.mainLink} href={`/${locale}/graphql/someUrl`}>
+                  <FormattedMessage id="history.graphql" />
+                </Link>
+              </>
             )}
           </div>
         </div>

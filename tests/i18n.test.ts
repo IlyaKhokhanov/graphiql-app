@@ -57,6 +57,7 @@ vi.mock('next/navigation', async () => {
     })),
     usePathname: vi.fn(),
     redirect: vi.fn(() => mockRouter.push('/en')),
+    notFound: vi.fn(),
   };
 });
 
@@ -102,7 +103,7 @@ describe('i18n', () => {
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
-    expect(mockRouter.asPath).toEqual('/en');
+    expect(mockRouter.asPath).toEqual('/de');
 
     expect(await screen.findByTestId('header-login')).toBeInTheDocument();
     expect(await screen.findByText(/Welcome to REST/i)).toBeInTheDocument();

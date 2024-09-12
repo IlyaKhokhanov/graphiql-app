@@ -1,5 +1,9 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 import {
   QueryEditor,
   VariablesEditor,
@@ -10,17 +14,21 @@ import {
   SchemaType,
   EndpointInput,
   SdlInput,
+  Loader,
 } from '@/components';
 import { getIntl } from '@/services/intl/intl';
 import { QraphiQLClientProps } from './graphiQLClient.props';
 import { setBody, setErrorMessage, setSchema, setStatusCode } from '@/redux/slices/graphQlSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchSchema, handleFetch } from '@/utils';
+import { auth } from '@/services/firebase';
 
 import styles from './graphiQLClient.module.css';
 
 export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
   const intl = getIntl(params.locale);
+  const router = useRouter();
+  const [user, loading] = useAuthState(auth);
 
   const dispatch = useAppDispatch();
   const {
@@ -50,6 +58,13 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
   const callbackSetErrorMessage = (message: string) => {
     setErrorMessage(message);
   };
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) router.replace('/');
+  }, [user, loading, router]);
+
+  if (!user) return <Loader />;
 
   return (
     <>

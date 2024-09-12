@@ -8,6 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { RestClientProps } from './restClient.props';
 import { RestRequest, Response, Loader } from '@/components';
+
 import { addToLS, base64url_decode, base64url_encode, showToast, uid } from '@/utils';
 import { fetcher } from '@/utils/fetcher';
 
@@ -103,7 +104,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   }, [user, loading, router]);
 
   useEffect(() => {
-    dispatch(startPage(method));
+    dispatch(startPage(method.toUpperCase()));
     dispatch(setContentType('text/plain'));
 
     if (url) {
@@ -172,12 +173,13 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
 
       const { urlReq, optionsReq } = requestBuilder();
 
-      addToLS(
-        user!.uid,
-        `/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}?Content-Type=${contentType}`,
-        'options',
-        'rest'
-      );
+      addToLS({
+        id: user!.uid,
+        url: `/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}?Content-Type=${contentType}`,
+        link: urlReq,
+        title: workMethod,
+        client: 'rest',
+      });
       dispatch(setIsFetched(true));
     }
   };

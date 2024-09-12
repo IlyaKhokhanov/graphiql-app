@@ -74,7 +74,8 @@ export const RestRequest = ({
         <form className={styles.form} onSubmit={(e) => onSubmit(e)}>
           <div className={styles.line}>
             <select
-              className={styles.select}
+              className={styles.input}
+              style={{ maxWidth: 110 }}
               name="method"
               id="method"
               defaultValue={workMethod}

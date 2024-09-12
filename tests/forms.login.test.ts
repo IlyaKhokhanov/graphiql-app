@@ -56,6 +56,7 @@ vi.mock('next/navigation', async () => {
       get: vi.fn(),
     })),
     usePathname: vi.fn(),
+    notFound: vi.fn(),
   };
 });
 

@@ -14,9 +14,6 @@ export const ru = {
   'authors.ilya': 'Илья',
   'authors.sergey': 'Сергей',
 
-  'home.header': 'Домашняя страница',
-  'home.hello': 'Привет',
-
   'placeholder.password': 'Пароль',
   'placeholder.requestbody': 'Тело запроса',
   'placeholder.graphqlquery': 'GraphQL запрос',
@@ -56,8 +53,9 @@ export const ru = {
   'reset.successful': 'Ссылка для сброса пароля отправлена!',
 
   'history.header': 'История запросов',
-  'history.rest.header': 'История Rest Клиента',
-  'history.graph.header': 'История GraphQL Клиента',
+  'history.rest.header': 'История Rest',
+  'history.graph.header': 'История GraphQL',
+  'history.empty': 'Вы еще не выполнили ни одного запроса',
   'history.rest': 'Перейти на Rest Клиента',
   'history.graphql': 'Перейти на GraphQL Клиента',
 
@@ -70,6 +68,9 @@ export const ru = {
   'client.graphql.url': 'Url',
   'client.graphql.send': 'Отправить запрос',
 
+  'home.header': 'Домашняя страница',
+  'home.hello': 'Привет',
+
   'home.title': 'Добро пожаловать в REST/Graphql Client',
   'home.text.top':
     'Оптимизируйте тестирование и разработку API с помощью нашего универсального клиента REST/GraphiQL. Независимо от того, работаете ли вы с RESTful API или изучаете конечную точку GraphQL, наш инструмент предоставляет интуитивно понятный и мощный интерфейс, который сделает вашу работу более эффективной.',
@@ -79,6 +80,22 @@ export const ru = {
     'Начните изучать наши возможности и наслаждайтесь более плавной и продуктивной разработкой API.',
   'home.register': 'Зарегистрируйся',
   'home.login': 'Вход',
+
+  'developers.ilya.name': 'Илья Хоханов',
+  'developers.ilya.github': 'ilyakhokhanov',
+  'developers.ilya.description':
+    'Фронтенд разработчик, который 2 года изучает Фронтенд и ищет работу React разработчиком. В этом приложении реализовал Регистрацию, Аутентификацию, Rest клиент и Историю, принимал активное участие в разработке Домашней страницы и пользовательского интерфейса.',
+
+  'developers.sergey.name': 'Сергей Пустовой',
+  'developers.sergey.github': 'cerbeer',
+  'developers.sergey.description':
+    'Работает 1С разработчиком, который развивается в разных областях разработки. В данном приложении реализовал Интернационализацию (i18n), принимал активное участие в разработке Регистрации, Аутентификации, Rest клиента, GraphQL клиента и пользовательского интерфейса.',
+
+  'developers.andrey.name': 'Андрей Турчин',
+  'developers.andrey.github': 'anturchin',
+  'developers.andrey.description':
+    'Работает Fullstack разработчиком, который развивается в разных областях разработки. В данном приложении реализовал GraphQL клиент, Домашнюю страницу, шапку и футер страниц, принимал активное участие в разработке Регистрации, Аутентификации, Rest клиента и пользовательского интерфейса.',
+
   'rest.header': 'REST Клиент',
   'rest.request.header': 'Запрос',
   'rest.placeholder.url': 'URL конечной точки',
