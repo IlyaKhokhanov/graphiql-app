@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { yupResolver } from '@hookform/resolvers/yup';
+
+import { showToast } from '@/utils';
 
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { IntlProps } from '../types';
@@ -20,7 +22,6 @@ import styles from '../forms/form.module.css';
 
 export const LoginForm = ({ locale }: IntlProps) => {
   const messages = getMessages(locale);
-  const [error, setError] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
 
@@ -40,7 +41,7 @@ export const LoginForm = ({ locale }: IntlProps) => {
       reset();
       router.replace(`/${locale}`);
     } catch (err) {
-      if (err instanceof Error) setError(true);
+      if (err instanceof Error) showToast({ message: messages['login.error'], thisError: true });
     }
   };
 
@@ -48,14 +49,6 @@ export const LoginForm = ({ locale }: IntlProps) => {
     if (loading) return;
     if (user) router.replace(`/${locale}`);
   }, [user, loading, router, locale]);
-
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        setError(false);
-      }, 5000);
-    }
-  }, [error]);
 
   return (
     <IntlProvider locale={locale} messages={messages}>
@@ -96,9 +89,7 @@ export const LoginForm = ({ locale }: IntlProps) => {
             <FormattedMessage id="login.button" />
           </Button>
 
-          {error && <ErrorMsg error={{ message: messages['login.error'] }} />}
-
-          <div style={{ marginTop: error ? 0 : 28 }}>
+          <div style={{ marginTop: 28 }}>
             <Link href={`/${locale}/auth/reset`}>
               <FormattedMessage id="login.forgot" />
             </Link>

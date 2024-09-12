@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { FormattedMessage, IntlProvider } from 'react-intl';
-import { JsonEditor } from 'json-edit-react';
 
 import { getMessages } from '@/services/intl/wordbook';
 import { Button } from '@/components';
@@ -32,13 +32,42 @@ export const RestRequest = ({
 }) => {
   const messages = getMessages(locale);
 
-  const [headersVisible, setHeadersVisible] = useState(false);
-  const [paramsVisible, setParamsVisible] = useState(false);
-
   const dispatch = useAppDispatch();
   const { workUrl, workMethod, body, paramInputs, headerInputs, contentType } = useAppSelector(
     (state) => state.restClient
   );
+
+  const [headersVisible, setHeadersVisible] = useState(false);
+  const [paramsVisible, setParamsVisible] = useState(false);
+  const [bodyError, setBodyError] = useState('');
+
+  const prettify = (bodyNew: string) => {
+    let bodyPretty = body;
+    setBodyError('');
+    if (bodyNew) bodyPretty = bodyNew;
+    if (contentType === 'application/json') {
+      try {
+        bodyPretty = JSON.stringify(JSON.parse(bodyPretty), null, 2);
+      } catch (e: unknown) {
+        const err = e as Error;
+        console.log(err.message);
+        setBodyError(err.message);
+      }
+    }
+    dispatch(setBody(bodyPretty));
+  };
+
+  useEffect(() => {
+    setHeadersVisible(headerInputs.length > 0);
+  }, [headerInputs]);
+
+  useEffect(() => {
+    setParamsVisible(paramInputs.length > 0);
+  }, [paramInputs]);
+
+  useEffect(() => {
+    prettify(body);
+  }, [contentType]);
 
   return (
     <IntlProvider locale={locale} messages={messages}>
@@ -46,7 +75,7 @@ export const RestRequest = ({
         <form className={styles.form} onSubmit={(e) => onSubmit(e)}>
           <div className={styles.line}>
             <select
-              className={styles.input}
+              className={styles.select}
               name="method"
               id="method"
               defaultValue={workMethod}
@@ -70,116 +99,121 @@ export const RestRequest = ({
             </Button>
           </div>
 
-          <div className={styles.line}>
-            <h3>
-              <FormattedMessage id="rest.header.header" />
-            </h3>
+          <div className={styles.blockFields}>
+            <div className={styles.line}>
+              <h3>
+                <FormattedMessage id="rest.header.header" />
+              </h3>
 
-            <div
-              className={styles.arrow}
-              style={{ transform: headersVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
-              onClick={() => setHeadersVisible((prev) => !prev)}
-            >
-              &#9660;
-            </div>
-          </div>
-          {headersVisible && (
-            <>
-              {headerInputs.map((el) => (
-                <div className={styles.line} key={el.id}>
-                  <input
-                    className={styles.input}
-                    type="text"
-                    placeholder={messages['rest.header.placeholder.key']}
-                    defaultValue={el.key}
-                    onBlur={(e) =>
-                      dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'key' }))
-                    }
-                  />
-                  <input
-                    className={styles.input}
-                    type="text"
-                    placeholder={messages['rest.header.placeholder.value']}
-                    defaultValue={el.value}
-                    onBlur={(e) =>
-                      dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'value' }))
-                    }
-                  />
-                  <Button
-                    style={{ background: '#cf352e', padding: '8px 12px' }}
-                    type="button"
-                    onClick={() => dispatch(deleteHeader(el.id))}
-                  >
-                    <FormattedMessage id="rest.button.delete" />
-                  </Button>
-                </div>
-              ))}
-
-              <Button
-                type="button"
-                onClick={() => dispatch(addHeader({ id: uid(), key: '', value: '' }))}
-                style={{ background: '#0CB4A1', alignSelf: 'flex-start' }}
+              <div
+                className={styles.arrow}
+                style={{ transform: headersVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
+                onClick={() => setHeadersVisible((prev) => !prev)}
               >
-                +
-              </Button>
-            </>
-          )}
-
-          <div className={styles.line}>
-            <h3>
-              <FormattedMessage id="rest.param.header" />
-            </h3>
-            <div
-              className={styles.arrow}
-              style={{ transform: paramsVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
-              onClick={() => setParamsVisible((prev) => !prev)}
-            >
-              &#9660;
+                &#9660;
+              </div>
             </div>
+            {headersVisible && (
+              <>
+                {headerInputs.map((el) => (
+                  <div className={styles.line} key={el.id}>
+                    <input
+                      className={styles.input}
+                      type="text"
+                      placeholder={messages['rest.header.placeholder.key']}
+                      defaultValue={el.key}
+                      onBlur={(e) =>
+                        dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'key' }))
+                      }
+                    />
+                    <input
+                      className={styles.input}
+                      type="text"
+                      placeholder={messages['rest.header.placeholder.value']}
+                      defaultValue={el.value}
+                      onBlur={(e) =>
+                        dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'value' }))
+                      }
+                    />
+                    <Button
+                      style={{ background: '#cf352e', padding: '8px 12px' }}
+                      type="button"
+                      onClick={() => dispatch(deleteHeader(el.id))}
+                    >
+                      <FormattedMessage id="rest.button.delete" />
+                    </Button>
+                  </div>
+                ))}
+
+                <Button
+                  type="button"
+                  onClick={() => dispatch(addHeader({ id: uid(), key: '', value: '' }))}
+                  style={{ background: '#0cb4f1', alignSelf: 'flex-start', marginTop: '8px' }}
+                >
+                  +
+                </Button>
+              </>
+            )}
           </div>
-          {paramsVisible && (
-            <>
-              {paramInputs.map((el) => (
-                <div className={styles.line} key={el.id}>
-                  <input
-                    className={styles.input}
-                    type="text"
-                    placeholder={messages['rest.param.placeholder.key']}
-                    defaultValue={el.key}
-                    onBlur={(e) =>
-                      dispatch(changeParam({ val: e.target.value, id: el.id, field: 'key' }))
-                    }
-                  />
-                  <input
-                    className={styles.input}
-                    type="text"
-                    placeholder={messages['rest.param.placeholder.value']}
-                    defaultValue={el.value}
-                    onBlur={(e) =>
-                      dispatch(changeParam({ val: e.target.value, id: el.id, field: 'value' }))
-                    }
-                  />
-                  <Button
-                    style={{ background: '#cf352e', padding: '8px 12px' }}
-                    type="button"
-                    onClick={() => dispatch(deleteParam(el.id))}
-                  >
-                    <FormattedMessage id="rest.button.delete" />
-                  </Button>
-                </div>
-              ))}
-              <Button
-                type="button"
-                onClick={() => dispatch(addParam({ id: uid(), key: '', value: '' }))}
-                style={{
-                  background: '#0CB4A1',
-                  alignSelf: 'flex-start',
-                }}
+
+          <div className={styles.blockFields}>
+            <div className={styles.line}>
+              <h3>
+                <FormattedMessage id="rest.param.header" />
+              </h3>
+              <div
+                className={styles.arrow}
+                style={{ transform: paramsVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
+                onClick={() => setParamsVisible((prev) => !prev)}
               >
-                +
-              </Button>
-            </>
-          )}
+                &#9660;
+              </div>
+            </div>
+            {paramsVisible && (
+              <>
+                <div className={styles.paramsDescription}>{messages['rest.param.description']}</div>
+                {paramInputs.map((el) => (
+                  <div className={styles.line} key={el.id}>
+                    <input
+                      className={styles.input}
+                      type="text"
+                      placeholder={messages['rest.param.placeholder.key']}
+                      defaultValue={el.key}
+                      onBlur={(e) =>
+                        dispatch(changeParam({ val: e.target.value, id: el.id, field: 'key' }))
+                      }
+                    />
+                    <input
+                      className={styles.input}
+                      type="text"
+                      placeholder={messages['rest.param.placeholder.value']}
+                      defaultValue={el.value}
+                      onBlur={(e) =>
+                        dispatch(changeParam({ val: e.target.value, id: el.id, field: 'value' }))
+                      }
+                    />
+                    <Button
+                      style={{ background: '#cf352e', padding: '8px 12px' }}
+                      type="button"
+                      onClick={() => dispatch(deleteParam(el.id))}
+                    >
+                      <FormattedMessage id="rest.button.delete" />
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  onClick={() => dispatch(addParam({ id: uid(), key: '', value: '' }))}
+                  style={{
+                    background: '#0cb4f1',
+                    alignSelf: 'flex-start',
+                  }}
+                >
+                  +
+                </Button>
+              </>
+            )}
+          </div>
 
           <div className={styles.line}>
             <h3>
@@ -192,7 +226,9 @@ export const RestRequest = ({
               id="text/plain"
               value="text/plain"
               checked={contentType === 'text/plain'}
-              onChange={(e) => dispatch(setContentType(e.target.value))}
+              onChange={(e) => {
+                dispatch(setContentType(e.target.value));
+              }}
             />
             <label htmlFor="text/plain">text/plain</label>
 
@@ -202,27 +238,26 @@ export const RestRequest = ({
               id="application/json"
               value="application/json"
               checked={contentType === 'application/json'}
-              onChange={(e) => dispatch(setContentType(e.target.value))}
+              onChange={(e) => {
+                dispatch(setContentType(e.target.value));
+              }}
             />
             <label htmlFor="application/json">application/json</label>
           </div>
+
           <div className={styles.line}>
-            {contentType === 'text/plain' ? (
-              <input
-                className={styles.input}
-                type="text"
-                id="body"
-                placeholder={messages['rest.body.placeholder']}
-                defaultValue={JSON.stringify(body) || ''}
-                onBlur={(e) => dispatch(setBody(e.target.value))}
-              />
-            ) : (
-              <JsonEditor
-                rootName=""
-                data={body || {}}
-                setData={(value) => dispatch(setBody(value as JSON))}
-              />
-            )}
+            <textarea
+              className={styles.body}
+              id="body"
+              placeholder={messages['rest.body.placeholder']}
+              value={body}
+              onChange={(e) => prettify(e.target.value)}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+            />
+            {!!bodyError && <div className={styles.bodyError}>{bodyError}</div>}
           </div>
         </form>
       </div>
