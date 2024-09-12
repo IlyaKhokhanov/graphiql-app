@@ -8,7 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { RestClientProps } from './restClient.props';
 import { RestRequest, Response, Loader } from '@/components';
-import { addToLS, base64url_decode, base64url_encode, uid } from '@/utils';
+import { addToLS, base64url_decode, base64url_encode, showToast, uid } from '@/utils';
 import { fetcher } from '@/utils/fetcher';
 
 import { getMessages } from '@/services/intl/wordbook';
@@ -26,6 +26,22 @@ import {
 } from '@/redux/slices/restClientSlice';
 
 import styles from './restClient.module.css';
+
+const stringifyBody = (body: string, contentType: string, forFetch = false, space = -1) => {
+  let spaceActual = space;
+  if (spaceActual < 0) spaceActual = forFetch ? 0 : 2;
+
+  let result = body;
+
+  try {
+    if (contentType !== 'text/plain') result = JSON.stringify(JSON.parse(body), null, spaceActual);
+  } catch {
+    null;
+  }
+  if (forFetch) result = encodeURIComponent(result);
+
+  return result;
+};
 
 export const RestClient = ({ method, url, options, locale }: RestClientProps) => {
   const dispatch = useAppDispatch();
@@ -45,8 +61,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
 
     const myParams: Record<string, string> = {};
     if (forFetch && body) {
-      myParams.body = `${body}`;
-
+      myParams.body = stringifyBody(body, contentType, false, 0);
       paramInputs.forEach((el) => {
         if (el.key && el.value) {
           const varName = `"{{${el.key}}}"`;
@@ -57,17 +72,19 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
           }
         }
       });
+      console.log(myParams.body);
+      myParams.body = stringifyBody(myParams.body, contentType, true);
     } else {
       paramInputs.forEach((el) => {
         if (el.key && el.value) {
           myParams[el.key] = el.value;
         }
       });
-      myParams.contentType = contentType;
       if (body) {
-        myParams.body = `${body}`;
+        myParams.body = stringifyBody(body, contentType, false);
       }
     }
+    myParams.contentType = contentType;
 
     const optionsReq: RequestInit = {
       method: workMethod,
@@ -120,7 +137,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
           dispatch(addParam({ id: uid(), key, value }));
         }
       });
-      if (contentType === 'application/json') body = `${JSON.parse(body)}`;
+      body = stringifyBody(body, contentType);
       dispatch(setBody(body));
       dispatch(setContentType(contentType));
     }
@@ -129,7 +146,6 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   useEffect(() => {
     if (isFetched) {
       const { urlReq, optionsReq } = requestBuilder(true);
-
       void fetcher({ url: urlReq, options: optionsReq }).then(({ body, status }) => {
         dispatch(setResponse({ status, body: body as JSON }));
         dispatch(setIsFetched(false));
@@ -147,6 +163,13 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
     e.preventDefault();
 
     if (workUrl) {
+      try {
+        if (contentType !== 'text/plain') JSON.stringify(JSON.parse(body));
+      } catch {
+        showToast({ message: messages['rest.error.json'], thisError: true });
+        return;
+      }
+
       const { urlReq, optionsReq } = requestBuilder();
 
       addToLS(

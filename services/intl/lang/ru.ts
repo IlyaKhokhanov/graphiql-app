@@ -100,4 +100,5 @@ export const ru = {
   'rest.response.status.text': 'Нет статуса',
   'rest.response.body.header': 'Тело:',
   'rest.response.body.text': 'Нет тела',
+  'rest.error.json': 'Недействительный JSON в body',
 };

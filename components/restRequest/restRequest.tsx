@@ -44,13 +44,12 @@ export const RestRequest = ({
   const prettify = (bodyNew: string) => {
     let bodyPretty = body;
     setBodyError('');
-    if (bodyNew) bodyPretty = bodyNew;
+    bodyPretty = bodyNew;
     if (contentType === 'application/json') {
       try {
         bodyPretty = JSON.stringify(JSON.parse(bodyPretty), null, 2);
       } catch (e: unknown) {
         const err = e as Error;
-        console.log(err.message);
         setBodyError(err.message);
       }
     }

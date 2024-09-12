@@ -101,4 +101,5 @@ export const en = {
   'rest.response.status.text': 'There is no status',
   'rest.response.body.header': 'Body:',
   'rest.response.body.text': 'There is no body',
+  'rest.error.json': 'body is not valid JSON',
 };
