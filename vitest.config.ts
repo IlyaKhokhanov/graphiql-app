@@ -19,6 +19,7 @@ export default defineConfig({
         '**/app/layout.tsx',
         '**/types/**',
         '**/*.props.ts',
+        '**/*.types.ts',
       ],
     },
   },

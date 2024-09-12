@@ -50,6 +50,7 @@ export const en = {
   'reset.register': 'Register',
   'reset.now': 'now',
   'reset.error': 'This email is not registered',
+  'reset.successful': 'Password reset link sent!',
 
   'history.header': 'Query history',
   'history.rest.header': 'Rest Client',
@@ -100,10 +101,12 @@ export const en = {
   'rest.placeholder.url': 'Endpoint URL',
   'rest.button.send': 'Send',
   'rest.button.delete': 'X',
-  'rest.param.header': 'Params:',
-  'rest.param.button': 'Add Param',
-  'rest.param.placeholder.key': 'Param key',
-  'rest.param.placeholder.value': 'Param value',
+  'rest.param.description':
+    'Variables can be used in the body using the "{{variable name}}" construct',
+  'rest.param.header': 'Variables:',
+  'rest.param.button': 'Add Variable',
+  'rest.param.placeholder.key': 'Variable name',
+  'rest.param.placeholder.value': 'Variable value',
   'rest.header.header': 'Headers:',
   'rest.header.button': 'Add Header',
   'rest.header.placeholder.key': 'Header key',
@@ -115,4 +118,5 @@ export const en = {
   'rest.response.status.text': 'There is no status',
   'rest.response.body.header': 'Body:',
   'rest.response.body.text': 'There is no body',
+  'rest.error.json': 'body is not valid JSON',
 };

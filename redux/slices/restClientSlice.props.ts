@@ -3,7 +3,7 @@ export interface RestClientSliceProps {
   workMethod: string;
   paramInputs: RestClientInput[];
   headerInputs: RestClientInput[];
-  body: string | JSON;
+  body: string;
   response: RestClientResponse;
   isFetched: boolean;
   contentType: string;
@@ -31,7 +31,7 @@ export interface ActionBoolean {
 }
 
 export interface ActionBody {
-  payload: string | JSON;
+  payload: string;
   type: string;
 }
 

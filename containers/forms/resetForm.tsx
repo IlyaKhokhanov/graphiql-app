@@ -12,6 +12,8 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { IntlProps } from '../types';
 import { getMessages } from '@/services/intl/wordbook';
 
+import { showToast } from '@/utils';
+
 import { schemaResetIntl } from '@/validation';
 import { Button, ErrorMsg, Loader } from '@/components';
 import { IFormDataReset } from './types';
@@ -38,9 +40,10 @@ export const ResetForm = ({ locale }: IntlProps) => {
     try {
       await sendPasswordReset(data.email);
       reset();
+      showToast({ message: messages['reset.successful'], thisError: false });
       router.replace('/');
     } catch (err) {
-      if (err instanceof Error) setError(true);
+      if (err instanceof Error) showToast({ message: messages['reset.error'], thisError: true });
     }
   };
 
@@ -87,9 +90,7 @@ export const ResetForm = ({ locale }: IntlProps) => {
             <FormattedMessage id="reset.send" />
           </Button>
 
-          {error && <ErrorMsg error={{ message: messages['reset.error'] }} />}
-
-          <div style={{ marginTop: error ? 0 : 28 }}>
+          <div style={{ marginTop: 28 }}>
             <FormattedMessage id="reset.dont" />{' '}
             <Link href={`/${locale}/auth/signup`}>
               <FormattedMessage id="reset.register" />

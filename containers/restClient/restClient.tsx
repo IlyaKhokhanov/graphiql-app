@@ -8,7 +8,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { RestClientProps } from './restClient.props';
 import { RestRequest, Response, Loader } from '@/components';
-import { addToLS, base64url_decode, base64url_encode, uid } from '@/utils';
+
+import { addToLS, base64url_decode, base64url_encode, showToast, uid } from '@/utils';
 import { fetcher } from '@/utils/fetcher';
 
 import { getMessages } from '@/services/intl/wordbook';
@@ -27,6 +28,22 @@ import {
 
 import styles from './restClient.module.css';
 
+const stringifyBody = (body: string, contentType: string, forFetch = false, space = -1) => {
+  let spaceActual = space;
+  if (spaceActual < 0) spaceActual = forFetch ? 0 : 2;
+
+  let result = body;
+
+  try {
+    if (contentType !== 'text/plain') result = JSON.stringify(JSON.parse(body), null, spaceActual);
+  } catch {
+    null;
+  }
+  if (forFetch) result = encodeURIComponent(result);
+
+  return result;
+};
+
 export const RestClient = ({ method, url, options, locale }: RestClientProps) => {
   const dispatch = useAppDispatch();
   const { workUrl, workMethod, body, paramInputs, headerInputs, isFetched, response, contentType } =
@@ -37,29 +54,46 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
 
   const router = useRouter();
 
-  const requestBuilder = (): { urlReq: string; optionsReq: RequestInit } => {
+  const requestBuilder = (forFetch = false): { urlReq: string; optionsReq: RequestInit } => {
     const headersArr: string[] = [];
     headerInputs.forEach((el) => {
       if (el.key && el.value) headersArr.push(`${el.key}=${el.value}`);
     });
 
     const myParams: Record<string, string> = {};
-    paramInputs.forEach((el) => {
-      if (el.key && el.value) {
-        myParams[el.key] = el.value;
+    if (forFetch && body) {
+      myParams.body = stringifyBody(body, contentType, false, 0);
+      paramInputs.forEach((el) => {
+        if (el.key && el.value) {
+          const varName = `"{{${el.key}}}"`;
+          if (myParams.body.indexOf(varName) >= 0) {
+            myParams.body = myParams.body.replaceAll(varName, el.value);
+          } else {
+            myParams[el.key] = el.value;
+          }
+        }
+      });
+      console.log(myParams.body);
+      myParams.body = stringifyBody(myParams.body, contentType, true);
+    } else {
+      paramInputs.forEach((el) => {
+        if (el.key && el.value) {
+          myParams[el.key] = el.value;
+        }
+      });
+      if (body) {
+        myParams.body = stringifyBody(body, contentType, false);
       }
-    });
-    myParams.contentType = contentType;
-    if (body) {
-      if (contentType === 'text/plain') myParams.body = body as string;
-      else myParams.body = JSON.stringify(body);
     }
+    myParams.contentType = contentType;
 
     const optionsReq: RequestInit = {
       method: workMethod,
       headers: myParams,
     };
-    const urlReq = workUrl + (headersArr.length ? `?${headersArr.join('&')}` : '');
+    const paramURL = headersArr.length ? `?${headersArr.join('&')}` : '';
+    const endpointURL = workUrl.trim();
+    const urlReq = `${endpointURL ? endpointURL : ' '}${paramURL}`;
 
     return { urlReq, optionsReq };
   };
@@ -83,7 +117,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
           dispatch(addHeader({ id: uid(), key: key, value: value }));
         });
       }
-      dispatch(setWorkUrl(urlString));
+      dispatch(setWorkUrl(urlString.trim()));
     }
 
     if (options) {
@@ -92,25 +126,27 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
         headers?: Record<string, string>;
       };
 
+      let body = '';
+      let contentType = 'text/plain';
       Object.entries(objectOptions.headers as unknown as string[]).forEach((el: string[]) => {
         const [key, value] = el;
         if (key === 'body') {
-          dispatch(setBody(value));
+          body = value;
         } else if (key === 'contentType') {
-          dispatch(setContentType(value));
+          contentType = value;
         } else {
           dispatch(addParam({ id: uid(), key, value }));
         }
       });
+      body = stringifyBody(body, contentType);
+      dispatch(setBody(body));
+      dispatch(setContentType(contentType));
     }
-
-    // if (url) dispatch(setIsFetched(true));
   }, []);
 
   useEffect(() => {
     if (isFetched) {
-      const { urlReq, optionsReq } = requestBuilder();
-
+      const { urlReq, optionsReq } = requestBuilder(true);
       void fetcher({ url: urlReq, options: optionsReq }).then(({ body, status }) => {
         dispatch(setResponse({ status, body: body as JSON }));
         dispatch(setIsFetched(false));
@@ -119,17 +155,22 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   }, [isFetched]);
 
   useEffect(() => {
-    // if (workUrl) {
     const { urlReq, optionsReq } = requestBuilder();
     const newRoute = `/${locale}/${workMethod}/${base64url_encode(urlReq)}/${base64url_encode(JSON.stringify(optionsReq))}?Content-Type=${contentType}`;
     window.history.replaceState({}, '', newRoute);
-    // }
   }, [workMethod, workUrl, paramInputs, headerInputs, body, contentType]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (workUrl) {
+      try {
+        if (contentType !== 'text/plain') JSON.stringify(JSON.parse(body));
+      } catch {
+        showToast({ message: messages['rest.error.json'], thisError: true });
+        return;
+      }
+
       const { urlReq, optionsReq } = requestBuilder();
 
       addToLS({
