@@ -11,7 +11,8 @@ const initialState: InitialStateType = {
   body: {},
   schema: null,
   statusCode: null,
-
+  isFetched: false,
+  isFetchedSchema: false,
   errorMessage: '',
 };
 
@@ -21,6 +22,14 @@ const GraphClientSlice = createSlice({
   reducers: {
     setEndpoint: (state, action: PayloadAction<string>) => {
       state.endpoint = action.payload;
+    },
+
+    setIsFetched: (state, action: PayloadAction<boolean>) => {
+      state.isFetched = action.payload;
+    },
+
+    setIsFetchedSchema: (state, action: PayloadAction<boolean>) => {
+      state.isFetchedSchema = action.payload;
     },
 
     setSdlEndpoint: (state, action: PayloadAction<string>) => {
@@ -88,6 +97,8 @@ export const {
   deleteHeader,
   updateHeaderKey,
   updateHeaderValue,
+  setIsFetched,
+  setIsFetchedSchema,
 } = GraphClientSlice.actions;
 
 export default GraphClientSlice.reducer;

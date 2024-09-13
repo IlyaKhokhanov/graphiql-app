@@ -12,7 +12,10 @@ export const handleFetch = async ({
   variables,
   callbackSetBody,
   callbackSetStatus,
+  callbackSetIsLoading,
 }: ApolloFetchParam) => {
+  callbackSetIsLoading(true);
+
   const onErrorCallback = ({ message, status }: CustomApolloError) => {
     callbackSetStatus(status);
     callbackSetBody({ message });
@@ -44,6 +47,8 @@ export const handleFetch = async ({
     if (error instanceof Error) {
       console.error('Error in GraphQL fetch:', error.message);
     }
+  } finally {
+    callbackSetIsLoading(false);
   }
 };
 
@@ -52,8 +57,11 @@ export const fetchSchema = async ({
   sdlEndpoint,
   callbackSetSchema,
   callbackSetErrorMessage,
+  callbackSetIsLoadingSchema,
 }: ApolloGetSchemaParam) => {
   if (sdlEndpoint) {
+    callbackSetIsLoadingSchema(true);
+
     const apolloClient = createApolloClientSchema(endpoint);
     try {
       const result = await apolloClient.query<{ __schema: SchemaType }>({
@@ -65,6 +73,8 @@ export const fetchSchema = async ({
       if (err instanceof Error) {
         callbackSetErrorMessage(err.message);
       }
+    } finally {
+      callbackSetIsLoadingSchema(false);
     }
   }
 };
