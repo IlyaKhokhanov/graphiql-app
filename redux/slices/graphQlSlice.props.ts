@@ -11,4 +11,6 @@ export type InitialStateType = {
   schema: SchemaType | null;
   statusCode: string | null;
   errorMessage: string;
+  isFetched: boolean;
+  isFetchedSchema: boolean;
 };

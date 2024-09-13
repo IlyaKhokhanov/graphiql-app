@@ -8,7 +8,6 @@ export { ProviderComponent } from './providerComponent/provider';
 export { RestRequest } from './restRequest/restRequest';
 export { QueryEditor } from './graphQl/queryEditor/queryEditor';
 export { VariablesEditor } from './graphQl/variablesEditor/variablesEditor';
-export { GraphQlResponse } from './graphQl/graphQlResponse/graphQlResponse';
 export { GraphQlDocumentation } from './graphQl/graphQlDocumentation/graphQlDocumentation';
 export { HeadersEditor } from './graphQl/headersEditor/headersEditor';
 export { Input } from './input/input';

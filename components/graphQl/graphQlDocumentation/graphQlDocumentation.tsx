@@ -22,7 +22,6 @@ export const GraphQlDocumentation = ({ schema, errorMessage }: GraphQlDocumentat
             marginTop: 25,
             background: '#FCDD76',
             padding: 15,
-            borderRadius: 10,
           }}
         />
       )}
