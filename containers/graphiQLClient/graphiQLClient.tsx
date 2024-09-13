@@ -75,7 +75,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
             <EndpointInput endpoint={endpoint} sdlEndpoint={sdlEndpoint} />
             <SdlInput sdlEndpoint={sdlEndpoint} endpoint={endpoint} />
             <HeadersEditor headers={headers} />
-            <QueryEditor query={query} />
+            <QueryEditor />
             <VariablesEditor variables={variables} />
             <Button
               type="button"
