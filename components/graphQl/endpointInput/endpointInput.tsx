@@ -23,6 +23,10 @@ export const EndpointInput = ({
     if (!sdlEndpoint && e.target.value) {
       dispatch(setSdlEndpoint(`${e.target.value}?sdl`));
     }
+
+    if (e.target.value === sdlEndpoint) {
+      dispatch(setSdlEndpoint(`${e.target.value}?sdl`));
+    }
   };
 
   return (

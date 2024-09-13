@@ -73,7 +73,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
         <section className={styles.tools}>
           <div className={styles.request}>
             <EndpointInput endpoint={endpoint} sdlEndpoint={sdlEndpoint} />
-            <SdlInput sdlEndpoint={sdlEndpoint} />
+            <SdlInput sdlEndpoint={sdlEndpoint} endpoint={endpoint} />
             <HeadersEditor headers={headers} />
             <QueryEditor query={query} />
             <VariablesEditor variables={variables} />
