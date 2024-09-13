@@ -25,7 +25,9 @@ export const QueryEditor = () => {
 
   return (
     <>
-      <Button onClick={prettify}>Prettify</Button>
+      <Button disabled={!query} onClick={prettify}>
+        Prettify
+      </Button>
       <div className={styles.query}>
         <Textarea
           className={styles.textarea}

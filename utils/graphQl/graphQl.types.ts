@@ -12,9 +12,8 @@ export type ApolloFetchParam = {
 };
 
 export type ApolloGetSchemaParam = {
-  endpoint: string;
   sdlEndpoint: string;
-  callbackSetSchema: (schema: SchemaType) => void;
+  callbackSetSchema: (schema: SchemaType | null) => void;
   callbackSetErrorMessage: (message: string) => void;
   callbackSetIsLoadingSchema: (fetching: boolean) => void;
 };
