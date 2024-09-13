@@ -122,4 +122,10 @@ export const en = {
 
   'input.list.placeholder.key': 'Key',
   'input.list.placeholder.value': 'Value',
+
+  'graph.send.button': 'Send query',
+  'graph.schema.button': 'Get schema',
+  'qraph.placeholder.query': 'GraphQl query',
+  'graph.prettify.button': 'Prettify',
+  'qraph.placeholder.variables': 'Variables',
 };

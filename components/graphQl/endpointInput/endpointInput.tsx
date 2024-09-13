@@ -1,13 +1,25 @@
 'use client';
 
 import { ChangeEvent, memo } from 'react';
+import { IntlProvider } from 'react-intl';
 
 import { Input } from '@/components';
 import { useAppDispatch } from '@/redux/hooks';
 import { setEndpoint, setSdlEndpoint } from '@/redux/slices/graphQlSlice';
+import { getMessages } from '@/services/intl/wordbook';
 
 export const EndpointInput = memo(
-  ({ endpoint, sdlEndpoint }: { endpoint: string; sdlEndpoint: string }) => {
+  ({
+    locale,
+    endpoint,
+    sdlEndpoint,
+  }: {
+    locale: string;
+    endpoint: string;
+    sdlEndpoint: string;
+  }) => {
+    const messages = getMessages(locale);
+
     const dispatch = useAppDispatch();
 
     const changeEndpoint = (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,13 +37,15 @@ export const EndpointInput = memo(
     };
 
     return (
-      <Input
-        type="text"
-        value={endpoint}
-        placeholder="Endpoint URL"
-        onChange={changeEndpoint}
-        onBlur={changeSdlEndpoint}
-      />
+      <IntlProvider locale={locale} messages={messages}>
+        <Input
+          type="text"
+          value={endpoint}
+          placeholder={messages['rest.placeholder.url']}
+          onChange={changeEndpoint}
+          onBlur={changeSdlEndpoint}
+        />
+      </IntlProvider>
     );
   },
   (prevProps, nextProps) =>

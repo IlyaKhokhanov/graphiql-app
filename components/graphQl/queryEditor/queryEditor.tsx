@@ -1,15 +1,19 @@
 'use client';
 
 import { ChangeEvent } from 'react';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import { Button, Textarea } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setQuery } from '@/redux/slices/graphQlSlice';
 import { GraphQLFormatter } from '@/utils';
+import { getMessages } from '@/services/intl/wordbook';
 
 import styles from './queryEditor.module.css';
 
-export const QueryEditor = () => {
+export const QueryEditor = ({ locale }: { locale: string }) => {
+  const messages = getMessages(locale);
+
   const dispatch = useAppDispatch();
 
   const query = useAppSelector((state) => state.graphQlSlice.query);
@@ -24,9 +28,9 @@ export const QueryEditor = () => {
   };
 
   return (
-    <>
+    <IntlProvider locale={locale} messages={messages}>
       <Button disabled={!query} onClick={prettify}>
-        Prettify
+        <FormattedMessage id="graph.prettify.button" />
       </Button>
       <div className={styles.query}>
         <Textarea
@@ -35,9 +39,9 @@ export const QueryEditor = () => {
           id="query"
           value={query as string}
           onChange={changeQuery}
-          placeholder="GraphQl query"
+          placeholder={messages['qraph.placeholder.query']}
         />
       </div>
-    </>
+    </IntlProvider>
   );
 };

@@ -121,4 +121,10 @@ export const ru = {
 
   'input.list.placeholder.key': 'Ключ',
   'input.list.placeholder.value': 'Значение',
+
+  'graph.send.button': 'Отправить запрос',
+  'graph.schema.button': 'Получить схему',
+  'qraph.placeholder.query': 'GraphQl запрос',
+  'graph.prettify.button': 'Приукрасить',
+  'qraph.placeholder.variables': 'Переменные',
 };
