@@ -45,6 +45,8 @@ export const handleFetch = async ({
     callbackSetStatus(200);
   } catch (error) {
     if (error instanceof Error) {
+      callbackSetStatus(400);
+      callbackSetBody({ error: `'Error in GraphQL fetch: ${error.message}` });
       console.error('Error in GraphQL fetch:', error.message);
     }
   } finally {
@@ -53,7 +55,6 @@ export const handleFetch = async ({
 };
 
 export const fetchSchema = async ({
-  endpoint,
   sdlEndpoint,
   callbackSetSchema,
   callbackSetErrorMessage,
@@ -62,16 +63,18 @@ export const fetchSchema = async ({
   if (sdlEndpoint) {
     callbackSetIsLoadingSchema(true);
 
-    const apolloClient = createApolloClientSchema(endpoint);
+    const apolloClient = createApolloClientSchema(sdlEndpoint);
     try {
       const result = await apolloClient.query<{ __schema: SchemaType }>({
         query: gql(graphQlSchema),
       });
 
       callbackSetSchema(result.data.__schema);
+      callbackSetErrorMessage('');
     } catch (err) {
       if (err instanceof Error) {
         callbackSetErrorMessage(err.message);
+        callbackSetSchema(null);
       }
     } finally {
       callbackSetIsLoadingSchema(false);

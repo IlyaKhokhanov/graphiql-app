@@ -64,7 +64,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
     dispatch(setStatusCode('' + statusCode));
   };
 
-  const callbackSetSchema = (schema: SchemaType) => {
+  const callbackSetSchema = (schema: SchemaType | null) => {
     dispatch(setSchema(schema));
   };
 
@@ -100,6 +100,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
           <VariablesEditor variables={variables} />
           <Button
             type="button"
+            disabled={!endpoint}
             onClick={() =>
               void handleFetch({
                 endpoint,
@@ -115,10 +116,10 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
             Send query
           </Button>
           <Button
+            disabled={!sdlEndpoint}
             type="button"
             onClick={() =>
               void fetchSchema({
-                endpoint,
                 sdlEndpoint,
                 callbackSetSchema,
                 callbackSetErrorMessage,
