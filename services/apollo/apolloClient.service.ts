@@ -13,13 +13,14 @@ import { Observable } from '@apollo/client/utilities';
 import { ApolloServiceParam } from '..';
 
 export const createApolloClient = ({ uri, headersObject, onErrorCallback }: ApolloServiceParam) => {
-  const httpLink = new HttpLink({ uri });
+  const proxyUri = `/api/graphQlProxy?url=${encodeURIComponent(uri)}`;
+
+  const httpLink = new HttpLink({ uri: proxyUri });
 
   const errorLink = onError(({ graphQLErrors }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message }) => {
         onErrorCallback({ status: 400, message: `GraphQL error: ${message}` });
-        console.log(`[GraphQL error]: Message: ${message}`);
         return;
       });
     }
