@@ -1,16 +1,3 @@
-.blockFields {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  border-radius: 3px;
-  border: 1px solid #b7ecff;
-  width: 100%;
-  padding: 8px;
-  gap: 6px;
-}
-
 .block {
   width: 50%;
   display: flex;
@@ -51,12 +38,6 @@
   background: #e9e9e9;
 }
 
-.paramsDescription {
-  background-color: #e3f3ff;
-  padding: 4px 8px;
-  border-radius: 8px;
-}
-
 .select {
   flex-grow: 1;
   padding: 8px 8px;
@@ -82,25 +63,6 @@
 
 .bodyError {
   color: #ff4830;
-}
-
-.arrow {
-  position: relative;
-  font-size: 30px;
-  color: #0cb4f1;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.arrow:hover:after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: #fff;
-  opacity: 0.3;
-  content: '';
 }
 
 @media (width < 800px) {

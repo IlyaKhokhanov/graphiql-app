@@ -118,4 +118,7 @@ export const ru = {
   'rest.response.body.header': 'Тело:',
   'rest.response.body.text': 'Нет тела',
   'rest.error.json': 'Недействительный JSON в body',
+
+  'input.list.placeholder.key': 'Ключ',
+  'input.list.placeholder.value': 'Значение',
 };

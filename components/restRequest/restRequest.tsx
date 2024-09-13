@@ -5,7 +5,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import { getMessages } from '@/services/intl/wordbook';
-import { Button } from '@/components';
+import { Button, ClientsHeaders, Input } from '@/components';
 import { uid } from '@/utils';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
@@ -37,8 +37,6 @@ export const RestRequest = ({
     (state) => state.restClient
   );
 
-  const [headersVisible, setHeadersVisible] = useState(false);
-  const [paramsVisible, setParamsVisible] = useState(false);
   const [bodyError, setBodyError] = useState('');
 
   const prettify = (bodyNew: string) => {
@@ -57,16 +55,19 @@ export const RestRequest = ({
   };
 
   useEffect(() => {
-    setHeadersVisible(headerInputs.length > 0);
-  }, [headerInputs]);
-
-  useEffect(() => {
-    setParamsVisible(paramInputs.length > 0);
-  }, [paramInputs]);
-
-  useEffect(() => {
     prettify(body);
   }, [contentType]);
+
+  const changeHeaderInput = (value: string, id: string, field: string) => {
+    dispatch(changeHeader({ val: value, id, field }));
+  };
+  const deleteHeaderInput = (id: string) => dispatch(deleteHeader(id));
+  const addHeaderInput = () => dispatch(addHeader({ id: uid(), key: '', value: '' }));
+  const changeParamInput = (value: string, id: string, field: string) => {
+    dispatch(changeParam({ val: value, id, field }));
+  };
+  const deleteParamInput = (id: string) => dispatch(deleteParam(id));
+  const addParamInput = () => dispatch(addParam({ id: uid(), key: '', value: '' }));
 
   return (
     <IntlProvider locale={locale} messages={messages}>
@@ -86,8 +87,7 @@ export const RestRequest = ({
               <option value="PUT">PUT</option>
               <option value="DELETE">DELETE</option>
             </select>
-            <input
-              className={styles.input}
+            <Input
               id="url"
               type="text"
               defaultValue={workUrl}
@@ -99,121 +99,22 @@ export const RestRequest = ({
             </Button>
           </div>
 
-          <div className={styles.blockFields}>
-            <div className={styles.line}>
-              <h3>
-                <FormattedMessage id="rest.header.header" />
-              </h3>
+          <ClientsHeaders
+            locale={locale}
+            list={headerInputs}
+            changeInput={changeHeaderInput}
+            deleteInput={deleteHeaderInput}
+            addInput={addHeaderInput}
+          />
 
-              <div
-                className={styles.arrow}
-                style={{ transform: headersVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
-                onClick={() => setHeadersVisible((prev) => !prev)}
-              >
-                &#9660;
-              </div>
-            </div>
-            {headersVisible && (
-              <>
-                {headerInputs.map((el) => (
-                  <div className={styles.line} key={el.id}>
-                    <input
-                      className={styles.input}
-                      type="text"
-                      placeholder={messages['rest.header.placeholder.key']}
-                      defaultValue={el.key}
-                      onBlur={(e) =>
-                        dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'key' }))
-                      }
-                    />
-                    <input
-                      className={styles.input}
-                      type="text"
-                      placeholder={messages['rest.header.placeholder.value']}
-                      defaultValue={el.value}
-                      onBlur={(e) =>
-                        dispatch(changeHeader({ val: e.target.value, id: el.id, field: 'value' }))
-                      }
-                    />
-                    <Button
-                      style={{ background: '#cf352e', padding: '8px 12px' }}
-                      type="button"
-                      onClick={() => dispatch(deleteHeader(el.id))}
-                    >
-                      <FormattedMessage id="rest.button.delete" />
-                    </Button>
-                  </div>
-                ))}
-
-                <Button
-                  type="button"
-                  onClick={() => dispatch(addHeader({ id: uid(), key: '', value: '' }))}
-                  style={{ background: '#0cb4f1', alignSelf: 'flex-start', marginTop: '8px' }}
-                >
-                  +
-                </Button>
-              </>
-            )}
-          </div>
-
-          <div className={styles.blockFields}>
-            <div className={styles.line}>
-              <h3>
-                <FormattedMessage id="rest.param.header" />
-              </h3>
-              <div
-                className={styles.arrow}
-                style={{ transform: paramsVisible ? 'rotateX(0)' : 'rotateX(180deg)' }}
-                onClick={() => setParamsVisible((prev) => !prev)}
-              >
-                &#9660;
-              </div>
-            </div>
-            {paramsVisible && (
-              <>
-                <div className={styles.paramsDescription}>{messages['rest.param.description']}</div>
-                {paramInputs.map((el) => (
-                  <div className={styles.line} key={el.id}>
-                    <input
-                      className={styles.input}
-                      type="text"
-                      placeholder={messages['rest.param.placeholder.key']}
-                      defaultValue={el.key}
-                      onBlur={(e) =>
-                        dispatch(changeParam({ val: e.target.value, id: el.id, field: 'key' }))
-                      }
-                    />
-                    <input
-                      className={styles.input}
-                      type="text"
-                      placeholder={messages['rest.param.placeholder.value']}
-                      defaultValue={el.value}
-                      onBlur={(e) =>
-                        dispatch(changeParam({ val: e.target.value, id: el.id, field: 'value' }))
-                      }
-                    />
-                    <Button
-                      style={{ background: '#cf352e', padding: '8px 12px' }}
-                      type="button"
-                      onClick={() => dispatch(deleteParam(el.id))}
-                    >
-                      <FormattedMessage id="rest.button.delete" />
-                    </Button>
-                  </div>
-                ))}
-                <Button
-                  type="button"
-                  onClick={() => dispatch(addParam({ id: uid(), key: '', value: '' }))}
-                  style={{
-                    background: '#0cb4f1',
-                    alignSelf: 'flex-start',
-                  }}
-                >
-                  +
-                </Button>
-              </>
-            )}
-          </div>
+          <ClientsHeaders
+            locale={locale}
+            list={paramInputs}
+            changeInput={changeParamInput}
+            deleteInput={deleteParamInput}
+            addInput={addParamInput}
+            isHeader={false}
+          />
 
           <div className={styles.line}>
             <h3>

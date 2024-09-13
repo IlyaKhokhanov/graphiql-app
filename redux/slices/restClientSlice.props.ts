@@ -20,32 +20,8 @@ export interface RestClientResponse {
   body: JSON;
 }
 
-export interface ActionString {
-  payload: string;
-  type: string;
-}
-
-export interface ActionBoolean {
-  payload: boolean;
-  type: string;
-}
-
-export interface ActionBody {
-  payload: string;
-  type: string;
-}
-
-export interface ActionInput {
-  payload: RestClientInput;
-  type: string;
-}
-
-export interface ActionInputHandler {
-  payload: { val: string; id: string; field: string };
-  type: string;
-}
-
-export interface ActionResponse {
-  payload: RestClientResponse;
-  type: string;
+export interface ChangeInputI {
+  val: string;
+  id: string;
+  field: string;
 }

@@ -119,4 +119,7 @@ export const en = {
   'rest.response.body.header': 'Body:',
   'rest.response.body.text': 'There is no body',
   'rest.error.json': 'body is not valid JSON',
+
+  'input.list.placeholder.key': 'Key',
+  'input.list.placeholder.value': 'Value',
 };

@@ -17,6 +17,8 @@ export { SdlInput } from './graphQl/sdlInput/sdlInput';
 export { HistoryList } from './historyList/historyList';
 export { HomeList } from './homeList/homeList';
 export { HomeDeveloper } from './homeDeveloper/homeDeveloper';
+export { InputsList } from './inputsList/inputsList';
+export { ClientsHeaders } from './clientsHeaders/clientsHeaders';
 
 export type { SchemaType } from './graphQl/graphQlDocumentation/graphQlDocumentation.props';
 export type { HeaderType } from './graphQl/headersEditor/headersEditor.props';

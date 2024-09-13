@@ -1,13 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
   RestClientSliceProps,
-  ActionString,
-  ActionBoolean,
-  ActionInput,
-  ActionInputHandler,
-  ActionResponse,
-  ActionBody,
+  RestClientInput,
+  RestClientResponse,
+  ChangeInputI,
 } from './restClientSlice.props';
 
 const initialState: RestClientSliceProps = {
@@ -28,31 +25,31 @@ const RestClientSlice = createSlice({
   name: 'restClient',
   initialState,
   reducers: {
-    startPage(state, action: ActionString) {
+    startPage(state, action: PayloadAction<string>) {
       state.headerInputs = [];
       state.paramInputs = [];
       state.workMethod = action.payload;
     },
-    setWorkUrl(state, action: ActionString) {
+    setWorkUrl(state, action: PayloadAction<string>) {
       state.workUrl = action.payload;
     },
-    setWorkMethod(state, action: ActionString) {
+    setWorkMethod(state, action: PayloadAction<string>) {
       state.workMethod = action.payload;
     },
-    setBody(state, action: ActionBody) {
+    setBody(state, action: PayloadAction<string>) {
       state.body = action.payload;
     },
-    setIsFetched(state, action: ActionBoolean) {
+    setIsFetched(state, action: PayloadAction<boolean>) {
       state.isFetched = action.payload;
     },
-    addHeader(state, action: ActionInput) {
+    addHeader(state, action: PayloadAction<RestClientInput>) {
       const { id, key, value } = action.payload;
       state.headerInputs = [...state.headerInputs, { id, key, value }];
     },
-    deleteHeader(state, action: ActionString) {
+    deleteHeader(state, action: PayloadAction<string>) {
       state.headerInputs = state.headerInputs.filter((el) => el.id !== action.payload);
     },
-    changeHeader(state, action: ActionInputHandler) {
+    changeHeader(state, action: PayloadAction<ChangeInputI>) {
       const { val, id, field } = action.payload;
       state.headerInputs = state.headerInputs.map((el) => {
         if (el.id == id) {
@@ -61,14 +58,14 @@ const RestClientSlice = createSlice({
         return el;
       });
     },
-    addParam(state, action: ActionInput) {
+    addParam(state, action: PayloadAction<RestClientInput>) {
       const { id, key, value } = action.payload;
       state.paramInputs = [...state.paramInputs, { id, key, value }];
     },
-    deleteParam(state, action: ActionString) {
+    deleteParam(state, action: PayloadAction<string>) {
       state.paramInputs = state.paramInputs.filter((el) => el.id !== action.payload);
     },
-    changeParam(state, action: ActionInputHandler) {
+    changeParam(state, action: PayloadAction<ChangeInputI>) {
       const { val, id, field } = action.payload;
       state.paramInputs = state.paramInputs.map((el) => {
         if (el.id == id) {
@@ -77,11 +74,11 @@ const RestClientSlice = createSlice({
         return el;
       });
     },
-    setResponse(state, action: ActionResponse) {
+    setResponse(state, action: PayloadAction<RestClientResponse>) {
       const { status, body } = action.payload;
       state.response = { status, body };
     },
-    setContentType(state, action: ActionString) {
+    setContentType(state, action: PayloadAction<string>) {
       state.contentType = action.payload;
     },
   },
