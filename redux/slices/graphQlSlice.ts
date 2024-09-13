@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { InitialStateType } from './graphQlSlice.props';
+import { ChangeInputI, InitialStateType } from './graphQlSlice.props';
 import { HeaderType, SchemaType } from '@/components';
 
 const initialState: InitialStateType = {
@@ -61,11 +61,22 @@ const GraphClientSlice = createSlice({
     },
 
     addHeader: (state, action: PayloadAction<HeaderType>) => {
-      state.headers.push(action.payload);
+      const { id, key, value } = action.payload;
+      state.headers = [...state.headers, { id, key, value }];
     },
 
     deleteHeader: (state, action: PayloadAction<string>) => {
       state.headers = state.headers.filter((header) => header.id !== action.payload);
+    },
+
+    changeHeader(state, action: PayloadAction<ChangeInputI>) {
+      const { value, id, field } = action.payload;
+      state.headers = state.headers.map((el) => {
+        if (el.id == id) {
+          return { ...el, [field]: value };
+        }
+        return el;
+      });
     },
 
     updateHeaderKey: (state, action: PayloadAction<{ id: string; key: string }>) => {
@@ -95,6 +106,7 @@ export const {
   setVariables,
   addHeader,
   deleteHeader,
+  changeHeader,
   updateHeaderKey,
   updateHeaderValue,
   setIsFetched,

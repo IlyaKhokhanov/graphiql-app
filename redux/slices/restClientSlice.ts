@@ -50,10 +50,10 @@ const RestClientSlice = createSlice({
       state.headerInputs = state.headerInputs.filter((el) => el.id !== action.payload);
     },
     changeHeader(state, action: PayloadAction<ChangeInputI>) {
-      const { val, id, field } = action.payload;
+      const { value, id, field } = action.payload;
       state.headerInputs = state.headerInputs.map((el) => {
         if (el.id == id) {
-          return { ...el, [field]: val };
+          return { ...el, [field]: value };
         }
         return el;
       });
@@ -66,10 +66,10 @@ const RestClientSlice = createSlice({
       state.paramInputs = state.paramInputs.filter((el) => el.id !== action.payload);
     },
     changeParam(state, action: PayloadAction<ChangeInputI>) {
-      const { val, id, field } = action.payload;
+      const { value, id, field } = action.payload;
       state.paramInputs = state.paramInputs.map((el) => {
         if (el.id == id) {
-          return { ...el, [field]: val };
+          return { ...el, [field]: value };
         }
         return el;
       });

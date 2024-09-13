@@ -58,16 +58,16 @@ export const RestRequest = ({
     prettify(body);
   }, [contentType]);
 
-  const changeHeaderInput = (value: string, id: string, field: string) => {
-    dispatch(changeHeader({ val: value, id, field }));
+  const handleChangeHeader = (value: string, id: string, field: string) => {
+    dispatch(changeHeader({ value, id, field }));
   };
-  const deleteHeaderInput = (id: string) => dispatch(deleteHeader(id));
-  const addHeaderInput = () => dispatch(addHeader({ id: uid(), key: '', value: '' }));
-  const changeParamInput = (value: string, id: string, field: string) => {
-    dispatch(changeParam({ val: value, id, field }));
+  const handleDeleteHeader = (id: string) => dispatch(deleteHeader(id));
+  const handleAddHeader = () => dispatch(addHeader({ id: uid(), key: '', value: '' }));
+  const handleChangeParam = (value: string, id: string, field: string) => {
+    dispatch(changeParam({ value, id, field }));
   };
-  const deleteParamInput = (id: string) => dispatch(deleteParam(id));
-  const addParamInput = () => dispatch(addParam({ id: uid(), key: '', value: '' }));
+  const handleDeleteParam = (id: string) => dispatch(deleteParam(id));
+  const handleAddParam = () => dispatch(addParam({ id: uid(), key: '', value: '' }));
 
   return (
     <IntlProvider locale={locale} messages={messages}>
@@ -102,17 +102,16 @@ export const RestRequest = ({
           <ClientsHeaders
             locale={locale}
             list={headerInputs}
-            changeInput={changeHeaderInput}
-            deleteInput={deleteHeaderInput}
-            addInput={addHeaderInput}
+            changeInput={handleChangeHeader}
+            deleteInput={handleDeleteHeader}
+            addInput={handleAddHeader}
           />
-
           <ClientsHeaders
             locale={locale}
             list={paramInputs}
-            changeInput={changeParamInput}
-            deleteInput={deleteParamInput}
-            addInput={addParamInput}
+            changeInput={handleChangeParam}
+            deleteInput={handleDeleteParam}
+            addInput={handleAddParam}
             isHeader={false}
           />
 
@@ -120,7 +119,6 @@ export const RestRequest = ({
             <h3>
               <FormattedMessage id="rest.body.header" />
             </h3>
-
             <input
               type="radio"
               name="radio"

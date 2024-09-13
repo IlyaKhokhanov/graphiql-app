@@ -21,7 +21,7 @@ export interface RestClientResponse {
 }
 
 export interface ChangeInputI {
-  val: string;
+  value: string;
   id: string;
   field: string;
 }
