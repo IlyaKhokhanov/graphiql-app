@@ -16,11 +16,34 @@ export const getTime = (time: number): string => {
 };
 
 export const base64url_encode = (input: string) => {
-  return btoa(input).replaceAll('+', '-').replaceAll('/', '.').replaceAll('=', '_');
+  let result = '';
+  try {
+    result = btoa(input).replaceAll('+', '-').replaceAll('/', '.').replaceAll('=', '_');
+  } catch {
+    result = btoa(' ');
+  }
+
+  return result;
 };
 
 export const base64url_decode = (input: string) => {
-  return atob(input.replaceAll('-', '+').replaceAll('.', '/').replaceAll('_', '='));
+  let result = '';
+  try {
+    result = atob(input.replaceAll('-', '+').replaceAll('.', '/').replaceAll('_', '='));
+  } catch {
+    result = ' ';
+  }
+
+  return result;
+};
+
+export const base64url_decodeJSON = (input: string) => {
+  const resultString = base64url_decode(input);
+  try {
+    return JSON.parse(resultString) as JSON;
+  } catch {
+    return {};
+  }
 };
 
 export const addToLS = ({ id, url, link, title, client }: IaddToLS) => {

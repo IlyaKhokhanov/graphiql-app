@@ -161,6 +161,7 @@ describe('GraphQL Client', () => {
       children: GraphQlDocumentation({
         schema: { types: [{ name: 'name' }] },
         errorMessage: 'errorMessage',
+        locale: 'en',
       }),
     };
 
