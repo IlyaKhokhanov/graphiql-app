@@ -45,8 +45,8 @@
   opacity: 0.7;
 }
 
-@media (width < 800px) {
-  .wrapper {
+@media (width < 950px) {
+  .history {
     flex-direction: column;
   }
 

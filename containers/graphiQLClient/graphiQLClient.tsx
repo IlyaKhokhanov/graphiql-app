@@ -152,7 +152,7 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
       <div className={styles.container}>
         <h1 className={styles.title}>{intl.formatMessage({ id: 'client.graphql.head' })}</h1>
 
-        <Link href={`/${locale}/${example.graph}`} className={styles.exampleBtn}>
+        <Link href={`/${locale}${example.graph}`} className={styles.exampleBtn}>
           <Button>Example</Button>
         </Link>
 
