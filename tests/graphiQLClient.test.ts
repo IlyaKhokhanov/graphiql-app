@@ -6,9 +6,9 @@ import mockRouter from 'next-router-mock';
 import userEvent from '@testing-library/user-event';
 
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import GraphiQLClientPage from '@/app/[locale]/graphql/[url]/page';
 import { GraphQlDocumentation } from '@/components';
 import fetchMock from 'fetch-mock';
+import { GraphiQLClient } from '@/containers';
 
 const User = {
   email: 'dddd3@gmail.com',
@@ -100,15 +100,21 @@ fetchMock.mock('*', {
   body: '{"prop1": "val1", "prop2": "val2"}',
 });
 
+vi.mock('react', async () => {
+  const actual = await vi.importActual('react');
+  return {
+    ...actual,
+    useEffect: vi.fn(),
+    useState: vi.fn(() => [true, vi.fn()]),
+  };
+});
+
 describe('GraphQL Client', () => {
   it('GraphQL Client with User login en', async () => {
     await mockRouter.push('/en');
     const LayoutProps = {
       params: { locale: 'en' },
-      children: GraphiQLClientPage({
-        params: { locale: 'en', url: 'fv' },
-        searchParams: { key: 'value' },
-      }),
+      children: GraphiQLClient({ locale: 'en', method: 'GRAPHQL', url: 'fv', options: '' }),
     };
 
     const nextApp = document.createElement('div');
@@ -123,10 +129,7 @@ describe('GraphQL Client', () => {
     await mockRouter.push('/en');
     const LayoutProps = {
       params: { locale: 'en' },
-      children: GraphiQLClientPage({
-        params: { locale: 'en', url: 'fv' },
-        searchParams: { key: 'value' },
-      }),
+      children: GraphiQLClient({ method: 'GRAPHQL', locale: 'en', url: 'fv' }),
     };
 
     const nextApp = document.createElement('div');

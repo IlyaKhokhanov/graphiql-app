@@ -1,8 +1,6 @@
-type Params = {
-  locale: string;
-  url: string;
-};
-
 export type QraphiQLClientProps = {
-  params: Params;
+  locale: string;
+  method: string;
+  url?: string;
+  options?: string;
 };

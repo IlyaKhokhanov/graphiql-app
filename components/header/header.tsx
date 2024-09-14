@@ -57,14 +57,14 @@ export const Header = ({ locale }: IHeaderProps) => {
                 <FormattedMessage id="links.home" />
               </Link>
               <Link
-                className={pathname === `/${locale}/GET/json` ? styles.active : ''}
+                className={pathname === `/${locale}/GET` ? styles.active : ''}
                 href={`/${locale}/GET`}
               >
                 <FormattedMessage id="links.rest" />
               </Link>
               <Link
-                className={pathname === `/${locale}/graphql/query` ? styles.active : ''}
-                href={`/${locale}/graphql/query`}
+                className={pathname === `/${locale}/GRAPHQL` ? styles.active : ''}
+                href={`/${locale}/GRAPHQL`}
               >
                 <FormattedMessage id="links.graphql" />
               </Link>

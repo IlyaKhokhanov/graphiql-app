@@ -20,6 +20,13 @@ const GraphClientSlice = createSlice({
   name: 'graphClient',
   initialState,
   reducers: {
+    startPage: (state) => {
+      state.endpoint = '';
+      state.headers = [];
+      state.variables = '';
+      state.query = '';
+    },
+
     setEndpoint: (state, action: PayloadAction<string>) => {
       state.endpoint = action.payload;
     },
@@ -96,6 +103,7 @@ const GraphClientSlice = createSlice({
 });
 
 export const {
+  startPage,
   setBody,
   setEndpoint,
   setErrorMessage,
