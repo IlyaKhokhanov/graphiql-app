@@ -99,7 +99,7 @@ describe('Rest Client', () => {
     await mockRouter.push('/en');
     const LayoutProps = {
       params: { locale: 'en' },
-      children: RestClientPage({ params: { locale: 'en', method: 'GET' } }),
+      children: RestClientPage({ params: { locale: 'en', method: 'GET', url: '', options: '' } }),
     };
 
     const nextApp = document.createElement('div');
