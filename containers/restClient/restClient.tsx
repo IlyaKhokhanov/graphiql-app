@@ -5,10 +5,10 @@ import { FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import Link from 'next/link';
 
 import { RestClientProps } from './restClient.props';
-import { RestRequest, Response, Loader } from '@/components';
-
+import { RestRequest, Response, Loader, Button } from '@/components';
 import {
   addToLS,
   base64url_decode,
@@ -18,8 +18,9 @@ import {
   uid,
 } from '@/utils';
 import { fetcher } from '@/utils/fetcher';
-
+import { example } from '@/constants';
 import { getMessages } from '@/services/intl/wordbook';
+
 import { auth } from '@/services/firebase';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
@@ -183,6 +184,9 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
         <h1 className={styles.header}>
           <FormattedMessage id="rest.header" />
         </h1>
+        <Link href={`/${locale}${example.rest}`} className={styles.exampleBtn}>
+          <Button>Example</Button>
+        </Link>
         <div className={styles.wrapper}>
           <RestRequest locale={locale} onSubmit={onSubmit} />
           <Response locale={locale} response={response} isFetched={isFetched} />
