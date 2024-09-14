@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, vi, expect } from 'vitest';
 import mockRouter from 'next-router-mock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
+import { HistoryList } from '@/components';
 
 const User = {
   email: 'dddd3@gmail.com',
@@ -85,5 +86,27 @@ describe('History', () => {
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
     expect(await screen.findByText('Query history')).toBeInTheDocument();
+  });
+  it('History list in the locale en', async () => {
+    const list = [
+      {
+        id: 1726268063514,
+        link: 'https://swapi.dev/api/people/',
+        title: 'GET',
+        url: '/GET/aHR0cHM6Ly9zd2FwaS5kZXYvYXBpL3Blb3BsZS8_/eyJtZXRob2QiOiJHRVQiLCJoZWFkZXJzIjp7ImNvbnRlbnRUeXBlIjoidGV4dC9wbGFpbiJ9fQ__?Content-Type=text/plain',
+      },
+    ];
+
+    await mockRouter.push('/en');
+    const LayoutProps = {
+      params: { locale: 'en' },
+      children: HistoryList({ list, locale: 'en' }),
+    };
+
+    const nextApp = document.createElement('div');
+    document.body.appendChild(nextApp);
+    render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
+
+    expect(await screen.findByText(list[0].link)).toBeInTheDocument();
   });
 });

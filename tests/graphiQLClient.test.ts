@@ -1,10 +1,14 @@
+/* eslint-disable no-useless-escape */
 import RootLayout from '@/app/[locale]/layout';
 import { render, screen } from '@testing-library/react';
-import { describe, it, vi, expect } from 'vitest';
+import { describe, it, vi, expect, afterEach } from 'vitest';
 import mockRouter from 'next-router-mock';
+import userEvent from '@testing-library/user-event';
 
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import GraphiQLClientPage from '@/app/[locale]/graphql/[url]/page';
+import { GraphQlDocumentation } from '@/components';
+import fetchMock from 'fetch-mock';
 
 const User = {
   email: 'dddd3@gmail.com',
@@ -86,6 +90,16 @@ vi.mock('@/redux/hooks', async () => {
   };
 });
 
+afterEach(() => {
+  fetchMock.restore();
+});
+
+fetchMock.mock('*', {
+  method: 'POST',
+  headers: [{ 'Content-Type': 'application/json' }],
+  body: '{"prop1": "val1", "prop2": "val2"}',
+});
+
 describe('GraphQL Client', () => {
   it('GraphQL Client with User login en', async () => {
     await mockRouter.push('/en');
@@ -102,5 +116,55 @@ describe('GraphQL Client', () => {
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
     expect(screen.queryAllByText(/GraphQL Client/i)).toHaveLength(1);
+  });
+  it('GraphQL Client Send', async () => {
+    const graphqlURL = 'https://rickandmortyapi.com/graphql';
+    const graphqlQuery = 'query Characters {{characters {{results {{name}} }} }}';
+    await mockRouter.push('/en');
+    const LayoutProps = {
+      params: { locale: 'en' },
+      children: GraphiQLClientPage({
+        params: { locale: 'en', url: 'fv' },
+        searchParams: { key: 'value' },
+      }),
+    };
+
+    const nextApp = document.createElement('div');
+    document.body.appendChild(nextApp);
+    render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
+
+    const submitButton = await screen.findByText('Send query');
+    expect(submitButton).toBeInTheDocument();
+
+    const getButton = await screen.findByText('Get schema');
+    expect(getButton).toBeInTheDocument();
+
+    const endpointURL = await screen.findByPlaceholderText('Endpoint URL');
+    expect(endpointURL).toBeInTheDocument();
+    await userEvent.type(endpointURL, graphqlURL);
+    expect(endpointURL).toHaveValue(graphqlURL);
+
+    const qlQuery = await screen.findByPlaceholderText('GraphQl query');
+    expect(qlQuery).toBeInTheDocument();
+    await userEvent.type(qlQuery, graphqlQuery);
+
+    await userEvent.click(submitButton);
+    await userEvent.click(getButton);
+  });
+  it('GraphQL Client Documentation', async () => {
+    await mockRouter.push('/en');
+    const LayoutProps = {
+      params: { locale: 'en' },
+      children: GraphQlDocumentation({
+        schema: { types: [{ name: 'name' }] },
+        errorMessage: 'errorMessage',
+      }),
+    };
+
+    const nextApp = document.createElement('div');
+    document.body.appendChild(nextApp);
+    render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
+
+    expect(await screen.findByText('errorMessage')).toBeInTheDocument();
   });
 });
