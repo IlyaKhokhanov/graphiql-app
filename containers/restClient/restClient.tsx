@@ -9,7 +9,14 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { RestClientProps } from './restClient.props';
 import { RestRequest, Response, Loader } from '@/components';
 
-import { addToLS, base64url_decode, base64url_encode, showToast, uid } from '@/utils';
+import {
+  addToLS,
+  base64url_decode,
+  base64url_encode,
+  showToast,
+  stringifyBody,
+  uid,
+} from '@/utils';
 import { fetcher } from '@/utils/fetcher';
 
 import { getMessages } from '@/services/intl/wordbook';
@@ -27,22 +34,6 @@ import {
 } from '@/redux/slices/restClientSlice';
 
 import styles from './restClient.module.css';
-
-const stringifyBody = (body: string, contentType: string, forFetch = false, space = -1) => {
-  let spaceActual = space;
-  if (spaceActual < 0) spaceActual = forFetch ? 0 : 2;
-
-  let result = body;
-
-  try {
-    if (contentType !== 'text/plain') result = JSON.stringify(JSON.parse(body), null, spaceActual);
-  } catch {
-    null;
-  }
-  if (forFetch) result = encodeURIComponent(result);
-
-  return result;
-};
 
 export const RestClient = ({ method, url, options, locale }: RestClientProps) => {
   const dispatch = useAppDispatch();

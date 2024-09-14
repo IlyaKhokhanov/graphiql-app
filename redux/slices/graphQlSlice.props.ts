@@ -14,3 +14,9 @@ export type InitialStateType = {
   isFetched: boolean;
   isFetchedSchema: boolean;
 };
+
+export interface ChangeInputI {
+  value: string;
+  id: string;
+  field: string;
+}

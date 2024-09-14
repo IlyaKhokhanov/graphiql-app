@@ -119,4 +119,13 @@ export const en = {
   'rest.response.body.header': 'Body:',
   'rest.response.body.text': 'There is no body',
   'rest.error.json': 'body is not valid JSON',
+
+  'input.list.placeholder.key': 'Key',
+  'input.list.placeholder.value': 'Value',
+
+  'graph.send.button': 'Send query',
+  'graph.schema.button': 'Get schema',
+  'qraph.placeholder.query': 'GraphQl query',
+  'graph.prettify.button': 'Prettify',
+  'qraph.placeholder.variables': 'Variables',
 };

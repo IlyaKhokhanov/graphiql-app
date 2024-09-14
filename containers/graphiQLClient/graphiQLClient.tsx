@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import {
   QueryEditor,
@@ -93,11 +93,11 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
 
       <div className={styles.wrapper}>
         <div className={styles.request}>
-          <EndpointInput endpoint={endpoint} sdlEndpoint={sdlEndpoint} />
+          <EndpointInput locale={params.locale} endpoint={endpoint} sdlEndpoint={sdlEndpoint} />
           <SdlInput sdlEndpoint={sdlEndpoint} endpoint={endpoint} />
-          <HeadersEditor headers={headers} />
-          <QueryEditor />
-          <VariablesEditor variables={variables} />
+          <HeadersEditor headers={headers} locale={params.locale} />
+          <QueryEditor locale={params.locale} />
+          <VariablesEditor locale={params.locale} variables={variables} />
           <Button
             type="button"
             disabled={!endpoint}
@@ -113,7 +113,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
               })
             }
           >
-            Send query
+            <FormattedMessage id="graph.send.button" />
           </Button>
           <Button
             disabled={!sdlEndpoint}
@@ -127,7 +127,7 @@ export const GraphiQLClient = ({ params }: QraphiQLClientProps) => {
               })
             }
           >
-            Get schema
+            <FormattedMessage id="graph.schema.button" />
           </Button>
         </div>
         <Response
