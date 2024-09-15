@@ -22,7 +22,8 @@ const GraphClientSlice = createSlice({
   initialState,
   reducers: {
     startPage: (state) => ({
-      ...state, ...initialState,
+      ...state,
+      ...initialState,
     }),
 
     setEndpoint: (state, action: PayloadAction<string>) => {
