@@ -6,7 +6,7 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import { getMessages } from '@/services/intl/wordbook';
 import { Button, ClientsHeaders, Input } from '@/components';
-import { uid } from '@/utils';
+import { Formatter, uid } from '@/utils';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   addHeader,
@@ -39,19 +39,17 @@ export const RestRequest = ({
 
   const [bodyError, setBodyError] = useState('');
 
+  const onCallbackSetError = (message: string) => setBodyError(message);
+  const onCallbackSetBody = (body: string) => dispatch(setBody(body));
+
   const prettify = (bodyNew: string) => {
-    let bodyPretty = body;
-    setBodyError('');
-    bodyPretty = bodyNew;
-    if (contentType === 'application/json') {
-      try {
-        bodyPretty = JSON.stringify(JSON.parse(bodyPretty), null, 2);
-      } catch (e: unknown) {
-        const err = e as Error;
-        setBodyError(err.message);
-      }
-    }
-    dispatch(setBody(bodyPretty));
+    Formatter.prettify({
+      query: bodyNew,
+      type: 'rest',
+      contentType: 'application/json',
+      onCallbackSetError,
+      onCallbackSetBody,
+    });
   };
 
   useEffect(() => {

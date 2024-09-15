@@ -1,9 +1,46 @@
-export class GraphQLFormatter {
-  public static prettify(query: string): string {
+import { IFormatter } from './formatter.interface';
+
+export class Formatter {
+  public static prettify({
+    query,
+    type = 'rest',
+    onCallbackSetBody,
+    onCallbackSetError,
+    contentType = 'application/json',
+  }: IFormatter): string | undefined {
+    if (type === 'graph') return this.prettifyGraphQl(query);
+    this.prettifyRest({ query, contentType, onCallbackSetBody, onCallbackSetError });
+  }
+
+  private static fixParenthesesFormatting = (query: string): string => {
+    return query.replace(/\(\s*([^\s]+)\s*:\s*([^\s]+)\s*\)/g, '($1: $2)');
+  };
+
+  private static prettifyRest({
+    query,
+    contentType,
+    onCallbackSetBody,
+    onCallbackSetError,
+  }: Omit<IFormatter, 'type'>): void {
+    let bodyPretty: string;
+    onCallbackSetError?.('');
+    bodyPretty = query;
+    if (contentType === 'application/json') {
+      try {
+        bodyPretty = JSON.stringify(JSON.parse(bodyPretty), null, 2);
+      } catch (e: unknown) {
+        const err = e as Error;
+        onCallbackSetError?.(err.message);
+      }
+    }
+    onCallbackSetBody?.(bodyPretty);
+  }
+
+  private static prettifyGraphQl(query: string): string {
     const normalizedQuery = this.normalizeWhitespace(query);
     const formattedQuery = this.formatWithIndentation(normalizedQuery);
     const finalQuery = this.formatCommands(formattedQuery);
-    return this.removeEmptyLines(finalQuery);
+    return this.fixParenthesesFormatting(this.removeEmptyLines(finalQuery));
   }
 
   private static removeEmptyLines(str: string): string {

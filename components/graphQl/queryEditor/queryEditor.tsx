@@ -6,7 +6,7 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { Button, Textarea } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setQuery } from '@/redux/slices/graphQlSlice';
-import { GraphQLFormatter } from '@/utils';
+import { Formatter } from '@/utils';
 import { getMessages } from '@/services/intl/wordbook';
 
 import styles from './queryEditor.module.css';
@@ -19,7 +19,7 @@ export const QueryEditor = ({ locale }: { locale: string }) => {
   const { query } = useAppSelector((state) => state.graphQlSlice);
 
   const prettify = () => {
-    const prettifyQuery = GraphQLFormatter.prettify(query as string);
+    const prettifyQuery = Formatter.prettify({ query: query as string, type: 'graph' }) as string;
     dispatch(setQuery(prettifyQuery));
   };
 
