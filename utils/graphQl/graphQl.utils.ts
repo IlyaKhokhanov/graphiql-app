@@ -47,7 +47,6 @@ export const handleFetch = async ({
     if (error instanceof Error) {
       callbackSetStatus(400);
       callbackSetBody({ error: `'Error in GraphQL fetch: ${error.message}` });
-      // console.error('Error in GraphQL fetch:', error.message);
     }
   } finally {
     callbackSetIsLoading(false);

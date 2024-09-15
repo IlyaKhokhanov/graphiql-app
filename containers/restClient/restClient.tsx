@@ -65,7 +65,6 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
           }
         }
       });
-      console.log(myParams.body);
       myParams.body = stringifyBody(myParams.body, contentType, true);
     } else {
       paramInputs.forEach((el) => {
@@ -139,6 +138,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   useEffect(() => {
     if (isFetched) {
       const { urlReq, optionsReq } = requestBuilder(true);
+
       void fetcher({ url: urlReq, options: optionsReq }).then(({ body, status }) => {
         dispatch(setResponse({ status, body: body as JSON }));
         dispatch(setIsFetched(false));
