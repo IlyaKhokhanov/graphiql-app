@@ -13,7 +13,14 @@ export class Formatter {
   }
 
   private static fixParenthesesFormatting = (query: string): string => {
-    return query.replace(/\(\s*([^\s]+)\s*:\s*([^\s]+)\s*\)/g, '($1: $2)');
+    return query.replace(/\(([^)]+)\)/g, (match: string, params: string) => {
+      const formattedParams = params
+        .split(',')
+        .map((param) => param.replace(/\s+/g, ' ').trim())
+        .join(', ');
+
+      return `(${formattedParams})`;
+    });
   };
 
   private static prettifyRest({
