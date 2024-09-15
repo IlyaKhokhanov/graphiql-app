@@ -1,4 +1,4 @@
-export const methods = ['GET', 'POST', 'PUT', 'DELETE'];
+export const methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
 export const example = {
   rest: '/POST/aHR0cHM6Ly9qc29ucGxhY2Vob2xkZXIudHlwaWNvZGUuY29tL3Bvc3Rz/eyJtZXRob2QiOiJQT1NUIiwiaGVhZGVycyI6eyJ0aXRsZSI6ImVhIG1vbGVzdGlhcyBxdWFzaSBleGVyY2l0YXRpb25lbSByZXBlbGxhdCBxdWkgaXBzYSBzaXQgYXV0IiwiYm9keSI6ImVhIG1vbGVzdGlhcyBxdWFzaSBleGVyY2l0YXRpb25lbSByZXBlbGxhdCBxdWkgaXBzYSBzaXQgYXV0IiwiYm9keVN0ZCI6IntcbiAgXCJ0aXRsZVwiOiBcInt7dGl0bGV9fVwiLFxuICBcImJvZHlcIjogXCJ7e2JvZHl9fVwiXG59IiwiY29udGVudFR5cGUiOiJhcHBsaWNhdGlvbi9qc29uIn19?Content-Type=application/json',
   graph:
