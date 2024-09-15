@@ -162,7 +162,6 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
 
   if (!user) return <Loader />;
 
-  // const examplegraph = example.graph;
   return (
     <IntlProvider locale={locale} messages={messages}>
       <div className={styles.container}>
