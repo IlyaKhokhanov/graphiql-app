@@ -10,7 +10,7 @@ import { Loader } from '@/components';
 
 import styles from './response.module.css';
 
-export const Response = ({ locale, response, isFetched }: ResponseProps) => {
+export const Response = ({ locale, response, isFetched, errorMessage }: ResponseProps) => {
   const messages = getMessages(locale);
 
   return (
@@ -51,6 +51,7 @@ export const Response = ({ locale, response, isFetched }: ResponseProps) => {
             )}
           </div>
         </div>
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         {!isFetched || <Loader />}
       </div>
     </IntlProvider>

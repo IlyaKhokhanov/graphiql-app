@@ -23,6 +23,11 @@
   word-wrap: break-word;
 }
 
+.error {
+  color: #ff4830;
+  font-weight: 900;
+}
+
 @media (width < 800px) {
   .block {
     width: 100%;

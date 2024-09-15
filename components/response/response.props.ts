@@ -5,4 +5,5 @@ export interface ResponseProps {
     body: JSON;
   };
   isFetched: boolean;
+  errorMessage?: string;
 }

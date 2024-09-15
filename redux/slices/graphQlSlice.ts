@@ -14,6 +14,7 @@ const initialState: InitialStateType = {
   isFetched: false,
   isFetchedSchema: false,
   errorMessage: '',
+  errorMessageResponse: '',
 };
 
 const GraphClientSlice = createSlice({
@@ -67,6 +68,10 @@ const GraphClientSlice = createSlice({
       state.errorMessage = action.payload;
     },
 
+    setErrorMessageResponse: (state, action: PayloadAction<string>) => {
+      state.errorMessageResponse = action.payload;
+    },
+
     addHeader: (state, action: PayloadAction<HeaderType>) => {
       const { id, key, value } = action.payload;
       state.headers = [...state.headers, { id, key, value }];
@@ -85,20 +90,6 @@ const GraphClientSlice = createSlice({
         return el;
       });
     },
-
-    updateHeaderKey: (state, action: PayloadAction<{ id: string; key: string }>) => {
-      const { id, key } = action.payload;
-      state.headers = state.headers.map((header) =>
-        header.id === id ? { ...header, key } : header
-      );
-    },
-
-    updateHeaderValue: (state, action: PayloadAction<{ id: string; value: string }>) => {
-      const { id, value } = action.payload;
-      state.headers = state.headers.map((header) =>
-        header.id === id ? { ...header, value } : header
-      );
-    },
   },
 });
 
@@ -115,10 +106,9 @@ export const {
   addHeader,
   deleteHeader,
   changeHeader,
-  updateHeaderKey,
-  updateHeaderValue,
   setIsFetched,
   setIsFetchedSchema,
+  setErrorMessageResponse,
 } = GraphClientSlice.actions;
 
 export default GraphClientSlice.reducer;

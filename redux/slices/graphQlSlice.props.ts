@@ -13,6 +13,7 @@ export type InitialStateType = {
   errorMessage: string;
   isFetched: boolean;
   isFetchedSchema: boolean;
+  errorMessageResponse: string;
 };
 
 export interface ChangeInputI {

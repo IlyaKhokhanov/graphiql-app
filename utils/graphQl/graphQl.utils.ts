@@ -13,6 +13,7 @@ export const handleFetch = async ({
   callbackSetBody,
   callbackSetStatus,
   callbackSetIsLoading,
+  callbackSetErrorMessageResponse,
 }: ApolloFetchParam) => {
   callbackSetIsLoading(true);
 
@@ -43,11 +44,12 @@ export const handleFetch = async ({
 
     callbackSetBody(result.data as Record<string, string>);
     callbackSetStatus(200);
+    callbackSetErrorMessageResponse('');
   } catch (error) {
     if (error instanceof Error) {
-      callbackSetStatus(400);
-      callbackSetBody({ error: `'Error in GraphQL fetch: ${error.message}` });
-      // console.error('Error in GraphQL fetch:', error.message);
+      callbackSetBody({ error: `${error.message}` });
+      callbackSetErrorMessageResponse(error.message);
+      if (error.message.includes('Syntax Error')) callbackSetStatus(400);
     }
   } finally {
     callbackSetIsLoading(false);
