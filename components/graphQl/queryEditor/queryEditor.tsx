@@ -16,7 +16,7 @@ export const QueryEditor = ({ locale }: { locale: string }) => {
 
   const dispatch = useAppDispatch();
 
-  const query = useAppSelector((state) => state.graphQlSlice.query);
+  const { query } = useAppSelector((state) => state.graphQlSlice);
 
   const prettify = () => {
     const prettifyQuery = GraphQLFormatter.prettify(query as string);

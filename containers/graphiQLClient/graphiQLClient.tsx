@@ -29,6 +29,7 @@ import {
   setIsFetchedSchema,
   setQuery,
   setSchema,
+  setSdlEndpoint,
   setStatusCode,
   setVariables,
   startPage,
@@ -42,6 +43,7 @@ import { base64url_encode } from '@/utils';
 import { example } from '@/constants';
 
 import styles from './graphiQLClient.module.css';
+import { base64url_decodeJSON } from '@/utils/localstorage';
 
 export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) => {
   const intl = getIntl(locale);
@@ -95,12 +97,20 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
 
     if (url) {
       const urlAtob = base64url_decode(url);
-      dispatch(setEndpoint(urlAtob.trim()));
+      if (urlAtob.startsWith('http')) {
+        dispatch(setEndpoint(urlAtob.trim()));
+      } else {
+        const urlFull = JSON.parse(urlAtob) as {
+          urlBase?: string;
+          urlSDL?: string;
+        };
+        if (urlFull.urlBase) dispatch(setEndpoint(urlFull.urlBase.trim()));
+        if (urlFull.urlSDL) dispatch(setSdlEndpoint(urlFull.urlSDL.trim()));
+      }
     }
 
     if (options) {
-      const optionsAtob = base64url_decode(options);
-      const objectOptions = JSON.parse(optionsAtob) as {
+      const objectOptions = base64url_decodeJSON(options) as {
         query?: string;
         variables?: string;
       };
@@ -126,16 +136,21 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
 
     const partParam: string[] = [];
     headers.forEach((el) => {
-      if (el.key && el.value) partParam.push(`${el.key}=${el.value}`);
+      if (el.key && el.value)
+        partParam.push(`${encodeURIComponent(el.key)}=${encodeURIComponent(el.value)}`);
     });
     const partSearchParam = partParam.length ? `?${partParam.join('&')}` : '';
-    let partURL = ' ';
-    if (endpoint) partURL = endpoint.trim();
-    const encodeURL = base64url_encode(partURL);
+    const partURL = {
+      urlBase: ' ',
+      urlSDL: ' ',
+    };
+    if (endpoint) partURL.urlBase = endpoint.trim();
+    if (sdlEndpoint) partURL.urlSDL = sdlEndpoint.trim();
+    const encodeURL = base64url_encode(JSON.stringify(partURL));
 
     const newRoute = `/${locale}/GRAPHQL/${encodeURL}/${encodeBody}${partSearchParam}`;
     const simpleRoute = `/GRAPHQL/${encodeURL}/${encodeBody}${partSearchParam}`;
-    const endpointURL = `${partURL}${partSearchParam}`;
+    const endpointURL = `${partURL.urlBase}${partSearchParam}`;
 
     return { endpointURL, simpleRoute, newRoute };
   };
@@ -147,6 +162,7 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
 
   if (!user) return <Loader />;
 
+  // const examplegraph = example.graph;
   return (
     <IntlProvider locale={locale} messages={messages}>
       <div className={styles.container}>
@@ -214,11 +230,13 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
             isFetched={isFetched}
           />
         </div>
+      </div>
 
-        <div className={styles.documentation}>
-          {isFetchedSchema && <Loader />}
-          {!isFetchedSchema && <GraphQlDocumentation errorMessage={errorMessage} schema={schema} />}
-        </div>
+      <div className={styles.documentation}>
+        {isFetchedSchema && <Loader />}
+        {!isFetchedSchema && (
+          <GraphQlDocumentation errorMessage={errorMessage} schema={schema} locale={locale} />
+        )}
       </div>
     </IntlProvider>
   );

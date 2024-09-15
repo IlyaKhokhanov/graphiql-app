@@ -5,11 +5,22 @@ import JsonView from '@uiw/react-json-view';
 import { GraphQlDocumentationProps } from './graphQlDocumentation.props';
 
 import styles from './graphQlDocumentation.module.css';
+import { getMessages } from '@/services/intl/wordbook';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
-export const GraphQlDocumentation = ({ schema, errorMessage }: GraphQlDocumentationProps) => {
+export const GraphQlDocumentation = ({
+  schema,
+  errorMessage,
+  locale,
+}: GraphQlDocumentationProps) => {
+  const messages = getMessages(locale);
   return (
-    <>
-      {schema && <h3 className={styles.title}>Documentation</h3>}
+    <IntlProvider locale={locale} messages={messages}>
+      {schema && (
+        <h3 className={styles.title}>
+          <FormattedMessage id={'qraph.documentation.header'} />
+        </h3>
+      )}
       {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       {schema && (
         <JsonView
@@ -25,6 +36,6 @@ export const GraphQlDocumentation = ({ schema, errorMessage }: GraphQlDocumentat
           }}
         />
       )}
-    </>
+    </IntlProvider>
   );
 };

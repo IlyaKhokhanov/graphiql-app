@@ -2,5 +2,5 @@ export const methods = ['GET', 'POST', 'PUT', 'DELETE'];
 export const example = {
   rest: '',
   graph:
-    '/GRAPHQL/aHR0cHM6Ly9yaWNrYW5kbW9ydHlhcGkuY29tL2dyYXBocWw_/eyJxdWVyeSI6InF1ZXJ5ICgkcGFnZTogSW50KSB7XG4gIGNoYXJhY3RlcnMocGFnZTogJHBhZ2UpIHtcbiAgICBpbmZve1xuICAgICAgY291bnRcbiAgICB9XG4gIH1cbn0iLCJ2YXJpYWJsZXMiOiJ7XG4gIFwicGFnZVwiOiAyXG59In0_',
+    '/GRAPHQL/eyJ1cmxCYXNlIjoiaHR0cHM6Ly9yaWNrYW5kbW9ydHlhcGkuY29tL2dyYXBocWwiLCJ1cmxTREwiOiJodHRwczovL3JpY2thbmRtb3J0eWFwaS5jb20vZ3JhcGhxbD9zZGwifQ__/eyJxdWVyeSI6IiBxdWVyeSAoJHBhZ2U6XG5JbnQpICB7XG4gIGNoYXJhY3RlcnMocGFnZTpcbiAgJHBhZ2UpICB7XG4gICAgaW5mbyB7XG4gICAgICBjb3VudCBcbiAgICB9IFxuICB9IFxufSIsInZhcmlhYmxlcyI6IntcbiAgXCJwYWdlXCI6IDJcbn0ifQ__',
 };
