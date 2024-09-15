@@ -26,6 +26,7 @@ import {
   setBody,
   setEndpoint,
   setErrorMessage,
+  setErrorMessageResponse,
   setIsFetchedSchema,
   setQuery,
   setSchema,
@@ -41,9 +42,9 @@ import { getMessages } from '@/services/intl/wordbook';
 import { setIsFetched } from '@/redux/slices/graphQlSlice';
 import { base64url_encode } from '@/utils';
 import { example } from '@/constants';
+import { base64url_decodeJSON } from '@/utils/localstorage';
 
 import styles from './graphiQLClient.module.css';
-import { base64url_decodeJSON } from '@/utils/localstorage';
 
 export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) => {
   const intl = getIntl(locale);
@@ -66,6 +67,7 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
     variables,
     isFetched,
     isFetchedSchema,
+    errorMessageResponse,
   } = useAppSelector((state) => state.graphQlSlice);
 
   const callbackSetBody = (data: Record<string, string>) => {
@@ -82,6 +84,10 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
 
   const callbackSetErrorMessage = (message: string) => {
     dispatch(setErrorMessage(message));
+  };
+
+  const callbackSetErrorMessageResponse = (message: string) => {
+    dispatch(setErrorMessageResponse(message));
   };
 
   const callbackSetIsLoading = (fetching: boolean) => {
@@ -200,6 +206,7 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
                   callbackSetBody,
                   callbackSetStatus,
                   callbackSetIsLoading,
+                  callbackSetErrorMessageResponse,
                 });
               }}
             >
@@ -227,6 +234,7 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
             }}
             locale={locale}
             isFetched={isFetched}
+            errorMessage={errorMessageResponse}
           />
         </div>
       </div>

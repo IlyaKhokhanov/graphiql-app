@@ -9,6 +9,7 @@ export type ApolloFetchParam = {
   callbackSetBody: (data: Record<string, string>) => void;
   callbackSetStatus: (statusCode: number) => void;
   callbackSetIsLoading: (fetching: boolean) => void;
+  callbackSetErrorMessageResponse: (message: string) => void;
 };
 
 export type ApolloGetSchemaParam = {

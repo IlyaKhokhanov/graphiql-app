@@ -7,6 +7,7 @@ import {
   InMemoryCache,
   NextLink,
   Operation,
+  ServerParseError,
 } from '@apollo/client';
 import { Observable } from '@apollo/client/utilities';
 
@@ -17,12 +18,16 @@ export const createApolloClient = ({ uri, headersObject, onErrorCallback }: Apol
 
   const httpLink = new HttpLink({ uri: proxyUri });
 
-  const errorLink = onError(({ graphQLErrors }) => {
+  const errorLink = onError(({ networkError, graphQLErrors }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message }) => {
-        onErrorCallback({ status: 400, message: `GraphQL error: ${message}` });
-        return;
+        onErrorCallback({ status: 400, message: `${message}` });
       });
+    }
+
+    if (networkError) {
+      const badRequest = networkError as ServerParseError;
+      onErrorCallback({ status: badRequest.statusCode, message: `${badRequest.message}` });
     }
   });
 
@@ -46,8 +51,12 @@ export const createApolloClient = ({ uri, headersObject, onErrorCallback }: Apol
 };
 
 export const createApolloClientSchema = (uri: string) => {
+  const proxyUri = `/api/graphQlProxy?url=${encodeURIComponent(uri)}`;
+
+  const httpLink = new HttpLink({ uri: proxyUri });
+
   return new ApolloClient({
-    uri,
+    link: httpLink,
     cache: new InMemoryCache(),
   });
 };
