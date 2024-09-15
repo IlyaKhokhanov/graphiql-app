@@ -1,4 +1,3 @@
-// import 'server-only';
 'use server';
 
 export interface FetchParams {

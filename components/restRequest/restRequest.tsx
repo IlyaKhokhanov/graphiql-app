@@ -88,7 +88,7 @@ export const RestRequest = ({
             <Input
               id="url"
               type="text"
-              defaultValue={workUrl}
+              value={workUrl}
               placeholder={messages['rest.placeholder.url']}
               onChange={(e) => dispatch(setWorkUrl(e.target.value))}
             />

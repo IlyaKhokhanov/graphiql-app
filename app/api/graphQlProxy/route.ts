@@ -32,7 +32,6 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
-    console.error('Error in POST proxy:', error);
     return NextResponse.json({ error: 'Error fetching data from the API' }, { status: 500 });
   }
 };

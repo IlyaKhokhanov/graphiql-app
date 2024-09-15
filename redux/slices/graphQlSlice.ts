@@ -21,12 +21,9 @@ const GraphClientSlice = createSlice({
   name: 'graphClient',
   initialState,
   reducers: {
-    startPage: (state) => {
-      state.endpoint = '';
-      state.headers = [];
-      state.variables = '';
-      state.query = '';
-    },
+    startPage: (state) => ({
+      ...state, ...initialState,
+    }),
 
     setEndpoint: (state, action: PayloadAction<string>) => {
       state.endpoint = action.payload;

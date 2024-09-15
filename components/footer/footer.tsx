@@ -47,7 +47,6 @@ export const Footer = ({ locale }: IFooterProps) => {
           right: 40,
         }}
         toastOptions={{
-          // Define default options
           className: '',
           duration: 3000,
           style: {
@@ -61,7 +60,6 @@ export const Footer = ({ locale }: IFooterProps) => {
             secondary: 'green',
           },
 
-          // Default options for specific types
           error: {
             duration: 5000,
             style: {
