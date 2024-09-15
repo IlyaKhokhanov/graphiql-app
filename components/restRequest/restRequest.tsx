@@ -154,7 +154,9 @@ export const RestRequest = ({
               autoCapitalize="off"
               spellCheck="false"
             />
-            {!!bodyError && <div className={styles.bodyError}>{bodyError}</div>}
+            {!!bodyError && contentType === 'application/json' && (
+              <div className={styles.bodyError}>{bodyError}</div>
+            )}
           </div>
         </form>
       </div>

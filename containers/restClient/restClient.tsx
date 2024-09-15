@@ -138,11 +138,16 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
   useEffect(() => {
     if (isFetched) {
       const { urlReq, optionsReq } = requestBuilder(true);
-
-      void fetcher({ url: urlReq, options: optionsReq }).then(({ body, status }) => {
-        dispatch(setResponse({ status, body: body as JSON }));
-        dispatch(setIsFetched(false));
-      });
+      void fetcher({ url: urlReq, options: optionsReq }).then(
+        ({ body, status, message, isError, isRESTError }) => {
+          console.log(body, status, message, isError, isRESTError);
+          dispatch(setResponse({ status, body: body as JSON }));
+          dispatch(setIsFetched(false));
+          if (isError && !isRESTError) {
+            showToast({ message, thisError: true });
+          }
+        }
+      );
     }
   }, [isFetched]);
 
