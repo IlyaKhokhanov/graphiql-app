@@ -50,8 +50,8 @@ export const Response = ({ locale, response, isFetched, errorMessage }: Response
               <FormattedMessage id="rest.response.body.text" />
             )}
           </div>
-          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         </div>
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         {!isFetched || <Loader />}
       </div>
     </IntlProvider>
