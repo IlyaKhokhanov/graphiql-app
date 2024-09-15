@@ -27,10 +27,12 @@
 
 .header {
   align-self: center;
+  text-align: center;
 }
 
 .message {
   align-self: center;
+  text-align: center;
 }
 
 .mainLink {
@@ -45,8 +47,8 @@
   opacity: 0.7;
 }
 
-@media (width < 800px) {
-  .wrapper {
+@media (width < 950px) {
+  .history {
     flex-direction: column;
   }
 

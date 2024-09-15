@@ -129,4 +129,6 @@ export const en = {
   'graph.prettify.button': 'Prettify',
   'qraph.placeholder.variables': 'Variables',
   'qraph.documentation.header': 'Documentation',
+
+  'example.button': 'Example',
 };

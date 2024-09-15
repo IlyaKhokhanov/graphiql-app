@@ -128,4 +128,6 @@ export const ru = {
   'graph.prettify.button': 'Приукрасить',
   'qraph.placeholder.variables': 'Переменные',
   'qraph.documentation.header': 'Документация',
+
+  'example.button': 'Пример',
 };
