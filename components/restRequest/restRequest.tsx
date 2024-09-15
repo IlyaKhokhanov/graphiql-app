@@ -84,6 +84,7 @@ export const RestRequest = ({
               <option value="POST">POST</option>
               <option value="PUT">PUT</option>
               <option value="DELETE">DELETE</option>
+              <option value="PATCH">PATCH</option>
             </select>
             <Input
               id="url"
