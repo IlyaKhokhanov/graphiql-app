@@ -162,6 +162,7 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
 
   if (!user) return <Loader />;
 
+  // const examplegraph = example.graph;
   return (
     <IntlProvider locale={locale} messages={messages}>
       <div className={styles.container}>
@@ -229,6 +230,7 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
             isFetched={isFetched}
           />
         </div>
+      </div>
 
       <div className={styles.documentation}>
         {isFetchedSchema && <Loader />}
