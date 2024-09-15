@@ -127,4 +127,6 @@ export const ru = {
   'qraph.placeholder.query': 'GraphQl запрос',
   'graph.prettify.button': 'Приукрасить',
   'qraph.placeholder.variables': 'Переменные',
+
+  'example.button': 'Пример',
 };

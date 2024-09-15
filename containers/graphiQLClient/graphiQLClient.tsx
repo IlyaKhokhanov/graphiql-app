@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FormattedMessage, IntlProvider } from 'react-intl';
+import Link from 'next/link';
 
 import {
   QueryEditor,
@@ -38,6 +39,7 @@ import { auth } from '@/services/firebase';
 import { getMessages } from '@/services/intl/wordbook';
 import { setIsFetched } from '@/redux/slices/graphQlSlice';
 import { base64url_encode } from '@/utils';
+import { example } from '@/constants';
 
 import styles from './graphiQLClient.module.css';
 
@@ -147,68 +149,76 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
 
   return (
     <IntlProvider locale={locale} messages={messages}>
-      <h1 className={styles.title}>{intl.formatMessage({ id: 'client.graphql.head' })}</h1>
+      <div className={styles.container}>
+        <h1 className={styles.title}>{intl.formatMessage({ id: 'client.graphql.head' })}</h1>
 
-      <div className={styles.wrapper}>
-        <div className={styles.request}>
-          <EndpointInput locale={locale} endpoint={endpoint} sdlEndpoint={sdlEndpoint} />
-          <SdlInput sdlEndpoint={sdlEndpoint} endpoint={endpoint} />
-          <HeadersEditor headers={headers} locale={locale} />
-          <QueryEditor locale={locale} />
-          <VariablesEditor locale={locale} variables={variables} />
-          <Button
-            type="button"
-            disabled={!endpoint}
-            onClick={() => {
-              addToLS({
-                id: user.uid,
-                url: `${partQuery().simpleRoute}`,
-                link: `${partQuery().endpointURL}`,
-                title: 'GRAPHQL',
-                client: 'graph',
-              });
+        <Link href={`/${locale}${example.graph}`} className={styles.exampleBtn}>
+          <Button>
+            <FormattedMessage id="example.button" />
+          </Button>
+        </Link>
 
-              void handleFetch({
-                endpoint,
-                headers,
-                query,
-                variables,
-                callbackSetBody,
-                callbackSetStatus,
-                callbackSetIsLoading,
-              });
+        <div className={styles.wrapper}>
+          <div className={styles.request}>
+            <EndpointInput locale={locale} endpoint={endpoint} sdlEndpoint={sdlEndpoint} />
+            <SdlInput sdlEndpoint={sdlEndpoint} endpoint={endpoint} />
+            <HeadersEditor headers={headers} locale={locale} />
+            <QueryEditor locale={locale} />
+            <VariablesEditor locale={locale} variables={variables} />
+            <Button
+              type="button"
+              disabled={!endpoint}
+              onClick={() => {
+                addToLS({
+                  id: user.uid,
+                  url: `${partQuery().simpleRoute}`,
+                  link: `${partQuery().endpointURL}`,
+                  title: 'GRAPHQL',
+                  client: 'graph',
+                });
+
+                void handleFetch({
+                  endpoint,
+                  headers,
+                  query,
+                  variables,
+                  callbackSetBody,
+                  callbackSetStatus,
+                  callbackSetIsLoading,
+                });
+              }}
+            >
+              <FormattedMessage id="graph.send.button" />
+            </Button>
+            <Button
+              disabled={!sdlEndpoint}
+              type="button"
+              onClick={() =>
+                void fetchSchema({
+                  sdlEndpoint,
+                  callbackSetSchema,
+                  callbackSetErrorMessage,
+                  callbackSetIsLoadingSchema,
+                })
+              }
+            >
+              <FormattedMessage id="graph.schema.button" />
+            </Button>
+          </div>
+          <Response
+            response={{
+              body: body as unknown as JSON,
+              status: Number(statusCode) ? Number(statusCode) : null,
             }}
-          >
-            <FormattedMessage id="graph.send.button" />
-          </Button>
-          <Button
-            disabled={!sdlEndpoint}
-            type="button"
-            onClick={() =>
-              void fetchSchema({
-                sdlEndpoint,
-                callbackSetSchema,
-                callbackSetErrorMessage,
-                callbackSetIsLoadingSchema,
-              })
-            }
-          >
-            <FormattedMessage id="graph.schema.button" />
-          </Button>
+            locale={locale}
+            isFetched={isFetched}
+          />
         </div>
-        <Response
-          response={{
-            body: body as unknown as JSON,
-            status: Number(statusCode) ? Number(statusCode) : null,
-          }}
-          locale={locale}
-          isFetched={isFetched}
-        />
-      </div>
 
-      <div className={styles.documentation}>
-        {isFetchedSchema && <Loader />}
-        {!isFetchedSchema && <GraphQlDocumentation errorMessage={errorMessage} schema={schema} />}
+        <div className={styles.documentation}>
+          {isFetchedSchema && <Loader />}
+          {!isFetchedSchema && <GraphQlDocumentation errorMessage={errorMessage} schema={schema} />}
+        </div>
       </div>
     </IntlProvider>
   );

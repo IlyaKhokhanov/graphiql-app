@@ -12,10 +12,10 @@
 }
 
 .link {
-  width: 90%;
   color: #0cb4f1;
   transition: color 0.2s;
   overflow-wrap: break-word;
+  overflow: auto;
 }
 
 .link:hover {
