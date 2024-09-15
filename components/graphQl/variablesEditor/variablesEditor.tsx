@@ -50,7 +50,9 @@ export const VariablesEditor = ({ locale, variables }: { locale: string; variabl
           onChange={changeVariables}
         />
       </div>
-      {!!variablesError && <div className={styles.variablesError}>{variablesError}</div>}
+      {!!variablesError && variables && (
+        <div className={styles.variablesError}>{variablesError}</div>
+      )}
     </IntlProvider>
   );
 };
