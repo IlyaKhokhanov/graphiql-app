@@ -230,11 +230,11 @@ export const GraphiQLClient = ({ url, options, locale }: QraphiQLClientProps) =>
           <Response
             response={{
               body: body as unknown as JSON,
-              status: Number(statusCode) ? Number(statusCode) : null,
+              status: Number(statusCode) && statusCode !== '500' ? Number(statusCode) : null,
             }}
             locale={locale}
             isFetched={isFetched}
-            errorMessage={errorMessageResponse}
+            errorMessage={statusCode === '500' ? '' : errorMessageResponse}
           />
         </div>
       </div>

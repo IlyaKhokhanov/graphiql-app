@@ -4,6 +4,7 @@ import { SchemaType } from '@/components';
 import { createApolloClient, createApolloClientSchema, CustomApolloError } from '@/services';
 import { graphQlSchema } from './graphQlSchema';
 import { ApolloFetchParam, ApolloGetSchemaParam } from './graphQl.types';
+import { showToast } from '../showtoast';
 
 export const handleFetch = async ({
   endpoint: uri,
@@ -18,6 +19,7 @@ export const handleFetch = async ({
   callbackSetIsLoading(true);
 
   const onErrorCallback = ({ message, status }: CustomApolloError) => {
+    if (status === 500) showToast({ message: 'failed to fetch', thisError: true });
     callbackSetStatus(status);
     callbackSetBody({ message });
   };
