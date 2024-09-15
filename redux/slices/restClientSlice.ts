@@ -26,6 +26,12 @@ const RestClientSlice = createSlice({
   initialState,
   reducers: {
     startPage(state, action: PayloadAction<string>) {
+      state.workUrl = '';
+      state.body = '';
+      state.response = {
+        status: null,
+        body: {} as JSON,
+      };
       state.headerInputs = [];
       state.paramInputs = [];
       state.workMethod = action.payload;

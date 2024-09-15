@@ -119,7 +119,6 @@ describe('Clients page', () => {
     document.body.appendChild(nextApp);
     render(RootLayout(LayoutProps), { wrapper: MemoryRouterProvider });
 
-    // screen.debug();
     expect(screen.queryByAltText(/await/i)).toBeInTheDocument();
   });
   it('renders the Footer', async () => {

@@ -73,7 +73,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
         }
       });
       if (body) {
-        myParams.body = stringifyBody(body, contentType, false);
+        myParams.bodyStd = stringifyBody(body, contentType, false);
       }
     }
     myParams.contentType = contentType;
@@ -121,7 +121,7 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
       let contentType = 'text/plain';
       Object.entries(objectOptions.headers as unknown as string[]).forEach((el: string[]) => {
         const [key, value] = el;
-        if (key === 'body') {
+        if (key === 'bodyStd') {
           body = value;
         } else if (key === 'contentType') {
           contentType = value;
@@ -140,7 +140,6 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
       const { urlReq, optionsReq } = requestBuilder(true);
       void fetcher({ url: urlReq, options: optionsReq }).then(
         ({ body, status, message, isError, isRESTError }) => {
-          console.log(body, status, message, isError, isRESTError);
           dispatch(setResponse({ status, body: body as JSON }));
           dispatch(setIsFetched(false));
           if (isError && !isRESTError) {
