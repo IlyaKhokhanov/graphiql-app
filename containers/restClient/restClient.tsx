@@ -185,7 +185,9 @@ export const RestClient = ({ method, url, options, locale }: RestClientProps) =>
           <FormattedMessage id="rest.header" />
         </h1>
         <Link href={`/${locale}${example.rest}`} className={styles.exampleBtn}>
-          <Button>Example</Button>
+          <Button>
+            <FormattedMessage id="example.button" />
+          </Button>
         </Link>
         <div className={styles.wrapper}>
           <RestRequest locale={locale} onSubmit={onSubmit} />

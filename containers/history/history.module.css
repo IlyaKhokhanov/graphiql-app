@@ -27,10 +27,12 @@
 
 .header {
   align-self: center;
+  text-align: center;
 }
 
 .message {
   align-self: center;
+  text-align: center;
 }
 
 .mainLink {
