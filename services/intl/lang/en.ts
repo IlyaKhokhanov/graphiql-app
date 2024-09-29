@@ -84,7 +84,7 @@ export const en = {
   'developers.ilya.name': 'Ilya Khokhanov',
   'developers.ilya.github': 'ilyakhokhanov',
   'developers.ilya.description':
-    'Frontend developer who has been studying Frontend for 2 years and looking for a job by the React developer. In this application implemented Registration, Authentication, Rest Client and History, took an active part in the development of the Home and UI.',
+    'Frontend developer (React) who has been developing a Frontend for more than 2 years. In this application implemented Registration, Authentication, Rest Client and History, took an active part in the development of the Home and UI.',
 
   'developers.sergey.name': 'Sergey Pustovoy',
   'developers.sergey.github': 'cerbeer',
