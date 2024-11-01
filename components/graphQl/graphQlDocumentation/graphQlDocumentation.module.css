@@ -1,0 +1,9 @@
+.title {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.error {
+  color: #ff4830;
+  font-weight: 900;
+}

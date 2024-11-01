@@ -1,0 +1,33 @@
+.btn,
+.addition {
+  padding: 8px 36px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background: #0cb4f1;
+  color: #fff;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.btn a,
+.addition a {
+  color: black;
+}
+
+.addition {
+  background: #fff;
+  color: #0cb4f1;
+  border: 1px solid #0cb4f1;
+}
+
+.btn:hover,
+.addition:hover {
+  opacity: 0.7;
+}
+
+.btn:disabled,
+.addition:disabled {
+  opacity: 0.3;
+  cursor: default;
+}

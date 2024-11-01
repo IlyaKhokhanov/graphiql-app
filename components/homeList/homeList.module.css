@@ -1,0 +1,13 @@
+.list {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+}
+
+@media (width < 800px) {
+  .list {
+    flex-direction: column;
+    align-items: center;
+  }
+}

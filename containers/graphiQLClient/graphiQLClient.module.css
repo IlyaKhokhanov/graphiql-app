@@ -1,0 +1,58 @@
+.container {
+  position: relative;
+  margin-top: 100px;
+  padding: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.exampleBtn {
+  position: absolute;
+  top: 7px;
+  left: 10px;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+.request {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.documentation {
+  padding: 15px;
+}
+
+@media (width < 800px) {
+  .wrapper {
+    flex-direction: column;
+  }
+}
+
+@media (width < 500px) {
+  .container {
+    gap: 10px;
+  }
+
+  .exampleBtn {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+}
